@@ -30,7 +30,7 @@ const ResetPassword = () => {
     try {
       await confirmPasswordReset(firebaseAuth, oobCode, values.password);
       toast.success("Password has been reset successfully!");
-      navigate("/login");
+      navigate("/login", { replace: true });
     } catch (error) {
       console.error("Error resetting password:", error);
       toast.error("Failed to reset password. Please try again.");

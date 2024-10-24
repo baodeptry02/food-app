@@ -34,5 +34,36 @@ class AuthController {
     await authService.sendOtpEmail(email);
     return OK(res, 'OTP sent to your email. Please check your inbox.');
   });
+  sendVerifyEmail = catchAsync(async (req, res) => {
+    const { email } = req.body;
+
+    await authService.sendVerifyEmail(email);
+    return OK(
+      res,
+      'Verification email sent to your email. Please check your inbox.'
+    );
+  });
+  verifyEmail = catchAsync(async (req, res) => {
+    const { oobCode } = req.query;
+
+    if (!oobCode) {
+      return res
+        .status(400)
+        .json({ error: 'Invalid request. Missing verification code.' });
+    }
+
+    try {
+      await admin.auth().applyActionCode(oobCode);
+      return res.status(200).json({ message: 'Email verified successfully.' });
+    } catch (error) {
+      console.error('Error verifying email:', error);
+      return res
+        .status(400)
+        .json({
+          error:
+            'Failed to verify email. The code may have expired or is invalid.',
+        });
+    }
+  });
 }
 module.exports = new AuthController();

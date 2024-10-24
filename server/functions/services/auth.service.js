@@ -19,56 +19,52 @@ class AuthService {
     try {
       const otpDoc = await db.collection('otps').doc(email).get();
 
-      // Check if the OTP document exists
       if (!otpDoc.exists) {
         return {
           success: false,
           message: 'OTP not found for this email.',
-          status: 404, // Not found status
+          status: 404,
         };
       }
 
       const { otp: storedOtp, otpExpiry } = otpDoc.data();
 
-      // Check if the provided OTP matches the stored OTP
       if (otp !== storedOtp) {
         return {
           success: false,
           message: 'Invalid OTP.',
-          status: 400, // Bad request status
+          status: 400,
         };
       }
 
-      // Check if the OTP has expired
       if (Date.now() > otpExpiry) {
         return {
           success: false,
           message: 'OTP has expired.',
-          status: 410, // Gone status
+          status: 410,
         };
       }
 
-      // If OTP is valid, delete it from the database
       await db.collection('otps').doc(email).delete();
       console.log('OTP verified and deleted for email:', email);
       return {
         success: true,
         message: 'OTP verified successfully.',
-        status: 200, // OK status
+        status: 200,
       };
     } catch (error) {
       console.error('Error verifying OTP:', error);
       return {
         success: false,
         message: 'An error occurred while verifying the OTP.',
-        status: 500, // Internal server error status
+        status: 500,
       };
     }
   }
 
   async sendOtpEmail(email) {
     const otp = crypto.randomInt(100000, 999999).toString();
-    const otpExpiry = Date.now() + 10 * 60 * 1000; // OTP hết hạn sau 10 phút
+    const otpExpiry = Date.now() + 10 * 60 * 1000;
 
     await db.collection('otps').doc(email).set({
       otp,
@@ -97,6 +93,44 @@ class AuthService {
     } catch (error) {
       console.error('Error sending OTP:', error);
       throw new Error('Failed to send OTP. Please try again.');
+    }
+  }
+  async sendVerifyEmail(email) {
+    const auth = admin.auth();
+    console.log(email);
+
+    const link = await auth.generateEmailVerificationLink(email);
+    console.log('Original link:', link);
+
+    // Parse the original link
+    const url = new URL(link);
+    const oobCode = url.searchParams.get('oobCode');
+    const apiKey = url.searchParams.get('apiKey');
+    const lang = url.searchParams.get('lang');
+
+    const newLink = `https://duybao-cook.vercel.app/verify-email?oobCode=${oobCode}&apiKey=${apiKey}&lang=${lang}`;
+    console.log('New link:', newLink);
+    const subject = 'Verify Your Email';
+    const html = `
+      <html>
+      <body>
+        <p>Click the link below to verify your email:</p>
+        <a href="${newLink}">Verify Email</a>
+        <p>Thanks,<br>The Cursus Backend Team</p>
+      </body>
+      </html>
+    `;
+
+    try {
+      await transporter.sendMail({
+        from: 'Food App',
+        to: email,
+        subject,
+        html,
+      });
+    } catch (error) {
+      console.error('Error sending verification email:', error);
+      throw new Error('Failed to send verification email. Please try again.');
     }
   }
 }

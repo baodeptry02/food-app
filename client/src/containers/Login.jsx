@@ -28,7 +28,7 @@ import {
   updateUserInFirestore,
 } from "../utils/fireStores.utils";
 import Cookies from "js-cookie";
-import { sendOtpEmail, verifyOtp } from "../api/index";
+import { sendOtpEmail, sendVerifyEmail, verifyOtp } from "../api/index";
 import OtpModal from "./OtpModal";
 import LoadingAnimation from "../animations/loading-animation";
 import PasswordChecklistComponent from "./PasswordCheckList";
@@ -93,7 +93,6 @@ const Login = () => {
         }
       }
 
-      // Save the token and refresh token as cookies
       Cookies.set("authToken", token, { expires: 7 });
       Cookies.set("refreshToken", refreshToken, { expires: 7 });
 
@@ -163,7 +162,7 @@ const Login = () => {
 
       await saveUserToFirestore(userToSave);
 
-      await sendEmailVerification(user);
+      await sendVerifyEmail(user.name);
 
       await firebaseAuth.signOut();
 
@@ -183,6 +182,7 @@ const Login = () => {
       }, 1500);
     }
   };
+
   const signIn = async (values) => {
     setIsLoading(true);
     try {
@@ -198,12 +198,12 @@ const Login = () => {
       const user = userCred.user;
 
       if (!user.emailVerified) {
-        await sendEmailVerification(user);
+        await sendVerifyEmail(email);
         toast.error(
           "Email is not verified. A verification email has been sent."
         );
-        await firebaseAuth.signOut(); // Sign out if not verified
-        return; // Stop further execution
+        await firebaseAuth.signOut();
+        return;
       }
 
       await sendOtpEmail(email);

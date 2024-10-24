@@ -31,8 +31,16 @@ class userService {
   async sendForgetPassword(email) {
     const auth = admin.auth();
     const link = await auth.generatePasswordResetLink(email);
+    console.log('Original link:', link);
 
-    // Kiểm tra email có tồn tại trong hệ thống
+    const url = new URL(link);
+    const oobCode = url.searchParams.get('oobCode');
+    const apiKey = url.searchParams.get('apiKey');
+    const lang = url.searchParams.get('lang');
+
+    const newLink = `https://duybao-cook.vercel.app/change-password?oobCode=${oobCode}&apiKey=${apiKey}&lang=${lang}`;
+    console.log('New link:', newLink);
+
     let userRecord;
     try {
       userRecord = await auth.getUserByEmail(email);
@@ -50,7 +58,6 @@ class userService {
       throw error;
     }
 
-    // Kiểm tra nếu người dùng đã đăng nhập bằng Google
     const providerData = userRecord.providerData;
     const isGoogleUser = providerData.some(
       (provider) => provider.providerId === 'google.com'
@@ -271,7 +278,7 @@ class userService {
                                 <w:anchorlock/>
                                 <center style="color:#ffffff;font-family:sans-serif;font-size:15px;">Verify Email</center>
                               </v:roundrect><![endif]-->
-                                <a style="color:#ffffff;font-family:sans-serif;cursor: pointer" href=${link} class="button button--blue">Reset Password</a>
+                                <a style="color:#ffffff;font-family:sans-serif;cursor: pointer" href=${newLink} class="button button--blue">Reset Password</a>
                               </div>
                             </td>
                           </tr>
@@ -283,7 +290,7 @@ class userService {
                             <td>
                               <p class="sub">If you’re having trouble clicking the button, copy and paste the URL below into your web browser.
                               </p>
-                              <p class="sub"><a href=${link}>Link</a></p>
+                              <p class="sub"><a href=${newLink}>Link</a></p>
                             </td>
                           </tr>
                         </table>

@@ -47,3 +47,14 @@ export const sendOtpEmail = async (email) => {
     return err;
   }
 };
+
+export const sendVerifyEmail = async (email) => {
+  try {
+    const res = await axios.post(`${baseURL}/api/users/send-email-verify`, {
+      email,
+    });
+    return res.data;
+  } catch (err) {
+    return err;
+  }
+};

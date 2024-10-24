@@ -7,6 +7,7 @@ import {
   Main,
   ResetPassword,
   Test,
+  VerifyEmail,
 } from "./containers";
 import { ToastContainer, Slide } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -94,6 +95,7 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/change-password" element={<ChangePassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/verify-email" element={<VerifyEmail />} />
             <Route path="/admin/dashboard/*" element={<Dashboard />} />
           </Routes>
         </>
