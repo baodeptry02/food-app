@@ -7,7 +7,6 @@ const VerifyEmail = () => {
   const location = useLocation();
 
   useEffect(() => {
-    // Extract the query parameters from the URL
     const params = new URLSearchParams(location.search);
     const oobCode = params.get("oobCode");
 
@@ -15,7 +14,7 @@ const VerifyEmail = () => {
     const verifyEmail = async () => {
       try {
         const response = await axios.get(
-          `https://your-backend-domain/api/auth/verify-email?oobCode=${oobCode}`
+          `http://localhost:5001/lms-backend-1d9f5/us-central1/app/api/users/verify-email?oobCode=${oobCode}`
         );
         setStatus(response.data.message);
       } catch (error) {
