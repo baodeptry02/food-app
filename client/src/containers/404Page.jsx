@@ -79,13 +79,13 @@ const NotFound = () => {
 
     const left = Math.floor(Math.random() * (window.innerWidth - 200));
     const size = 10 + Math.floor(Math.random() * 20);
-    const duration = 16 + Math.random() * 3;
+    const duration = 20 + Math.random() * 3;
 
-    e.innerText = "●";
+    e.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" width="${size}" height="${size}"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.782 1.4 8.168L12 18.896l-7.334 3.864 1.4-8.168L.132 9.21l8.2-1.192z"/></svg>`;
     e.style.left = `${left}px`;
     e.style.top = `-50px`;
     e.style.fontSize = `${size}px`;
-    e.style.animationDuration = `${duration}s`;
+    e.style.color = `hsl(${Math.random() * 360}, 100%, 75%)`; // Random màu sắc
 
     setTimeout(() => {
       cloud.removeChild(e);
