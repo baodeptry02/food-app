@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export const baseURL =
   "http://localhost:5001/lms-backend-1d9f5/us-central1/app";
@@ -55,6 +56,14 @@ export const sendVerifyEmail = async (email) => {
     });
     return res.data;
   } catch (err) {
+    if (err.response && err.response.data && err.response.data.error) {
+      const errorMessage = err.response.data.error;
+      if (errorMessage.includes("TOO_MANY_ATTEMPTS_TRY_LATER")) {
+        toast.error("Too many requests. Please try again later.");
+      }
+    } else {
+      toast.error("Failed to send verification email. Please try again later.");
+    }
     return err;
   }
 };

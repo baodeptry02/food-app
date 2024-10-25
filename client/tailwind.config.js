@@ -3,6 +3,10 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      backgroundImage: {
+        galaxy:
+          "url('https://khoinguonsangtao.vn/wp-content/uploads/2022/07/hinh-anh-nen-vu-tru-hoat-hinh-cho-may-tinh-hanh-tinh-mau-tim.jpg')",
+      },
       width: {
         150: "150px",
         190: "190px",
@@ -48,6 +52,7 @@ module.exports = {
         headingColor: "#2e2e2e",
         textColor: "#515151",
         primary: "#f3f3f3",
+        primaryColor: "#EF4444",
         darkOverlay: "rgba(0,0,0,0.2)",
         darkBg: "#121212",
         lightOverlay: "rgba(255,255,255,0.4)",

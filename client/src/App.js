@@ -5,6 +5,7 @@ import {
   Dashboard,
   Login,
   Main,
+  NotFound,
   ResetPassword,
   Test,
   VerifyEmail,
@@ -62,6 +63,21 @@ const App = () => {
     }
   }, [location.pathname, dispatch]);
 
+  const hideHeaderRoutes = [
+    "/login",
+    "/change-password",
+    "/reset-password",
+    "/admin",
+  ];
+
+  const shouldHideHeader = hideHeaderRoutes.some((route) =>
+    location.pathname.startsWith(route)
+  );
+
+  const isNotFoundRoute =
+    location.pathname !== "/" &&
+    !hideHeaderRoutes.some((route) => location.pathname.startsWith(route));
+
   return (
     <div className="w-screen min-h-screen h-auto relative">
       <ToastContainer
@@ -89,13 +105,13 @@ const App = () => {
       )} */}
       {!loading && (
         <>
-          <Header />
+          {!loading && !shouldHideHeader && !isNotFoundRoute && <Header />}
           <Routes>
-            <Route path="/*" element={<Main />} />
+            <Route path="/*" element={<NotFound />} />
+            <Route path="/" element={<Main />} />
             <Route path="/login" element={<Login />} />
             <Route path="/change-password" element={<ChangePassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
-            <Route path="/verify-email" element={<VerifyEmail />} />
             <Route path="/admin/dashboard/*" element={<Dashboard />} />
           </Routes>
         </>

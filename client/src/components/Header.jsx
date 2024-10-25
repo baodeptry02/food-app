@@ -74,12 +74,6 @@ const Header = () => {
         throw error;
       });
   };
-  if (location.pathname === "/login") {
-    return null;
-  }
-  if (location.pathname.startsWith("/admin")) {
-    return null;
-  }
 
   const toggleTheme = () => {
     setIsDarkTheme((prevTheme) => {

@@ -123,7 +123,9 @@ const Login = () => {
     email: Yup.string().email("Invalid email address").required("Required"),
     password: Yup.string()
       .min(6, "Must be at least 6 characters")
-      .required("Required"),
+      .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
+      .matches(/[a-z]/, "Password must contain at least one lowercase letter")
+      .matches(/[0-9]/, "Password must contain at least one number"),
     confirm_password: isSignUp
       ? Yup.string()
           .oneOf([Yup.ref("password"), null], "Passwords must match")
@@ -136,13 +138,6 @@ const Login = () => {
     try {
       const { email, password, confirm_password } = values;
 
-      if (password !== confirm_password) {
-        toast.error("Passwords do not match");
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 1500);
-        return;
-      }
       const userCred = await createUserWithEmailAndPassword(
         firebaseAuth,
         email,
@@ -162,11 +157,10 @@ const Login = () => {
 
       await saveUserToFirestore(userToSave);
 
-      await sendVerifyEmail(user.name);
+      await sendVerifyEmail(email);
 
       await firebaseAuth.signOut();
 
-      resetForm();
       toast.success(
         "Register successful. An email has been sent to your email!"
       );
@@ -198,10 +192,14 @@ const Login = () => {
       const user = userCred.user;
 
       if (!user.emailVerified) {
-        await sendVerifyEmail(email);
-        toast.error(
-          "Email is not verified. A verification email has been sent."
-        );
+        const result = await sendVerifyEmail(email);
+        if (result.status !== 200) {
+          return;
+        } else {
+          toast.error(
+            "Email is not verified. A verification email has been sent."
+          );
+        }
         await firebaseAuth.signOut();
         return;
       }
@@ -346,9 +344,7 @@ const Login = () => {
                   tabIndex={3}
                 />
               )}
-              {touched.password && errors.password && (
-                <div className="invalid-feedback">{errors.password}</div>
-              )}
+
               <PasswordStrengthBar password={values.password} />
               <PasswordChecklistComponent password={values.password} />
               {!isSignUp && showForgetPassword && (
