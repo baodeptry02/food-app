@@ -38,3 +38,44 @@ body {
   width: 400px;
   height: 400px;
 }
+.star {
+  position: absolute;
+  top: 0;
+  left: 0; /* Đặt left ban đầu là 0, JavaScript sẽ xác định vị trí ngang */
+  height: 20px;
+  line-height: 20px;
+  text-transform: uppercase;
+  color: #f3f3f3;
+  text-shadow: 0 0 5px #fff;
+  transform-origin: top;
+  animation: animate 6s linear infinite;
+  opacity: 0;
+  pointer-events: none; /* Để không ảnh hưởng khi người dùng tương tác với màn hình */
+}
+
+@keyframes animate {
+  0% {
+    transform: translateX(0) translateY(0) scale(0.5);
+    opacity: 0;
+  }
+  20% {
+    transform: translateX(30px) translateY(20vh) scale(0.6);
+    opacity: 0.7;
+  }
+  40% {
+    transform: translateX(60px) translateY(40vh) scale(0.8);
+    opacity: 1;
+  }
+  60% {
+    transform: translateX(90px) translateY(60vh) scale(1);
+    opacity: 0.8;
+  }
+  80% {
+    transform: translateX(120px) translateY(80vh) scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateX(140px) translateY(100vh) scale(0.3); /* Rơi xuống hết chiều cao màn hình */
+    opacity: 0;
+  }
+}

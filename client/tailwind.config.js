@@ -4,8 +4,13 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        galaxy:
-          "url('https://khoinguonsangtao.vn/wp-content/uploads/2022/07/hinh-anh-nen-vu-tru-hoat-hinh-cho-may-tinh-hanh-tinh-mau-tim.jpg')",
+        galaxy: "#274d6a",
+        astronaut:
+          "url('https://scontent.fsgn5-8.fna.fbcdn.net/v/t39.30808-6/464479350_526162490183666_4116552953255254454_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeEGYKTc3oFY17aLvMyAohtTzUln2vHjAUzNSWfa8eMBTDpXzQVvL5C1iAwkP7cJ3RCaAlLaGwexK3hKdf1fxoq3&_nc_ohc=CX9enTOmhfoQ7kNvgHDK5Mc&_nc_zt=23&_nc_ht=scontent.fsgn5-8.fna&_nc_gid=Arf3tZ26uO3U_uvFKtBOROW&oh=00_AYAJO3mmUsRGuUOV_4jZ-UkH21p5A-KCRZra204IvPZavA&oe=672155EC')",
+      },
+      clipPath: {
+        custom:
+          "polygon(60% 0, 100% 0, 100% 24%, 57% 24%, 57% 100%, 65% 100%, 0 100%, 0 64%, 0 19%, 0 0);",
       },
       width: {
         150: "150px",
@@ -16,6 +21,8 @@ module.exports = {
         340: "340px",
         350: "350px",
         375: "375px",
+        400: "400px",
+        360: "360px",
         460: "460px",
         656: "656px",
         880: "880px",
@@ -26,15 +33,17 @@ module.exports = {
         150: "150px",
         225: "225px",
         300: "300px",
+        345: "345px",
         340: "340px",
         370: "370px",
         420: "420px",
         510: "510px",
-        600: "600px",
+        270: "270px",
         650: "650px",
         685: "685px",
         800: "800px",
         "90vh": "90vh",
+        "70%": "70%",
       },
       minWidth: {
         210: "210px",
@@ -56,11 +65,13 @@ module.exports = {
         darkOverlay: "rgba(0,0,0,0.2)",
         darkBg: "#121212",
         lightOverlay: "rgba(255,255,255,0.4)",
+        galaxyOverlay: "rgba(72,72,72, 0.2)",
         lighttextGray: "#9ca0ab",
         card: "rgba(256,256,256,0.8)",
         cartBg: "#282a2c",
         cartItem: "#2e3033",
         cartTotal: "#343739",
+        galaxy: "#061019",
         // Dark theme colors
         darkHeadingColor: "#e2e2e2",
         darkTextColor: "#7c7c7c",
@@ -96,4 +107,5 @@ module.exports = {
     },
   },
   darkMode: "class", // Enable dark mode using the 'class' strategy
+  plugins: [require("tailwind-clip-path"), require("tailwindcss-filters")],
 };

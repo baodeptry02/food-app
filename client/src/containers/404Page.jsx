@@ -14,11 +14,12 @@ import { buttonClick, slideTop } from "../animations/index";
 import { logoutUser } from "../context/actions/userActions";
 import { getAuth } from "firebase/auth";
 import { app } from "../config/firebase.config";
-import { IoMoonOutline } from "react-icons/io5";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import LoadingAnimation from "../animations/loading-animation";
 import { MotionPathPlugin } from "gsap/all";
+import { FaFacebookF, FaTelegramPlane, FaTwitter } from "react-icons/fa";
+import { BiLogoInstagramAlt } from "react-icons/bi";
 
 const NotFound = () => {
   const dispatch = useDispatch();
@@ -26,6 +27,19 @@ const NotFound = () => {
   const [isMenu, setIsMenu] = useState(false);
   const navigate = useNavigate();
   const firebaseAuth = getAuth(app);
+  const intervalRef = useRef(null);
+  const generateRandomPath = (numPoints, maxX, maxY, maxZ) => {
+    const path = [];
+    for (let i = 0; i < numPoints; i++) {
+      path.push({
+        x: (Math.random() - 0.5) * maxX,
+        y: (Math.random() - 0.5) * maxY,
+        z: (Math.random() - 0.5) * maxZ,
+      });
+    }
+    path.push({ ...path[0] });
+    return path;
+  };
   useGSAP(() => {
     gsap.set(".navlink", { opacity: 1 });
     gsap.set(".logo", { opacity: 1 });
@@ -33,18 +47,12 @@ const NotFound = () => {
     gsap.registerPlugin(MotionPathPlugin);
 
     gsap.to(".img", {
-      duration: 10,
+      duration: 200,
       repeat: -1,
       ease: "none",
       immediateRender: true,
       motionPath: {
-        path: [
-          { x: 0, y: 0, z: 0 },
-          { x: 40, y: 0, z: 50 },
-          { x: 40, y: 40, z: 0 },
-          { x: 0, y: 40, z: -50 },
-          { x: 0, y: 0, z: 0 },
-        ],
+        path: generateRandomPath(80, 100, 100, 100),
         curviness: 0,
         rotation: 90,
       },
@@ -62,17 +70,44 @@ const NotFound = () => {
         throw error;
       });
   };
+  const rain = () => {
+    const cloud = document.querySelector(".container-1");
+    const e = document.createElement("div");
+
+    e.classList.add("star");
+    cloud.appendChild(e);
+
+    const left = Math.floor(Math.random() * (window.innerWidth - 200));
+    const size = 10 + Math.floor(Math.random() * 20);
+    const duration = 16 + Math.random() * 3;
+
+    e.innerText = "●";
+    e.style.left = `${left}px`;
+    e.style.top = `-50px`;
+    e.style.fontSize = `${size}px`;
+    e.style.animationDuration = `${duration}s`;
+
+    setTimeout(() => {
+      cloud.removeChild(e);
+    }, duration * 1000);
+  };
+
+  useEffect(() => {
+    intervalRef.current = setInterval(rain, 50);
+
+    return () => clearInterval(intervalRef.current);
+  }, []);
   return (
-    <div className="h-screen flex justify-center items-center bg-galaxy">
-      <div className="flex flex-col h-3/4 w-2/3 bg-white rounded-3xl">
+    <div className="container-1 h-screen flex justify-center items-center bg-slate-950 overflow-hidden w-screen">
+      <div className="flex flex-col h-70% w-3/5 rounded-3xl backdrop-blur-sm z-10 bg-galaxyOverlay">
         {/* Header */}
-        <header className="text-black flex items-center justify-between p-4 rounded-t-3xl px-28">
+        <header className="text-primary flex items-center justify-between p-4 mt-8 rounded-t-3xl px-28">
           <NavLink
             to={"/"}
             className="logo flex items-center justify-center gap-4 opacity-0 "
           >
             <img src={Logo} className="w-12" alt="Logo" />
-            <p className="font-semibold text-xl text-black">City</p>
+            <p className="font-semibold text-xl text-primary">City</p>
           </NavLink>
           <nav className="flex items-center justify-center gap-8">
             <ul className="hidden md:flex items-center justify-center gap-16">
@@ -80,7 +115,7 @@ const NotFound = () => {
                 className={({ isActive }) =>
                   isActive
                     ? `${isActiveStyles} navlink opacity-0 `
-                    : `${isNotActiveStyles} navlink opacity-0 `
+                    : `${isNotActiveStyles} navlink opacity-0 !text-primary`
                 }
                 to={"/"}
               >
@@ -90,7 +125,7 @@ const NotFound = () => {
                 className={({ isActive }) =>
                   isActive
                     ? `${isActiveStyles} navlink opacity-0 `
-                    : `${isNotActiveStyles} navlink opacity-0 `
+                    : `${isNotActiveStyles} navlink opacity-0 !text-primary`
                 }
                 to={"/menu"}
               >
@@ -100,7 +135,7 @@ const NotFound = () => {
                 className={({ isActive }) =>
                   isActive
                     ? `${isActiveStyles} navlink opacity-0 `
-                    : `${isNotActiveStyles} navlink opacity-0 `
+                    : `${isNotActiveStyles} navlink opacity-0 !text-primary`
                 }
                 to={"/services"}
               >
@@ -110,7 +145,7 @@ const NotFound = () => {
                 className={({ isActive }) =>
                   isActive
                     ? `${isActiveStyles} navlink opacity-0 `
-                    : `${isNotActiveStyles} navlink opacity-0 `
+                    : `${isNotActiveStyles} navlink opacity-0 !text-primary`
                 }
                 to={"/aboutus"}
               >
@@ -123,7 +158,7 @@ const NotFound = () => {
               onClick={() => dispatch()}
               className="relative cursor-pointer navlink"
             >
-              <MdShoppingCart className="text-3xl text-textColor" />
+              <MdShoppingCart className="text-3xl text-primary" />
               <div className="w-6 h-6 rounded-full bg-red-500 flex items-center justify-center absolute -top-4 -right-2">
                 <p className="text-primary text-base font-semibold">2</p>
               </div>
@@ -203,39 +238,53 @@ const NotFound = () => {
           </nav>
         </header>
 
-        <div className="flex flex-1 justify-between items-center gap-20 px-28">
+        <div className="flex flex-initial justify-between items-center gap-20 px-28">
           <div className="flex flex-col">
-            <h1 className="text-4xl font-light text-headingColor">404</h1>
-            <strong className="text-6xl font-bold">Lost in Space</strong>
-            <hr className="w-28 h-1 bg-primaryColor border-none mt-6" />
-            <div className="mt-12 text-xl">
+            <h1 className="text-4xl font-light text-primary">404</h1>
+            <strong className="text-6xl font-bold text-primary">
+              Lost in Space
+            </strong>
+            <hr className="w-28 h-1 bg-primaryColor border-none mt-6 text-primary" />
+            <div className="mt-12 text-xl text-primary">
               <p>You have reached the edge of the universe.</p>
               <p>The page you requested could not be found.</p>
               <p>Don't worry and return to the previous page.</p>
             </div>
             <div className="mt-10">
               <button
-                className="rounded-full uppercase bg-primaryColor py-4 px-10 text-white text-base mr-10 ml-2 leading-5"
+                className="rounded-full uppercase bg-primaryColor py-4 px-10 text-primary text-base mr-10 ml-2 leading-5 font-semibold"
                 onClick={() => navigate("/")}
               >
                 Go Home
               </button>
               <button
-                className="rounded-full uppercase border-primaryColor border-2 text-primaryColor py-4 px-10 text-base mx-2 leading-5"
+                className="rounded-full uppercase border-primaryColor border-2 text-primaryColor py-4 px-10 text-lg mx-2 leading-5 font-extrabold"
                 onClick={() => navigate(-1)}
               >
                 Back
               </button>
             </div>
           </div>
-          <div className="relative">
+          <div className="relative w-460 h-420 top-2 ">
             <img
-              className="img relative -top-16"
+              className="img relative w-460 h-345"
               src={Astronaut}
               alt="Astronaut"
             />
           </div>
         </div>
+
+        <footer className="mt-8 px-28 flex justify-between items-center">
+          <div className="flex justify-between items-center gap-16 text-2xl text-red-700">
+            <FaFacebookF />
+            <FaTwitter />
+            <FaTelegramPlane />
+            <BiLogoInstagramAlt />
+          </div>
+          <div className="text-lg font-semibold text-primary">
+            &copy; 2024 - All Right Reserved
+          </div>
+        </footer>
       </div>
     </div>
   );
