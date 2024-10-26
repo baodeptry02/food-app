@@ -86,7 +86,7 @@ const Header = () => {
   return (
     <header
       ref={headerRef}
-      className="fixed backdrop-blur-md z-0 inset-x-0 top-0 flex items-center justify-between px-12 md:px-20 py-6"
+      className="fixed backdrop-blur-md z-10 inset-x-0 top-0 flex items-center justify-between px-12 md:px-20 py-6"
     >
       {isLoading && <LoadingAnimation />}
       <NavLink

@@ -99,9 +99,9 @@ const NotFound = () => {
   }, []);
   return (
     <div className="container-1 h-screen flex justify-center items-center bg-slate-950 overflow-hidden w-screen">
-      <div className="flex flex-col h-70% w-3/5 rounded-3xl backdrop-blur-sm z-10 bg-galaxyOverlay">
+      <div className="flex flex-col h-70% w-3/5 lg:w-3/4 lg:h-4/5 rounded-3xl backdrop-blur-sm z-10 bg-galaxyOverlay">
         {/* Header */}
-        <header className="text-primary flex items-center justify-between p-4 mt-8 rounded-t-3xl px-28">
+        <header className="text-primary flex items-center justify-between p-4 lg:py-0 mt-8 lg:mt-4 rounded-t-3xl px-28">
           <NavLink
             to={"/"}
             className="logo flex items-center justify-center gap-4 opacity-0 "
@@ -115,7 +115,7 @@ const NotFound = () => {
                 className={({ isActive }) =>
                   isActive
                     ? `${isActiveStyles} navlink opacity-0 `
-                    : `${isNotActiveStyles} navlink opacity-0 !text-primary`
+                    : `${isNotActiveStyles} navlink opacity-0`
                 }
                 to={"/"}
               >
@@ -125,7 +125,7 @@ const NotFound = () => {
                 className={({ isActive }) =>
                   isActive
                     ? `${isActiveStyles} navlink opacity-0 `
-                    : `${isNotActiveStyles} navlink opacity-0 !text-primary`
+                    : `${isNotActiveStyles} navlink opacity-0`
                 }
                 to={"/menu"}
               >
@@ -135,7 +135,7 @@ const NotFound = () => {
                 className={({ isActive }) =>
                   isActive
                     ? `${isActiveStyles} navlink opacity-0 `
-                    : `${isNotActiveStyles} navlink opacity-0 !text-primary`
+                    : `${isNotActiveStyles} navlink opacity-0`
                 }
                 to={"/services"}
               >
@@ -145,7 +145,7 @@ const NotFound = () => {
                 className={({ isActive }) =>
                   isActive
                     ? `${isActiveStyles} navlink opacity-0 `
-                    : `${isNotActiveStyles} navlink opacity-0 !text-primary`
+                    : `${isNotActiveStyles} navlink opacity-0`
                 }
                 to={"/aboutus"}
               >
@@ -182,7 +182,7 @@ const NotFound = () => {
                 {isMenu && (
                   <motion.div
                     {...slideTop}
-                    className="px-6 py-4 w-52 bg-lightOverlay backdrop-blur-md rounded-md shadow-md absolute top-12 right-0 flex flex-col gap-4"
+                    className="z-10 px-6 py-4 w-52 bg-lightOverlay backdrop-blur-md rounded-md shadow-md absolute top-12 right-0 flex flex-col gap-4"
                   >
                     <Link
                       className="hover:text-red-500 text-xl text-textColor"
@@ -240,19 +240,23 @@ const NotFound = () => {
 
         <div className="flex flex-initial justify-between items-center gap-20 px-28">
           <div className="flex flex-col">
-            <h1 className="text-4xl font-light text-primary">404</h1>
+            <h1 className="text-4xl lg:text-3xl font-light text-primary">
+              404
+            </h1>
             <strong className="text-6xl font-bold text-primary">
               Lost in Space
             </strong>
             <hr className="w-28 h-1 bg-primaryColor border-none mt-6 text-primary" />
-            <div className="mt-12 text-xl text-primary">
+            <div className="mt-12 lg:mt-12 text-xl lg:text-lg text-primary font-roboto tracking-wide">
               <p>You have reached the edge of the universe.</p>
-              <p>The page you requested could not be found.</p>
+              <p className="lg:my-2">
+                The page you requested could not be found.
+              </p>
               <p>Don't worry and return to the previous page.</p>
             </div>
             <div className="mt-10">
               <button
-                className="rounded-full uppercase bg-primaryColor py-4 px-10 text-primary text-base mr-10 ml-2 leading-5 font-semibold"
+                className="rounded-full uppercase bg-primaryColor py-4 px-10 lg:py-4 lg:px-8 text-primary text-base mr-10 ml-2 leading-5 font-semibold"
                 onClick={() => navigate("/")}
               >
                 Go Home
@@ -265,7 +269,7 @@ const NotFound = () => {
               </button>
             </div>
           </div>
-          <div className="relative w-460 h-420 top-2 ">
+          <div className="relative w-460 h-420 top-2 pointer-events-none">
             <img
               className="img relative w-460 h-345"
               src={Astronaut}
@@ -274,7 +278,7 @@ const NotFound = () => {
           </div>
         </div>
 
-        <footer className="mt-8 px-28 flex justify-between items-center">
+        <footer className="mt-8 lg:mt-0 px-28 flex justify-between items-center">
           <div className="flex justify-between items-center gap-16 text-2xl text-red-700">
             <FaFacebookF />
             <FaTwitter />

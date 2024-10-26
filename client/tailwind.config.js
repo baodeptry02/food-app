@@ -9,11 +9,18 @@ module.exports = {
           "url('https://scontent.fsgn5-8.fna.fbcdn.net/v/t39.30808-6/464479350_526162490183666_4116552953255254454_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeEGYKTc3oFY17aLvMyAohtTzUln2vHjAUzNSWfa8eMBTDpXzQVvL5C1iAwkP7cJ3RCaAlLaGwexK3hKdf1fxoq3&_nc_ohc=CX9enTOmhfoQ7kNvgHDK5Mc&_nc_zt=23&_nc_ht=scontent.fsgn5-8.fna&_nc_gid=Arf3tZ26uO3U_uvFKtBOROW&oh=00_AYAJO3mmUsRGuUOV_4jZ-UkH21p5A-KCRZra204IvPZavA&oe=672155EC')",
       },
       clipPath: {
-        custom:
-          "polygon(60% 0, 100% 0, 100% 24%, 57% 24%, 57% 100%, 65% 100%, 0 100%, 0 64%, 0 19%, 0 0);",
+        custom: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);",
+      },
+      fontFamily: {
+        poppins: ["Pacifico", "sans-serif"],
+        roboto: ["Roboto", "sans-serif"],
+      },
+      letterSpacing: {
+        10: "20px",
       },
       width: {
         150: "150px",
+        120: "120px",
         190: "190px",
         225: "225px",
         275: "275px",
@@ -27,6 +34,9 @@ module.exports = {
         656: "656px",
         880: "880px",
         508: "508px",
+      },
+      margin: {
+        120: "120px",
       },
       height: {
         80: "80px",
@@ -44,6 +54,7 @@ module.exports = {
         800: "800px",
         "90vh": "90vh",
         "70%": "70%",
+        "calc-minus-120": "calc(100vh - 120px)",
       },
       minWidth: {
         210: "210px",
@@ -56,6 +67,9 @@ module.exports = {
         lg: "1024px",
         xl: "1800px",
         "2xl": "2024px",
+      },
+      translate: {
+        "-50%": "-50%",
       },
       colors: {
         headingColor: "#2e2e2e",

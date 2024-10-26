@@ -354,6 +354,7 @@ const Login = () => {
                     {...buttonClick}
                     className="text-red-400 underline cursor-pointer bg-transparent"
                     onClick={() => navigate("/reset-password")}
+                    type="button"
                   >
                     Click here
                   </motion.button>

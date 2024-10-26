@@ -235,7 +235,7 @@ class AuthService {
                                                   <ol style="list-style:none;display:table;width:100%;margin:0 0 15px">
                                                     <li style="display:table-row">
                                                       <label style="display:table-cell;width:30%">Email</label>
-                                                      <span style="display:table-cell;width:70%">: <strong style="color:#222"><a href="mailto:dbao0312@gmail.com" target="_blank">dbao0312@gmail.com</a></strong></span>
+                                                      <span style="display:table-cell;width:70%">: <strong style="color:#222"><a href="mailto:${email}" target="_blank">${email}</a></strong></span>
                                                     </li>
                                                   </ol>
                                                 </div>
