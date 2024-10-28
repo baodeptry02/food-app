@@ -12,3 +12,4 @@ export { default as ChickenFried1 } from "./img/chicken-fried-1.png";
 export { default as ChickenFried2 } from "./img/chicken-fried-2.png";
 export { default as ChickenFried3 } from "./img/chicken-fried-3.png";
 export { default as FoodVideo } from "./video/FoodVideoIntro.mp4";
+export { default as RamSay } from "./img/ramsay.png";

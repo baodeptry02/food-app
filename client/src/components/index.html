@@ -4,115 +4,89 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="./stylle.css" />
+    <link rel="stylesheet" href="stylle.css" />
   </head>
   <body>
-    <div class="container">
-      <nav>
-        <div>
-          <a href="#"> FPKPXTF </a>
-        </div>
-        <div class="links">
-          <a href="#"> Home </a>
-        </div>
-        <div class="links">
-          <a href="#"> Contact </a>
-        </div>
-        <div class="links">
-          <a href="#"> Menu </a>
-        </div>
-      </nav>
-      <footer></footer>
-      <div class="hero-video">
-        <video autoplay loop muted>
-          <source src="../assests/video/chicken.mp4" type="video/mp4" />
-        </video>
+    <section class="section">
+      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iusto a fuga
+      repellendus est sunt non incidunt quasi, error, deserunt ab porro sint
+      quibusdam necessitatibus, asperiores amet dolorem laborum quas rerum.
+    </section>
+    <section class="section">
+      Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellat saepe
+      voluptatem deserunt architecto pariatur culpa voluptatibus ea nobis iste
+      deleniti, molestiae adipisci quis sapiente provident? Cumque, beatae.
+      Esse, facilis suscipit.
+    </section>
+    <section class="section racesWrapper">
+      <div class="races">
+        <img
+          src="https://64.media.tumblr.com/d8123e61c9341335512f20d83d4bffd0/05a7b748bd8f6376-42/s1280x1920/96eeb4ee211ef453a4677ec21f3c04803880907a.jpg"
+          alt=""
+        />
+        <img
+          src="https://64.media.tumblr.com/d8123e61c9341335512f20d83d4bffd0/05a7b748bd8f6376-42/s1280x1920/96eeb4ee211ef453a4677ec21f3c04803880907a.jpg"
+          alt=""
+        />
+        <img
+          src="https://64.media.tumblr.com/d8123e61c9341335512f20d83d4bffd0/05a7b748bd8f6376-42/s1280x1920/96eeb4ee211ef453a4677ec21f3c04803880907a.jpg"
+          alt=""
+        />
+        <img
+          src="https://64.media.tumblr.com/d8123e61c9341335512f20d83d4bffd0/05a7b748bd8f6376-42/s1280x1920/96eeb4ee211ef453a4677ec21f3c04803880907a.jpg"
+          alt=""
+        />
+        <img
+          src="https://64.media.tumblr.com/d8123e61c9341335512f20d83d4bffd0/05a7b748bd8f6376-42/s1280x1920/96eeb4ee211ef453a4677ec21f3c04803880907a.jpg"
+          alt=""
+        />
+        <img
+          src="https://64.media.tumblr.com/d8123e61c9341335512f20d83d4bffd0/05a7b748bd8f6376-42/s1280x1920/96eeb4ee211ef453a4677ec21f3c04803880907a.jpg"
+          alt=""
+        />
+        <img
+          src="https://64.media.tumblr.com/d8123e61c9341335512f20d83d4bffd0/05a7b748bd8f6376-42/s1280x1920/96eeb4ee211ef453a4677ec21f3c04803880907a.jpg"
+          alt=""
+        />
+        <img
+          src="https://64.media.tumblr.com/d8123e61c9341335512f20d83d4bffd0/05a7b748bd8f6376-42/s1280x1920/96eeb4ee211ef453a4677ec21f3c04803880907a.jpg"
+          alt=""
+        />
+        <img
+          src="https://64.media.tumblr.com/d8123e61c9341335512f20d83d4bffd0/05a7b748bd8f6376-42/s1280x1920/96eeb4ee211ef453a4677ec21f3c04803880907a.jpg"
+          alt=""
+        />
       </div>
-      <div class="blocks">
-        <div class="block"></div>
-        <div class="block"></div>
-        <div class="block"></div>
-        <div class="block"></div>
-        <div class="block"></div>
-      </div>
-      <div class="header">
-        <div class="header-item">
-          <div class="header-item-wrapper h-1">
-            <h1>F</h1>
-          </div>
-        </div>
-        <div class="header-item">
-          <div class="header-item-wrapper h-2">
-            <h1>P</h1>
-          </div>
-        </div>
-        <div class="header-item">
-          <div class="header-item-wrapper h-3">
-            <h1>K</h1>
-          </div>
-        </div>
-        <div class="header-item">
-          <div class="header-item-wrapper h-4">
-            <h1>F</h1>
-          </div>
-        </div>
-        <div class="header-item">
-          <div class="header-item-wrapper h-5">
-            <h1>X</h1>
-          </div>
-        </div>
-        <div class="header-item">
-          <div class="header-item-wrapper h-6">
-            <h1>T</h1>
-          </div>
-        </div>
-        <div class="header-item">
-          <div class="header-item-wrapper h-7">
-            <h1>F</h1>
-          </div>
-        </div>
-      </div>
-    </div>
+    </section>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script>
+      gsap.registerPlugin(ScrollTrigger);
+
+      const races = document.querySelector(".races");
+      console.log(races.offsetWidth);
+
+      function getScrollAmount() {
+        let racesWidth = races.scrollWidth;
+        return -(racesWidth - window.innerWidth);
+      }
+
+      const tween = gsap.to(races, {
+        x: getScrollAmount,
+        duration: 3,
+        ease: "none",
+      });
+
+      ScrollTrigger.create({
+        trigger: ".racesWrapper",
+        start: "top 20%",
+        end: () => `+=${getScrollAmount() * -1}`,
+        pin: true,
+        animation: tween,
+        scrub: 1,
+        invalidateOnRefresh: true,
+        markers: true,
+      });
+    </script>
   </body>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <script>
-    const tl = gsap.timeline({ delay: 1.75 });
-    const movements = [-100, 300, 150, -300, -90, 100, -200];
-
-    gsap.set("h1", { y: 100, opacity: 0 });
-
-    tl.to("h1", {
-      y: 0,
-      opacity: 1,
-      duration: 1,
-      ease: "power3.out",
-      stagger: 0.1,
-    });
-    tl.to("h1", {
-      fontSize: "15vw",
-      duration: 1,
-      ease: "power3.out",
-    });
-    tl.to(
-      ".header-item",
-      {
-        clipPath: "none",
-        duration: 0.1,
-      },
-      "<"
-    );
-    tl.to(
-      ".block",
-      {
-        clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
-        duration: 1.5,
-        stagger: {
-          amount: 0.5,
-          from: "random",
-          ease: "power3.out",
-        },
-      },
-      "<"
-    );
-  </script>
 </html>

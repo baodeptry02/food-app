@@ -99,7 +99,7 @@ const NotFound = () => {
   }, []);
   return (
     <div className="container-1 h-screen flex justify-center items-center bg-slate-950 overflow-hidden w-screen">
-      <div className="flex flex-col h-70% w-3/5 lg:w-3/4 lg:h-4/5 rounded-3xl backdrop-blur-sm z-10 bg-galaxyOverlay">
+      <div className="flex flex-col h-70% w-3/5 lg:w-3/4 lg:h-[85%] xl:h-2/3 rounded-3xl backdrop-blur-sm z-10 bg-galaxyOverlay">
         {/* Header */}
         <header className="text-primary flex items-center justify-between p-4 lg:py-0 mt-8 lg:mt-4 rounded-t-3xl px-28">
           <NavLink
@@ -247,7 +247,7 @@ const NotFound = () => {
               Lost in Space
             </strong>
             <hr className="w-28 h-1 bg-primaryColor border-none mt-6 text-primary" />
-            <div className="mt-12 lg:mt-12 text-xl lg:text-lg text-primary font-roboto tracking-wide">
+            <div className="mt-12 lg:mt-8 text-xl lg:text-lg text-primary font-roboto tracking-wide">
               <p>You have reached the edge of the universe.</p>
               <p className="lg:my-2">
                 The page you requested could not be found.

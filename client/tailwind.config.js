@@ -10,6 +10,7 @@ module.exports = {
       },
       clipPath: {
         custom: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);",
+        custom1: "polygon(0 0, 100% 0, 100% 100px, 0 100px)",
       },
       fontFamily: {
         poppins: ["Pacifico", "sans-serif"],

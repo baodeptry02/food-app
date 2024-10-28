@@ -18,7 +18,6 @@ import { IoMoonOutline } from "react-icons/io5";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import LoadingAnimation from "../animations/loading-animation";
-import AnimatedTextSplitter from "../containers/AnimatedTextSplitter";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -42,6 +41,9 @@ const Header = () => {
   }, []);
   useGSAP(
     () => {
+      const isHomePage = location.pathname === "/";
+      const delay = isHomePage ? 5 : 0;
+
       gsap.set(".navlink", { opacity: 1, y: 0 });
       gsap.set(".logo", { opacity: 1, y: 0 });
 
@@ -50,6 +52,7 @@ const Header = () => {
         opacity: 0,
         y: -100,
         rotate: 360,
+        delay: delay,
       });
       gsap.from(
         ".navlink",
@@ -59,8 +62,9 @@ const Header = () => {
           y: -50,
           stagger: 0.2,
           ease: "power3.out",
+          delay: delay - 1.35, // Adjust delay to sync with logo animation
         },
-        "-=1.35"
+        "-=2.5"
       );
     },
     { scope: headerRef }

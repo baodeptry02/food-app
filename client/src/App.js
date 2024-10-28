@@ -54,10 +54,14 @@ const App = () => {
     });
 
     const handleLoading = () => {
-      setLoading(true);
-      setTimeout(() => {
+      if (location.pathname !== "/") {
+        setLoading(true);
+        setTimeout(() => {
+          setLoading(false);
+        }, 1000);
+      } else {
         setLoading(false);
-      }, 1000);
+      }
     };
 
     handleLoading();
@@ -109,7 +113,7 @@ const App = () => {
         pauseOnFocusLoss={false}
         limit={5}
       />
-      {loading && <LoadingAnimation />}
+      {loading && location.pathname !== "/" && <LoadingAnimation />}
       {/* {!loading && (
         <Canvas
           style={{
