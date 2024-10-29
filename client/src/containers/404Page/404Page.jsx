@@ -1,22 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  MdLightMode,
-  MdLogout,
-  MdOutlineLightMode,
-  MdShoppingCart,
-} from "react-icons/md";
+import { MdLogout, MdShoppingCart } from "react-icons/md";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
-import { Avatar, Logo, Astronaut } from "../assests";
-import { isActiveStyles, isNotActiveStyles } from "../utils/styles.utils";
+import { Avatar, Logo, Astronaut } from "../../assests";
+import { isActiveStyles, isNotActiveStyles } from "../../utils/styles.utils";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
-import { buttonClick, slideTop } from "../animations/index";
-import { logoutUser } from "../context/actions/userActions";
+import { buttonClick, slideTop } from "../../animations/index";
+import { logoutUser } from "../../context/actions/userActions";
 import { getAuth } from "firebase/auth";
-import { app } from "../config/firebase.config";
+import { app } from "../../config/firebase.config";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import LoadingAnimation from "../animations/loading-animation";
 import { MotionPathPlugin } from "gsap/all";
 import { FaFacebookF, FaTelegramPlane, FaTwitter } from "react-icons/fa";
 import { BiLogoInstagramAlt } from "react-icons/bi";

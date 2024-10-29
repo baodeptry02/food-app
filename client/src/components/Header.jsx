@@ -259,7 +259,7 @@ const Header = () => {
           <NavLink to={"/login"}>
             <motion.button
               {...buttonClick}
-              className="px-4 py-2 rounded-md shadow-md bg-lightOverlay border border-red-300 cursor-pointer"
+              className="px-4 py-2 rounded-md shadow-md bg-lightOverlay border border-red-300 cursor-pointer navlink"
             >
               Login
             </motion.button>
