@@ -7,86 +7,99 @@
     <link rel="stylesheet" href="stylle.css" />
   </head>
   <body>
-    <section class="section">
-      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iusto a fuga
-      repellendus est sunt non incidunt quasi, error, deserunt ab porro sint
-      quibusdam necessitatibus, asperiores amet dolorem laborum quas rerum.
-    </section>
-    <section class="section">
-      Lorem, ipsum dolor sit amet consectetur adipisicing elit. Repellat saepe
-      voluptatem deserunt architecto pariatur culpa voluptatibus ea nobis iste
-      deleniti, molestiae adipisci quis sapiente provident? Cumque, beatae.
-      Esse, facilis suscipit.
-    </section>
-    <section class="section racesWrapper">
-      <div class="races">
-        <img
-          src="https://64.media.tumblr.com/d8123e61c9341335512f20d83d4bffd0/05a7b748bd8f6376-42/s1280x1920/96eeb4ee211ef453a4677ec21f3c04803880907a.jpg"
-          alt=""
-        />
-        <img
-          src="https://64.media.tumblr.com/d8123e61c9341335512f20d83d4bffd0/05a7b748bd8f6376-42/s1280x1920/96eeb4ee211ef453a4677ec21f3c04803880907a.jpg"
-          alt=""
-        />
-        <img
-          src="https://64.media.tumblr.com/d8123e61c9341335512f20d83d4bffd0/05a7b748bd8f6376-42/s1280x1920/96eeb4ee211ef453a4677ec21f3c04803880907a.jpg"
-          alt=""
-        />
-        <img
-          src="https://64.media.tumblr.com/d8123e61c9341335512f20d83d4bffd0/05a7b748bd8f6376-42/s1280x1920/96eeb4ee211ef453a4677ec21f3c04803880907a.jpg"
-          alt=""
-        />
-        <img
-          src="https://64.media.tumblr.com/d8123e61c9341335512f20d83d4bffd0/05a7b748bd8f6376-42/s1280x1920/96eeb4ee211ef453a4677ec21f3c04803880907a.jpg"
-          alt=""
-        />
-        <img
-          src="https://64.media.tumblr.com/d8123e61c9341335512f20d83d4bffd0/05a7b748bd8f6376-42/s1280x1920/96eeb4ee211ef453a4677ec21f3c04803880907a.jpg"
-          alt=""
-        />
-        <img
-          src="https://64.media.tumblr.com/d8123e61c9341335512f20d83d4bffd0/05a7b748bd8f6376-42/s1280x1920/96eeb4ee211ef453a4677ec21f3c04803880907a.jpg"
-          alt=""
-        />
-        <img
-          src="https://64.media.tumblr.com/d8123e61c9341335512f20d83d4bffd0/05a7b748bd8f6376-42/s1280x1920/96eeb4ee211ef453a4677ec21f3c04803880907a.jpg"
-          alt=""
-        />
-        <img
-          src="https://64.media.tumblr.com/d8123e61c9341335512f20d83d4bffd0/05a7b748bd8f6376-42/s1280x1920/96eeb4ee211ef453a4677ec21f3c04803880907a.jpg"
-          alt=""
-        />
+    <nav>
+      <div class="logo">
+        <a href="#"></a>
       </div>
+      <div class="links">
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">Contact</a>
+      </div>
+    </nav>
+    <section class="lottie-container">
+      <div class="animation"></div>
+    </section>
+    <section class="gradient"></section>
+    <section class="website-content">
+      <div class="end-lottie"></div>
+
+      <h1>Content</h1>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
+        voluptates, quod, quae, quos quia quibusdam quidem voluptate
+        exercitationem quas doloremque quae quos quia quibusdam quidem voluptate
+        exercitationem quas doloremque
+      </p>
     </section>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.6/lottie.min.js"></script>
     <script>
-      gsap.registerPlugin(ScrollTrigger);
+      document.addEventListener("DOMContentLoaded", () => {
+        let lottieContainer = document.querySelector(".animation");
 
-      const races = document.querySelector(".races");
-      console.log(races.offsetWidth);
+        if (lottieContainer) {
+          LottieScrollTrigger({
+            trigger: ".animation",
+            start: "top center",
+            endTrigger: ".end-lottie",
+            end: `bottom center +=${
+              document.querySelector(".animation").offsetHeight
+            }`,
+            renderer: "svg",
+            target: ".animation",
+            path: "./VideoIntro.json",
+            scrub: 2,
+          });
+        }
+      });
 
-      function getScrollAmount() {
-        let racesWidth = races.scrollWidth;
-        return -(racesWidth - window.innerWidth);
+      function LottieScrollTrigger(vars) {
+        let playhead = { frame: 0 },
+          target = gsap.utils.toArray(vars.target)[0],
+          speed =
+            { slow: "+=2000", medium: "+=1000", fast: "+=500" }[vars.speed] ||
+            "+=1500",
+          st = {
+            trigger: vars.trigger,
+            start: vars.start,
+            end: vars.end,
+            scrub: vars.scrub || 1,
+            markers: vars.markers || false,
+          },
+          ctx = gsap.context && gsap.context(),
+          animation = lottie.loadAnimation({
+            container: target,
+            renderer: vars.renderer || "svg",
+            loop: false,
+            autoplay: false,
+            path: vars.path,
+            rendererSettings: vars.rendererSettings || {
+              preserveAspectRatio: "xMidYMid slice",
+            },
+          });
+
+        for (let p in vars) {
+          st[p] = vars[p];
+        }
+
+        animation.addEventListener("DOMLoaded", () => {
+          let createTween = () => {
+            animation.frameTween = gsap.to(playhead, {
+              frame: animation.totalFrames - 1,
+              ease: "none",
+              onUpdate: () => animation.goToAndStop(playhead.frame, true),
+              scrollTrigger: st,
+            });
+            return () => animation.destroy && animation.destroy();
+          };
+          ctx && ctx.add ? ctx.add(createTween) : createTween();
+        });
+
+        return animation;
       }
-
-      const tween = gsap.to(races, {
-        x: getScrollAmount,
-        duration: 3,
-        ease: "none",
-      });
-
-      ScrollTrigger.create({
-        trigger: ".racesWrapper",
-        start: "top 20%",
-        end: () => `+=${getScrollAmount() * -1}`,
-        pin: true,
-        animation: tween,
-        scrub: 1,
-        invalidateOnRefresh: true,
-        markers: true,
-      });
     </script>
   </body>
 </html>

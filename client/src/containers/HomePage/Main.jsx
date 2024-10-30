@@ -1,24 +1,23 @@
 import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
-import {
-  ChickenVideo,
-  Delivery,
-  FoodVideo,
-  HeroBg,
-  RamSay,
-} from "../assests/index";
+import { FoodVideo } from "../../assests/index";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import AnimatedTextSplitter from "../AnimatedTextSplitter";
+import { Delivery, RamSay } from "../../assests";
 import { motion } from "framer-motion";
-import { buttonClick } from "../animations";
-import AnimatedTextSplitter from "./AnimatedTextSplitter";
+import { buttonClick } from "../../animations";
 
 export default function Main() {
   const videoRef = useRef();
   const textRef = useRef();
   const container = useRef();
+  const container1 = useRef();
   const [showText, setShowText] = useState(false);
   const section2Ref = useRef();
+  const titleRef = useRef();
+  const ramsay = useRef();
+  const titleHightLightRef = useRef();
 
   gsap.registerPlugin(ScrollTrigger);
 
@@ -161,38 +160,58 @@ export default function Main() {
       });
     }
   }, [showText]);
+  useEffect(() => {
+    console.log(titleHightLightRef.current.querySelectorAll(".split-char"));
+    if (titleHightLightRef.current) {
+      gsap.fromTo(
+        titleHightLightRef.current.querySelectorAll(".split-char"),
+        {
+          scale: 1.3,
+          y: 40,
+          rotate: -25,
+          opacity: 0,
+        },
+        {
+          scale: 1,
+          y: 0,
+          rotate: 0,
+          opacity: 1,
+          stagger: 0.5,
+          ease: "back.out(3)",
+          duration: 0.5,
+        }
+      );
+    }
+  }, []);
 
   useEffect(() => {
     const pin = ScrollTrigger.create({
-      trigger: container.current,
+      trigger: videoRef.current,
       start: "top top",
       endTrigger: section2Ref.current,
       end: "top top",
       pin: true,
       pinSpacing: false,
-      markers: true,
     });
 
     const scrollAnimation = gsap.fromTo(
-      section2Ref.current,
-      { y: 0 },
+      videoRef.current,
+      { opacity: 1 },
       {
+        opacity: 0,
+        duration: 1,
         scrollTrigger: {
           trigger: section2Ref.current,
           start: "top bottom",
           end: "top top",
-          scrub: 4,
+          scrub: true,
           onLeave: () => {
-            gsap.to(videoRef.current, { opacity: 0, duration: 1 });
-            pin.kill();
+            setShowText(false); // Hides text on leaving
           },
           onEnterBack: () => {
-            gsap.to(videoRef.current, { opacity: 1, duration: 1 });
-            pin.enable();
+            setShowText(true); // Shows text on scrolling back
           },
         },
-        opacity: 1,
-        y: 0,
       }
     );
 
@@ -202,9 +221,57 @@ export default function Main() {
     };
   }, []);
 
+  useEffect(() => {
+    const titleTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: section2Ref.current,
+        start: "top 30%",
+        end: "90% 90%",
+        scrub: 1,
+      },
+    });
+    titleTimeline.fromTo(
+      titleRef.current,
+      { opacity: 0, y: 50 },
+      { y: 0, opacity: 1, duration: 2, ease: "power4.inOut" }
+    );
+    titleTimeline.fromTo(
+      titleHightLightRef.current.querySelectorAll(".split-char"),
+      {
+        scale: 1.3,
+        y: 40,
+        rotate: -25,
+        opacity: 0,
+      },
+      {
+        scale: 1,
+        y: 0,
+        rotate: 0,
+        opacity: 1,
+        stagger: 0.5,
+        ease: "back.out(3)",
+        duration: 3,
+      }
+    );
+
+    titleTimeline.fromTo(
+      ramsay.current,
+      { opacity: 0, scale: 3 },
+      {
+        opacity: 1,
+        scale: 1,
+        duration: 2,
+        ease: "power4.inOut",
+      }
+    );
+    return () => {
+      titleTimeline.scrollTrigger.kill();
+    };
+  }, []);
+
   return (
     <div>
-      <main className="flex flex-col bg-primary">
+      <main ref={container1} className="flex flex-col bg-primary">
         <section
           className="h-screen w-screen flex justify-center items-center overflow-hidden"
           ref={container}
@@ -237,14 +304,14 @@ export default function Main() {
           )}
         </section>
 
-        <div className="fixed top-0 left-0 w-full h-screen flex">
+        <div className="fixed top-0 left-0 w-full h-screen flex pointer-events-none">
           <div className="block flex-1 h-full bg-primary clip-path-custom"></div>
           <div className="block flex-1 h-full bg-primary clip-path-custom"></div>
           <div className="block flex-1 h-full bg-primary clip-path-custom"></div>
           <div className="block flex-1 h-full bg-primary clip-path-custom"></div>
           <div className="block flex-1 h-full bg-primary clip-path-custom"></div>
         </div>
-        <div class="loading-screen fixed w-full h-full top-0 left-0 bg-black text-white pointer-events-none">
+        <div class="z-20 loading-screen fixed w-full h-full top-0 left-0 bg-black text-white pointer-events-none">
           <div class="loader absolute top-1/2 left-1/2 w-[300px] h-[50px] -translate-x-1/2 -translate-y-1/2 flex bg-[rgb(80,80,80)]">
             <div class="loader-1 bar relative bg-white w-[200px] h-[50px]"></div>
             <div class="loader-2 bar relative bg-white w-[100px] h-[50px]"></div>
@@ -281,11 +348,16 @@ export default function Main() {
             </div>
           </div>
         </div>
+        {/* <section className="gradient"></section> */}
         <section
           ref={section2Ref}
-          className="w-full flex justify-center flex-col items-start mt-40 h-screen bg-primary px-6 md:px-24 2xl:px-96 gap-12 pb-24 lg:pb-0"
+          className="hero w-full flex justify-center flex-col items-start mt-40 h-screen bg-primary px-6 md:px-24 2xl:px-96 gap-12 pb-24 lg:pb-0"
         >
+          {/* <div className="end-lottie"></div> */}
           <motion.div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* <p className="title text-lg font-semibold text-orange-500">
+          <AnimatedTextSplitter text={text} />
+        </p> */}
             <div className="flex flex-col items-start justify-start gap-6">
               <div className="px-4 py-1 flex items-center justify-center gap-2 bg-orange-100 rounded-full ">
                 <p className="text-lg font-semibold text-orange-500">
@@ -293,15 +365,24 @@ export default function Main() {
                 </p>
                 <div className="w-10 h-10 flex items-center justify-center rounded-full bg-primary shadow-md">
                   <img
-                    className="w-full h-full object-contain"
+                    className=" w-full h-full object-contain"
                     src={Delivery}
                     alt=""
                   />
                 </div>
               </div>
-              <p className="text-[40px] text-headingColor md:text-[72px] font-sans font-extrabold tracking-wider">
+              <p
+                ref={titleRef}
+                className="text-[40px] text-headingColor lg:text-[64px] md:text-[72px] font-sans font-extrabold tracking-wider"
+              >
                 The Fastest Delivery in
-                <span className="text-orange-600">Your City</span>
+                <span ref={titleHightLightRef} className="text-orange-600">
+                  <AnimatedTextSplitter
+                    ref={titleHightLightRef}
+                    className="text"
+                    text="Your city"
+                  />
+                </span>
               </p>
               <p className="text-textColor text-lg">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque
@@ -316,9 +397,12 @@ export default function Main() {
                 Order Now
               </motion.button>
             </div>
-            <div className="py-2 flex-1 flex items-center justify-end  relative">
+            <div
+              ref={ramsay}
+              className=" py-2 flex-1 flex items-center justify-end relative"
+            >
               <img
-                className="absolute right-0 md:-right-12 w-auto h-auto md:w-auto md:h-650 bg-center bg-cover  object-cover"
+                className="absolute right-0 md:-right-12 w-auto h-auto md:w-auto md:h-650 bg-center bg-cover object-cover"
                 src={RamSay}
                 alt=""
               />

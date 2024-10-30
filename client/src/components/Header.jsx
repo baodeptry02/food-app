@@ -42,11 +42,13 @@ const Header = () => {
   useGSAP(
     () => {
       const isHomePage = location.pathname === "/";
-      const delay = isHomePage ? 5 : 0;
+      const delay = isHomePage ? 5 : 1.5;
 
-      gsap.set(".navlink", { opacity: 1, y: 0 });
+      // Set initial styles for logo and nav links
       gsap.set(".logo", { opacity: 1, y: 0 });
+      gsap.set(".navlink", { opacity: 1, y: 0 });
 
+      // Animate logo with conditional delay
       gsap.from(".logo", {
         duration: 1,
         opacity: 0,
@@ -54,21 +56,20 @@ const Header = () => {
         rotate: 360,
         delay: delay,
       });
-      gsap.from(
-        ".navlink",
-        {
-          duration: 1.5,
-          opacity: 0,
-          y: -50,
-          stagger: 0.2,
-          ease: "power3.out",
-          delay: delay - 1.35, // Adjust delay to sync with logo animation
-        },
-        "-=2.5"
-      );
+
+      // Animate nav links with adjusted delay based on isHomePage
+      gsap.from(".navlink", {
+        duration: 1.5,
+        opacity: 0,
+        y: -50,
+        stagger: 0.2,
+        ease: "power3.out",
+        delay: delay + 0.5, // Adjusted delay for smooth transition with logo
+      });
     },
     { scope: headerRef }
   );
+
   const handleMouseEnter = () => {
     if (!isAnimating) {
       setIsAnimating(true);
@@ -106,7 +107,7 @@ const Header = () => {
     >
       {isLoading && <LoadingAnimation />}
       <NavLink
-        to={"/"}
+        onClick={() => navigate("/")}
         className="logo flex items-center justify-center gap-4 opacity-0 "
       >
         <img src={Logo} className="w-12" alt="Logo" />
@@ -259,7 +260,7 @@ const Header = () => {
           <NavLink to={"/login"}>
             <motion.button
               {...buttonClick}
-              className="px-4 py-2 rounded-md shadow-md bg-lightOverlay border border-red-300 cursor-pointer"
+              className="px-4 py-2 rounded-md shadow-md bg-lightOverlay border border-red-300 cursor-pointer navlink"
             >
               Login
             </motion.button>

@@ -1,18 +1,138 @@
 @import url("https://fonts.googleapis.com/css2?family=Staatliches&display=swap");
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 body {
   margin: 0;
-  background: #15151e;
+  background: #000;
   overflow-x: hidden;
+  width: 100%;
+  height: 500vh;
 }
-section {
-  height: 100vh;
+
+h1 {
+  margin: 0.25em 0;
+  font-size: 80px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
 }
-img {
-  width: 20vw;
+
+p {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 175%;
 }
-.races {
-  width: fit-content;
+
+nav {
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  padding: 2em;
   display: flex;
-  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 2;
+}
+.links {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2em;
+}
+nav a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 24px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.lottie-container .animation {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  z-index: -1;
+  filter: saturate(2);
+}
+
+.animation::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0.1;
+  animation: animateGrain 8s steps(10) infinite;
+}
+
+.gradient {
+  width: 100vw;
+  height: 200vh;
+  position: relative;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 1) 100%
+  );
+  z-index: 1;
+}
+
+.website-content {
+  position: relative;
+  width: 100%;
+  height: 300vh;
+  padding: 2em;
+  background-color: #000;
+  color: #fff;
+  z-index: 1;
+}
+
+.end-lottie {
+  position: absolute;
+  top: 100vh;
+  width: 100%;
+  height: 1px;
+}
+
+@keyframes animateGrain {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  10% {
+    transform: translate(-5%, -10%);
+  }
+  20% {
+    transform: translate(-15%, -20%);
+  }
+  30% {
+    transform: translate(-5%, -10%);
+  }
+  40% {
+    transform: translate(-15%, -20%);
+  }
+  50% {
+    transform: translate(5%, -10%);
+  }
+  60% {
+    transform: translate(-15%, -20%);
+  }
+  70% {
+    transform: translate(-5%, -10%);
+  }
+  80% {
+    transform: translate(-15%, -20%);
+  }
+  90% {
+    transform: translate(-5%, -10%);
+  }
+  100% {
+    transform: translate(-15%, -20%);
+  }
 }
