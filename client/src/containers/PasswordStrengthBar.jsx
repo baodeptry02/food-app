@@ -40,7 +40,7 @@ const PasswordStrengthBar = ({ password }) => {
   };
 
   return (
-    <div className="w-full mt-2">
+    <div className="w-full mt-2 hidden xl:block">
       <div className="text-sm text-gray-600 mb-1">{createPassLabel()}</div>
       <div className="w-full bg-gray-200 rounded h-2">
         <div

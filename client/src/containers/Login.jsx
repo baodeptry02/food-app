@@ -265,7 +265,10 @@ const Login = () => {
         alt="Login Background"
       />
       <div className="flex flex-col items-center bg-lightOverlay w-[80%] md:w-508 h-full z-10 backdrop-blur-md p-2 px-4 py-12 gap-4 xl:gap-6">
-        <div className="hidden items-center justify-start gap-4 w-full  xl:flex ">
+        <div
+          onClick={() => navigate("/")}
+          className="cursor-pointer flex items-center justify-start gap-4 w-full "
+        >
           <img src={Logo} className="w-8" alt="Logo" />
           <p className="text-headingColor font-semibold text-2xl">City</p>
         </div>

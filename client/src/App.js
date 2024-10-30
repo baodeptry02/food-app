@@ -5,6 +5,7 @@ import {
   Dashboard,
   Login,
   Main,
+  MainTest,
   NotFound,
   ResetPassword,
 } from "./containers";
@@ -84,20 +85,26 @@ const App = () => {
     }
   }, [location.pathname, dispatch]);
 
-  const hideHeaderRoutes = [
+  const hideHeaderRoutes = ["/login", "/change-password", "/admin"];
+
+  const validRoutes = [
+    "/",
     "/login",
     "/change-password",
     "/reset-password",
     "/admin",
+    "/about",
+    "/contact",
+    // Thêm các đường dẫn hợp lệ khác ở đây
   ];
+
+  const isNotFoundRoute = !validRoutes.some((route) =>
+    location.pathname.startsWith(route)
+  );
 
   const shouldHideHeader = hideHeaderRoutes.some((route) =>
     location.pathname.startsWith(route)
   );
-
-  const isNotFoundRoute =
-    location.pathname !== "/" &&
-    !hideHeaderRoutes.some((route) => location.pathname.startsWith(route));
 
   return (
     <div

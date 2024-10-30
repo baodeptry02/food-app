@@ -34,7 +34,7 @@ const ChangePassword = () => {
   });
 
   return (
-    <div className="flex items-center justify-center w-screen min-h-screen bg-gray-100">
+    <div className="flex items-center justify-center w-screen min-h-screen bg-primary">
       <div className="p-8 rounded-lg shadow-md w-full max-w-md bg-white bg-opacity-50 backdrop-filter backdrop-blur-lg">
         <h2 className="text-2xl font-bold mb-6 text-center">Forgot Password</h2>
         <Formik

@@ -83,7 +83,7 @@ class AuthService {
         <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="width:auto;">
           <tr>
             <td align="center" style="padding:0;">
-              <a href="https://duybao-cook.vercel.app/" style="background:url(https://duybao-cook.vercel.app/static/media/logo.0f99324454e3c3ccba98.png) no-repeat center center;background-size:32px;color:#2199e8;display:block;font-family:HelveticaNeue-Light,'Helvetica Neue Light',Helvetica,Arial,sans-serif;font-weight:400;height:50px;line-height:1.3;width:40px;padding:0;text-align:left;text-decoration:none" target="_blank" data-saferedirecturl=""></a>
+              <a href="https://my-food-city.vercel.app/" style="background:url(https://my-food-city.vercel.app/static/media/logo.0f99324454e3c3ccba98.png) no-repeat center center;background-size:32px;color:#2199e8;display:block;font-family:HelveticaNeue-Light,'Helvetica Neue Light',Helvetica,Arial,sans-serif;font-weight:400;height:50px;line-height:1.3;width:40px;padding:0;text-align:left;text-decoration:none" target="_blank" data-saferedirecturl=""></a>
             </td>
             <td align="center" style="padding:0 10px;">
               <strong style="font-family:HelveticaNeue-Light,'Helvetica Neue Light',Helvetica,Arial,sans-serif;font-weight:800;">City</strong>
@@ -170,7 +170,6 @@ class AuthService {
                   <tbody>
                      <tr style="padding:0;text-align:left;vertical-align:top">
                         <td style="Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:HelveticaNeue-Light,'Helvetica Neue Light',Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
-                           
                            <table style="border-collapse:collapse;border-spacing:0;display:table;padding:0;text-align:left;vertical-align:top;width:100%">
                               <tbody>
                                  <tr style="padding:0;text-align:left;vertical-align:top">
@@ -184,7 +183,7 @@ class AuthService {
       <table role="presentation" border="0" cellpadding="0" cellspacing="0" style="width:auto;">
         <tr>
           <td align="center" style="padding:0;">
-            <a href="https://duybao-cook.vercel.app/" style="background:url(https://duybao-cook.vercel.app/static/media/logo.0f99324454e3c3ccba98.png) no-repeat center center;background-size:32px;color:#2199e8;display:block;font-family:HelveticaNeue-Light,'Helvetica Neue Light',Helvetica,Arial,sans-serif;font-weight:400;height:50px;line-height:1.3;width:40px;padding:0;text-align:left;text-decoration:none" target="_blank" data-saferedirecturl=""></a>
+            <a href="https://my-food-city.vercel.app/" style="background:url(https://my-food-city.vercel.app/static/media/logo.0f99324454e3c3ccba98.png) no-repeat center center;background-size:32px;color:#2199e8;display:block;font-family:HelveticaNeue-Light,'Helvetica Neue Light',Helvetica,Arial,sans-serif;font-weight:400;height:50px;line-height:1.3;width:40px;padding:0;text-align:left;text-decoration:none" target="_blank" data-saferedirecturl=""></a>
           </td>
           <td align="center" style="padding:0 10px;">
             <strong style="font-family:HelveticaNeue-Light,'Helvetica Neue Light',Helvetica,Arial,sans-serif;font-weight:800;">City</strong>
@@ -245,7 +244,7 @@ class AuthService {
                                                       <td style="Margin:0;border-collapse:collapse!important;color:#0a0a0a;font-family:HelveticaNeue-Light,'Helvetica Neue Light',Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
                                                          <table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
                                                             <tbody><tr style="padding:0;text-align:left;vertical-align:top">
-                                                               <td style="Margin:0;background:0 0;border:none;border-collapse:collapse!important;color:#fefefe;font-family:HelveticaNeue-Light,'Helvetica Neue Light',Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word"><a href="" style="Margin:0;background-color:#EF4444;border:2px solid #B91C1C;border-radius:16px;color:#fefefe;display:inline-block;font-family:HelveticaNeue-Light,'Helvetica Neue Light',Helvetica,Arial,sans-serif;font-size:16px;font-weight:700;letter-spacing:1px;line-height:1.3;margin:0;padding:8px 16px 8px 16px;text-align:left;text-decoration:none" target="_blank" data-saferedirecturl=""><span class="il">Verify</span> Email</a></td>
+                                                               <td style="Margin:0;background:0 0;border:none;border-collapse:collapse!important;color:#fefefe;font-family:HelveticaNeue-Light,'Helvetica Neue Light',Helvetica,Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word"><a href=${newUrl} style="Margin:0;background-color:#EF4444;border:2px solid #B91C1C;border-radius:16px;color:#fefefe;display:inline-block;font-family:HelveticaNeue-Light,'Helvetica Neue Light',Helvetica,Arial,sans-serif;font-size:16px;font-weight:700;letter-spacing:1px;line-height:1.3;margin:0;padding:8px 16px 8px 16px;text-align:left;text-decoration:none" target="_blank" data-saferedirecturl=""><span class="il">Verify</span> Email</a></td>
                                                             </tr>
                                                          </tbody></table>
                                                       </td>
