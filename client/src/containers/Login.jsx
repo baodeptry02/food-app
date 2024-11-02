@@ -28,7 +28,7 @@ import {
   updateUserInFirestore,
 } from "../utils/fireStores.utils";
 import Cookies from "js-cookie";
-import { sendOtpEmail, sendVerifyEmail, verifyOtp } from "../api/index";
+import { sendOtpEmail, sendVerifyEmail, verifyOtp } from "../api/authApi";
 import OtpModal from "./OtpModal";
 import LoadingAnimation from "../animations/loading-animation";
 import PasswordChecklistComponent from "./PasswordCheckList";

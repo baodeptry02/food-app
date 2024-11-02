@@ -37,6 +37,9 @@ module.exports = {
         880: "880px",
         508: "508px",
       },
+      textShadow: {
+        custom: "0 5px 10px rgba(0, 0, 0, 0.25)",
+      },
       spacing: {
         120: "120px",
       },

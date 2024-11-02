@@ -8,6 +8,8 @@ import {
   MainTest,
   NotFound,
   ResetPassword,
+  Service,
+  Menu,
 } from "./containers";
 import { ToastContainer, Slide } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -36,11 +38,10 @@ const App = () => {
       locomotiveScroll.current = new LocomotiveScroll({
         el: scrollRef.current,
         smooth: true,
-        multiplier: 1.5, // Adjust speed if needed
-        class: "is-reveal", // Custom class applied to elements when scrolled into view
+        multiplier: 1.5,
+        class: "is-reveal",
       });
 
-      // Clean up the locomotive scroll instance on component unmount
       return () => {
         if (locomotiveScroll.current) {
           locomotiveScroll.current.destroy();
@@ -95,16 +96,15 @@ const App = () => {
     "/admin",
     "/about",
     "/contact",
+    "/menu",
+    "/services",
     // Thêm các đường dẫn hợp lệ khác ở đây
   ];
 
-  const isNotFoundRoute = !validRoutes.some((route) =>
-    location.pathname.startsWith(route)
-  );
+  const isNotFoundRoute = !validRoutes.includes(location.pathname);
 
-  const shouldHideHeader = hideHeaderRoutes.some((route) =>
-    location.pathname.startsWith(route)
-  );
+  const shouldHideHeader =
+    hideHeaderRoutes.includes(location.pathname) || isNotFoundRoute;
 
   return (
     <div
@@ -145,6 +145,8 @@ const App = () => {
             <Route path="/change-password" element={<ChangePassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/admin/dashboard/*" element={<Dashboard />} />
+            <Route path="/services" element={<Service />} />
+            <Route path="/menu" element={<Menu />} />
           </Routes>
         </>
       )}

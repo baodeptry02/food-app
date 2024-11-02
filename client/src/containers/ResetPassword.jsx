@@ -6,7 +6,7 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import { buttonClick } from "../animations";
 import { motion } from "framer-motion";
-import { sendForgetPassword } from "../api";
+import { sendForgetPassword } from "../api/authApi";
 
 const ChangePassword = () => {
   const [isLoading, setIsLoading] = useState(false);

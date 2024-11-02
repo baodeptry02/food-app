@@ -44,11 +44,9 @@ const Header = () => {
       const isHomePage = location.pathname === "/";
       const delay = isHomePage ? 5 : 1.5;
 
-      // Set initial styles for logo and nav links
       gsap.set(".logo", { opacity: 1, y: 0 });
       gsap.set(".navlink", { opacity: 1, y: 0 });
 
-      // Animate logo with conditional delay
       gsap.from(".logo", {
         duration: 1,
         opacity: 0,
@@ -57,14 +55,13 @@ const Header = () => {
         delay: delay,
       });
 
-      // Animate nav links with adjusted delay based on isHomePage
       gsap.from(".navlink", {
         duration: 1.5,
         opacity: 0,
         y: -50,
         stagger: 0.2,
         ease: "power3.out",
-        delay: delay + 0.5, // Adjusted delay for smooth transition with logo
+        delay: delay + 0.5,
       });
     },
     { scope: headerRef }
@@ -77,7 +74,7 @@ const Header = () => {
   };
 
   const handleAnimationEnd = () => {
-    setIsAnimating(false); // Kết thúc animation, quay về trạng thái ban đầu
+    setIsAnimating(false);
   };
 
   const signOut = () => {
@@ -100,6 +97,7 @@ const Header = () => {
       return newTheme;
     });
   };
+
   return (
     <header
       ref={headerRef}
@@ -107,8 +105,8 @@ const Header = () => {
     >
       {isLoading && <LoadingAnimation />}
       <NavLink
-        onClick={() => navigate("/")}
-        className="logo flex items-center justify-center gap-4 opacity-0 "
+        to={"/"}
+        className="logo flex items-center justify-center gap-4 opacity-0"
       >
         <img src={Logo} className="w-12" alt="Logo" />
         <p
@@ -119,7 +117,14 @@ const Header = () => {
           }`}
         >
           <svg height="40" width="200" xmlns="http://www.w3.org/2000/svg">
-            <text x="5" y="30" fill="none" stroke="black" fontSize="35">
+            <text
+              x="5"
+              y="30"
+              fill="none"
+              stroke="black"
+              className="dark:stroke-white transition-colors duration-500 ease-in-out"
+              fontSize="35"
+            >
               City
             </text>
           </svg>
@@ -132,7 +137,7 @@ const Header = () => {
             className={({ isActive }) =>
               isActive
                 ? `${isActiveStyles} navlink opacity-0 `
-                : `${isNotActiveStyles} navlink opacity-0 `
+                : `${isNotActiveStyles} navlink opacity-0 dark:text-slate-50 transition-colors duration-500 ease-in-out`
             }
             to={"/"}
           >
@@ -142,7 +147,7 @@ const Header = () => {
             className={({ isActive }) =>
               isActive
                 ? `${isActiveStyles} navlink opacity-0 `
-                : `${isNotActiveStyles} navlink opacity-0 `
+                : `${isNotActiveStyles} navlink opacity-0 dark:text-slate-50  transition-colors duration-500 ease-in-out`
             }
             to={"/menu"}
           >
@@ -152,7 +157,7 @@ const Header = () => {
             className={({ isActive }) =>
               isActive
                 ? `${isActiveStyles} navlink opacity-0 `
-                : `${isNotActiveStyles} navlink opacity-0 `
+                : `${isNotActiveStyles} navlink opacity-0 dark:text-slate-50  transition-colors duration-500 ease-in-out`
             }
             to={"/services"}
           >
@@ -162,7 +167,7 @@ const Header = () => {
             className={({ isActive }) =>
               isActive
                 ? `${isActiveStyles} navlink opacity-0 `
-                : `${isNotActiveStyles} navlink opacity-0 `
+                : `${isNotActiveStyles} navlink opacity-0 dark:text-slate-50  transition-colors duration-500 ease-in-out`
             }
             to={"/aboutus"}
           >
@@ -175,7 +180,7 @@ const Header = () => {
           onClick={() => dispatch()}
           className="relative cursor-pointer navlink"
         >
-          <MdShoppingCart className="text-3xl text-textColor" />
+          <MdShoppingCart className="text-3xl text-textColor dark:text-slate-50 dark:hover:text-red-700 transition-colors duration-500 ease-in-out" />
           <div className="w-6 h-6 rounded-full bg-red-500 flex items-center justify-center absolute -top-4 -right-2">
             <p className="text-primary text-base font-semibold">2</p>
           </div>
@@ -213,31 +218,31 @@ const Header = () => {
             {isMenu && (
               <motion.div
                 {...slideTop}
-                className="px-6 py-4 w-52 bg-lightOverlay backdrop-blur-md rounded-md shadow-md absolute top-12 right-0 flex flex-col gap-4"
+                className="px-6 py-4 w-52 bg-lightOverlay dark:bg-darkOverlay backdrop-blur-md rounded-md shadow-md absolute top-12 right-0 flex flex-col gap-4 transition-colors duration-500 ease-in-out"
               >
                 <Link
-                  className="hover:text-red-500 text-xl text-textColor"
+                  className="text-xl text-textColor dark:text-slate-50 hover:text-red-500 dark:hover:text-red-500 transition-colors duration-500 ease-in-out"
                   to={"/admin/dashboard/home"}
                 >
                   Dashboard
                 </Link>
                 <hr />
                 <Link
-                  className="hover:text-red-500 text-xl text-textColor"
+                  className="text-xl text-textColor dark:text-slate-50 hover:text-red-500 dark:hover:text-red-500 transition-colors duration-500 ease-in-out"
                   to={"/profile"}
                 >
                   My Profile
                 </Link>
                 <hr />
                 <Link
-                  className="hover:text-red-500 text-xl text-textColor"
+                  className="text-xl text-textColor dark:text-slate-50 hover:text-red-500 dark:hover:text-red-500 transition-colors duration-500 ease-in-out"
                   to={"/user-orders"}
                 >
                   Orders
                 </Link>
                 <hr />
                 <Link
-                  className="hover:text-red-500 text-xl text-textColor"
+                  className="text-xl text-textColor dark:text-slate-50 hover:text-red-500 dark:hover:text-red-500 transition-colors duration-500 ease-in-out"
                   to={"/change-password"}
                 >
                   Change Password
@@ -260,7 +265,7 @@ const Header = () => {
           <NavLink to={"/login"}>
             <motion.button
               {...buttonClick}
-              className="px-4 py-2 rounded-md shadow-md bg-lightOverlay border border-red-300 cursor-pointer navlink"
+              className="px-4 py-2 rounded-md shadow-md bg-lightOverlay dark:bg-darkOverlay dark:text-slate-50 border border-red-300 cursor-pointer navlink transition-colors duration-500 ease-in-out"
             >
               Login
             </motion.button>

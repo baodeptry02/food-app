@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
-import { FoodVideo } from "../../assests/index";
+import { FoodVideo, KimJongUn } from "../../assests/index";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import AnimatedTextSplitter from "../AnimatedTextSplitter";
@@ -18,7 +18,62 @@ export default function Main() {
   const titleRef = useRef();
   const ramsay = useRef();
   const titleHightLightRef = useRef();
+  const banner = useRef();
+  const welcomeRef = useRef();
+  const description = useRef();
+  const order = useRef();
+  const section3Ref = useRef();
 
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const items = [
+    {
+      img: "https://www.shutterstock.com/shutterstock/videos/1063352986/thumb/1.jpg?ip=x480",
+      name: "Coca",
+      category: "Drink",
+      price: "1.5$",
+    },
+    {
+      img: "https://i.ytimg.com/vi/fVWAy3dFWpU/maxresdefault.jpg",
+      name: "Cheetos",
+      category: "Snacks",
+      price: "1.5$",
+    },
+    {
+      img: "https://media.post.rvohealth.io/wp-content/uploads/sites/2/2022/05/567521-grt-bananas-1296x728-header_body.jpg",
+      name: "Banana",
+      category: "Fruits",
+      price: "1.5$",
+    },
+    {
+      img: "https://images.pexels.com/photos/1556698/pexels-photo-1556698.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      name: "Hamburger",
+      category: "Bread",
+      price: "1.5$",
+    },
+    {
+      img: "https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      name: "Pancake",
+      category: "Bread",
+      price: "1.5$",
+    },
+    {
+      img: "https://images.pexels.com/photos/990439/pexels-photo-990439.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      name: "Strawberry Smoothie",
+      category: "Drink",
+      price: "1.5$",
+    },
+  ];
+
+  const handleNext = () => {
+    setActiveIndex((prevIndex) => (prevIndex + 1) % items.length);
+  };
+
+  const handlePrev = () => {
+    setActiveIndex(
+      (prevIndex) => (prevIndex - 1 + items.length) % items.length
+    );
+  };
   gsap.registerPlugin(ScrollTrigger);
 
   useEffect(() => {
@@ -221,15 +276,18 @@ export default function Main() {
     };
   }, []);
 
-  useEffect(() => {
+  const createTitleTimeline = () => {
     const titleTimeline = gsap.timeline({
       scrollTrigger: {
         trigger: section2Ref.current,
-        start: "top 30%",
+        start: "top 20%",
         end: "90% 90%",
         scrub: 1,
+        anticipatePin: 1,
+        onEnter: () => titleTimeline.restart(true), // Restart the animation on re-entry
       },
     });
+
     titleTimeline.fromTo(
       titleRef.current,
       { opacity: 0, y: 50 },
@@ -237,12 +295,7 @@ export default function Main() {
     );
     titleTimeline.fromTo(
       titleHightLightRef.current.querySelectorAll(".split-char"),
-      {
-        scale: 1.3,
-        y: 40,
-        rotate: -25,
-        opacity: 0,
-      },
+      { scale: 1.3, y: 40, rotate: -25, opacity: 0 },
       {
         scale: 1,
         y: 0,
@@ -253,19 +306,80 @@ export default function Main() {
         duration: 3,
       }
     );
-
     titleTimeline.fromTo(
-      ramsay.current,
-      { opacity: 0, scale: 3 },
+      welcomeRef.current.querySelectorAll(".split-char"),
+      { scale: 1.3, y: 40, rotate: -25, opacity: 0 },
       {
-        opacity: 1,
         scale: 1,
-        duration: 2,
-        ease: "power4.inOut",
+        y: 0,
+        rotate: 0,
+        opacity: 1,
+        stagger: 0.5,
+        ease: "back.out(3)",
+        duration: 3,
       }
     );
+    titleTimeline.fromTo(
+      ramsay.current,
+      { opacity: 0, scale: 0 },
+      { opacity: 1, scale: 1, duration: 2, ease: "power4.inOut" }
+    );
+    titleTimeline.fromTo(
+      banner.current,
+      { opacity: 0, x: -50 },
+      { opacity: 1, x: 0, duration: 2, ease: "power4.inOut" }
+    );
+    titleTimeline.fromTo(
+      description.current,
+      { opacity: 0, y: -50 },
+      { opacity: 1, y: 0, duration: 2, ease: "power4.inOut" }
+    );
+    titleTimeline.fromTo(
+      order.current,
+      { opacity: 0, y: 100 },
+      { opacity: 1, y: 0, duration: 2, ease: "power4.inOut" }
+    );
+
+    return titleTimeline;
+  };
+
+  useEffect(() => {
+    const titleTimeline = createTitleTimeline();
+
     return () => {
       titleTimeline.scrollTrigger.kill();
+    };
+  }, []);
+
+  useEffect(() => {
+    const pin = ScrollTrigger.create({
+      trigger: section2Ref.current,
+      start: "top top",
+      endTrigger: section3Ref.current,
+      end: "top top",
+      pin: true,
+      pinSpacing: false,
+    });
+
+    const scrollAnimation = gsap.fromTo(
+      section2Ref.current,
+      { opacity: 1 },
+      {
+        opacity: 0,
+        duration: 1,
+        scrollTrigger: {
+          trigger: section3Ref.current,
+          start: "top bottom",
+          end: "top top",
+          scrub: true,
+          onLEnterBack: () => createTitleTimeline(),
+        },
+      }
+    );
+
+    return () => {
+      pin.kill();
+      scrollAnimation.scrollTrigger?.kill();
     };
   }, []);
 
@@ -351,16 +465,19 @@ export default function Main() {
         {/* <section className="gradient"></section> */}
         <section
           ref={section2Ref}
-          className="hero w-full flex justify-center flex-col items-start mt-40 h-screen bg-primary px-6 md:px-24 2xl:px-96 gap-12 pb-24 lg:pb-0"
+          className="hero w-full flex justify-center flex-col items-start pt-8 h-screen dark:bg-darkBg bg-primary px-6 md:px-24 2xl:px-96 gap-12 pb-24 lg:pb-0 transition-colors duration-500 ease-in-out"
         >
           {/* <div className="end-lottie"></div> */}
           <motion.div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* <p className="title text-lg font-semibold text-orange-500">
           <AnimatedTextSplitter text={text} />
         </p> */}
-            <div className="flex flex-col items-start justify-start gap-6">
-              <div className="px-4 py-1 flex items-center justify-center gap-2 bg-orange-100 rounded-full ">
-                <p className="text-lg font-semibold text-orange-500">
+            <div className="flex flex-col items-start justify-center gap-6">
+              <div
+                ref={banner}
+                className="mt-8 px-4 py-1 flex items-center justify-center gap-2 bg-orange-100 rounded-full dark:bg-orange-900 transition-colors duration-500 ease-in-out"
+              >
+                <p className="text-lg font-semibold text-orange-500 dark:text-orange-300 transition-colors duration-500 ease-in-out">
                   Free delivery
                 </p>
                 <div className="w-10 h-10 flex items-center justify-center rounded-full bg-primary shadow-md">
@@ -371,28 +488,41 @@ export default function Main() {
                   />
                 </div>
               </div>
+              <div>
+                <p className=" font-poppins text-6xl text-red-700 dark:text-red-300 mt-8 font-semibold tracking-wider transition-colors duration-500 ease-in-out">
+                  <AnimatedTextSplitter
+                    ref={welcomeRef}
+                    className="text"
+                    text="Welcome to Food City"
+                  />
+                </p>
+              </div>
               <p
                 ref={titleRef}
-                className="text-[40px] text-headingColor lg:text-[64px] md:text-[72px] font-sans font-extrabold tracking-wider"
+                className="text-[40px] text-headingColor lg:text-[54px] md:text-[72px] font-sans font-extrabold tracking-wider dark:text-white transition-colors duration-500 ease-in-out"
               >
                 The Fastest Delivery in
-                <span ref={titleHightLightRef} className="text-orange-600">
+                <div ref={titleHightLightRef} className="text-orange-600">
                   <AnimatedTextSplitter
                     ref={titleHightLightRef}
                     className="text"
                     text="Your city"
                   />
-                </span>
+                </div>
               </p>
-              <p className="text-textColor text-lg">
+              <p
+                ref={description}
+                className="text-textColor text-lg dark:text-white transition-colors duration-500 ease-in-out"
+              >
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque
                 omnis iusto ad cupiditate exercitationem veniam, ipsa
                 laboriosam. Aliquam enim, repellendus quia unde, inventore
                 adipisci rem delectus repellat eum rerum nisi.
               </p>
               <motion.button
+                ref={order}
                 {...buttonClick}
-                className="bg-gradient-to-bl from-orange-400 to-orange-600 px-4 py-2 rounded-xl text-black text-base font-semibold"
+                className="mt-8 bg-gradient-to-bl from-orange-400 to-orange-600 px-4 py-2 rounded-xl text-black text-base font-semibold dark:text-white transition-colors duration-500 ease-in-out"
               >
                 Order Now
               </motion.button>
@@ -402,12 +532,84 @@ export default function Main() {
               className=" py-2 flex-1 flex items-center justify-end relative"
             >
               <img
-                className="absolute right-0 md:-right-12 w-auto h-auto md:w-auto md:h-650 bg-center bg-cover object-cover"
+                className="absolute right-0 md:-right-12 w-auto h-auto md:w-auto md:h-[540px] xl:h-[650px] bg-center bg-cover object-cover"
                 src={RamSay}
                 alt=""
+                style={{ imageRendering: "crisp-edges" }}
               />
             </div>
           </motion.div>
+        </section>
+
+        <section
+          ref={section3Ref}
+          className="w-screen h-screen overflow-hidden relative pt-[120px] box-border"
+        >
+          <div>
+            <div className="list">
+              {items.map((item, index) => (
+                <div
+                  key={index}
+                  className={`absolute inset-x-0 inset-y-0 transition-opacity duration-500 ${
+                    index === activeIndex ? "opacity-100" : "opacity-0"
+                  }`}
+                >
+                  <img
+                    className="w-full h-full object-cover"
+                    src={item.img}
+                    alt={item.name}
+                  />
+                  <div className="absolute top-[40%] w-[1140px] max-w-[80%] left-1/2 -translate-x-1/2 box-border text-white pr-[30%]">
+                    <div className="text-4xl mb-5">
+                      Product Name: {item.name}
+                    </div>
+                    <div className="text-3xl mb-5">
+                      Category: {item.category}
+                    </div>
+                    <div className="text-2xl mb-5">Price: {item.price}</div>
+                    <button className="inline-block py-3 px-5 no-underline rounded-md font-bold uppercase bg-white text-gray-600">
+                      Buy now
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="absolute bottom-14 w-max left-[60%] flex gap-5 z-100">
+            {items.map((item, index) => (
+              <div
+                key={index}
+                className={`w-40 h-60 flex-shrink-0 relative cursor-pointer ${
+                  index === activeIndex ? "border-4 border-primary" : ""
+                }`}
+                onClick={() => setActiveIndex(index)}
+              >
+                <img
+                  className="w-full h-full object-cover rounded-[20px]"
+                  src={item.img}
+                  alt={item.name}
+                />
+                <div className="absolute bottom-3 left-3 right-3">
+                  <div className="title">{item.name}</div>
+                  <div className="des">{item.price}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="absolute top-[80%] right-[52%] w-80 max-w-[30%] flex gap-3 items-center z-100">
+            <button
+              className="text-white w-10 h-10 rounded-full bg-gray-600 font-bold text-xl transition-all hover:bg-primary hover:text-[#555]"
+              onClick={handlePrev}
+            >
+              &#8249;
+            </button>
+            <button
+              className="text-white w-10 h-10 rounded-full bg-gray-600 font-bold text-xl transition-all hover:bg-primary hover:text-[#555]"
+              onClick={handleNext}
+            >
+              &#8250;
+            </button>
+          </div>
         </section>
       </main>
     </div>

@@ -92,8 +92,8 @@ const NotFound = () => {
     return () => clearInterval(intervalRef.current);
   }, []);
   return (
-    <div className="container-1 h-screen flex justify-center items-center bg-slate-950 overflow-hidden w-screen">
-      <div className="flex flex-col h-70% w-3/5 lg:w-3/4 lg:h-[85%] xl:h-2/3 rounded-3xl backdrop-blur-sm z-10 bg-galaxyOverlay">
+    <div className="container-1 h-screen flex justify-center items-center bg-black overflow-hidden w-screen">
+      <div className="flex flex-col h-70% w-3/5 lg:w-3/4 lg:h-[75%] xl:h-2/3 rounded-3xl backdrop-blur-sm z-10 bg-galaxyOverlay">
         {/* Header */}
         <header className="text-primary flex items-center justify-between p-4 lg:py-0 mt-8 lg:mt-4 rounded-t-3xl px-28">
           <NavLink
@@ -109,7 +109,7 @@ const NotFound = () => {
                 className={({ isActive }) =>
                   isActive
                     ? `${isActiveStyles} navlink opacity-0 `
-                    : `${isNotActiveStyles} navlink opacity-0`
+                    : `${isNotActiveStyles} text-white navlink opacity-0`
                 }
                 to={"/"}
               >
@@ -119,7 +119,7 @@ const NotFound = () => {
                 className={({ isActive }) =>
                   isActive
                     ? `${isActiveStyles} navlink opacity-0 `
-                    : `${isNotActiveStyles} navlink opacity-0`
+                    : `${isNotActiveStyles} text-white navlink opacity-0`
                 }
                 to={"/menu"}
               >
@@ -129,7 +129,7 @@ const NotFound = () => {
                 className={({ isActive }) =>
                   isActive
                     ? `${isActiveStyles} navlink opacity-0 `
-                    : `${isNotActiveStyles} navlink opacity-0`
+                    : `${isNotActiveStyles} text-white navlink opacity-0`
                 }
                 to={"/services"}
               >
@@ -138,8 +138,8 @@ const NotFound = () => {
               <NavLink
                 className={({ isActive }) =>
                   isActive
-                    ? `${isActiveStyles} navlink opacity-0 `
-                    : `${isNotActiveStyles} navlink opacity-0`
+                    ? `${isActiveStyles} navlink opacity-0 text- `
+                    : `${isNotActiveStyles} text-white navlink opacity-0 `
                 }
                 to={"/aboutus"}
               >
@@ -274,10 +274,10 @@ const NotFound = () => {
 
         <footer className="mt-8 lg:mt-0 px-28 flex justify-between items-center">
           <div className="flex justify-between items-center gap-16 text-2xl text-red-700">
-            <FaFacebookF />
-            <FaTwitter />
-            <FaTelegramPlane />
-            <BiLogoInstagramAlt />
+            <FaFacebookF className="text-white hover:text-red-600 cursor-pointer text-3xl" />
+            <FaTwitter className="text-white hover:text-red-600 cursor-pointer text-3xl" />
+            <FaTelegramPlane className="text-white hover:text-red-600 cursor-pointer text-3xl" />
+            <BiLogoInstagramAlt className="text-white hover:text-red-600 cursor-pointer text-3xl" />
           </div>
           <div className="text-lg font-semibold text-primary">
             &copy; 2024 - All Right Reserved

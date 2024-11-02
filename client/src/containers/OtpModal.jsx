@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { toast } from "react-toastify";
-import { sendOtpEmail, verifyOtp as verifyOtpApi } from "../api/index";
+import { sendOtpEmail, verifyOtp as verifyOtpApi } from "../api/authApi";
 import { FaEnvelope } from "react-icons/fa";
 import LoadingAnimation from "../animations/loading-animation";
 
