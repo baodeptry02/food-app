@@ -7,6 +7,9 @@ import AnimatedTextSplitter from "../AnimatedTextSplitter";
 import { Delivery, RamSay } from "../../assests";
 import { motion } from "framer-motion";
 import { buttonClick } from "../../animations";
+import Lenis from "@studio-freight/lenis";
+import _ from "lodash";
+import { getAllProducts } from "../../api/productApi";
 
 export default function Main() {
   const videoRef = useRef();
@@ -24,56 +27,8 @@ export default function Main() {
   const order = useRef();
   const section3Ref = useRef();
 
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const items = [
-    {
-      img: "https://www.shutterstock.com/shutterstock/videos/1063352986/thumb/1.jpg?ip=x480",
-      name: "Coca",
-      category: "Drink",
-      price: "1.5$",
-    },
-    {
-      img: "https://i.ytimg.com/vi/fVWAy3dFWpU/maxresdefault.jpg",
-      name: "Cheetos",
-      category: "Snacks",
-      price: "1.5$",
-    },
-    {
-      img: "https://media.post.rvohealth.io/wp-content/uploads/sites/2/2022/05/567521-grt-bananas-1296x728-header_body.jpg",
-      name: "Banana",
-      category: "Fruits",
-      price: "1.5$",
-    },
-    {
-      img: "https://images.pexels.com/photos/1556698/pexels-photo-1556698.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      name: "Hamburger",
-      category: "Bread",
-      price: "1.5$",
-    },
-    {
-      img: "https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      name: "Pancake",
-      category: "Bread",
-      price: "1.5$",
-    },
-    {
-      img: "https://images.pexels.com/photos/990439/pexels-photo-990439.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      name: "Strawberry Smoothie",
-      category: "Drink",
-      price: "1.5$",
-    },
-  ];
-
-  const handleNext = () => {
-    setActiveIndex((prevIndex) => (prevIndex + 1) % items.length);
-  };
-
-  const handlePrev = () => {
-    setActiveIndex(
-      (prevIndex) => (prevIndex - 1 + items.length) % items.length
-    );
-  };
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   gsap.registerPlugin(ScrollTrigger);
 
   useEffect(() => {
@@ -374,35 +329,83 @@ export default function Main() {
   }, []);
 
   useEffect(() => {
-    const pin = ScrollTrigger.create({
-      trigger: section2Ref.current,
-      start: "top top",
-      endTrigger: section3Ref.current,
-      end: "top top",
-      pin: false,
-      pinSpacing: false,
+    const fetchProducts = async () => {
+      try {
+        const productsData = await getAllProducts();
+        setProducts(productsData);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProducts();
+  }, []);
+
+  useEffect(() => {
+    if (loading) return;
+    const imagePromises = Array.from(
+      document.querySelectorAll(".gsap__item img")
+    ).map((img) => {
+      return new Promise((resolve) => {
+        if (img.complete) {
+          resolve();
+        } else {
+          img.onload = resolve;
+          img.onerror = resolve;
+        }
+      });
     });
 
-    const scrollAnimation = gsap.fromTo(
-      section2Ref.current,
-      { opacity: 1 },
-      {
-        opacity: 0,
-        duration: 1,
-        scrollTrigger: {
-          trigger: section3Ref.current,
-          start: "top bottom",
-          end: "top top",
-          scrub: true,
-        },
-      }
-    );
+    Promise.all(imagePromises).then(() => {
+      const lenis = new Lenis({
+        duration: 1.2,
+      });
 
-    return () => {
-      pin.kill();
-      scrollAnimation.scrollTrigger?.kill();
-    };
-  }, []);
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+
+      lenis.on("scroll", ScrollTrigger.update);
+
+      gsap.ticker.add((time) => {
+        lenis.raf(time * 1000);
+      });
+
+      const initScrollTrigger = () => {
+        const gsapBlWidth = document.querySelector(".gsap__bl").offsetWidth;
+        const gsapTrackWidth =
+          document.querySelector(".gsap__track").offsetWidth;
+        const scrollSliderTransform = gsapTrackWidth - gsapBlWidth;
+
+        gsap.to(".gsap__track", {
+          scrollTrigger: {
+            trigger: ".gsap_slider",
+            start: "center center",
+            end: () => `+=${gsapTrackWidth + 100}`,
+            pin: true,
+            scrub: true,
+          },
+          x: `-=${scrollSliderTransform}px`,
+        });
+      };
+      initScrollTrigger();
+
+      const debouncedResize = _.debounce(() => {
+        ScrollTrigger.refresh();
+      }, 500);
+      window.addEventListener("resize", debouncedResize);
+
+      return () => {
+        window.removeEventListener("resize", debouncedResize);
+        lenis.destroy();
+        ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+        gsap.ticker.remove((time) => lenis.raf(time * 1000));
+      };
+    });
+  }, [loading]);
 
   return (
     <div>
@@ -562,72 +565,49 @@ export default function Main() {
           </motion.div>
         </section>
 
-        <section
-          ref={section3Ref}
-          className="w-screen h-screen overflow-hidden relative pt-[120px] box-border"
-        >
-          <div className="list">
-            {items.map((item, index) => (
-              <div
-                key={index}
-                className={`item item-${index} absolute inset-x-0 inset-y-0 ${
-                  index === activeIndex ? "opacity-100" : "opacity-0"
-                }`}
-              >
-                <img
-                  className="w-full h-full object-cover"
-                  src={item.img}
-                  alt={item.name}
-                  loading="lazy"
-                />
-                <div className="absolute top-[40%] w-[1140px] max-w-[80%] left-1/2 -translate-x-1/2 box-border text-white pr-[30%]">
-                  <div className="text-4xl mb-5">Product Name: {item.name}</div>
-                  <div className="text-3xl mb-5">Category: {item.category}</div>
-                  <div className="text-2xl mb-5">Price: {item.price}</div>
-                  <button className="inline-block py-3 px-5 no-underline rounded-md font-bold uppercase bg-white text-gray-600">
-                    Buy now
-                  </button>
+        <div className="wrapp w-screen h-[150vh] overflow-hidden relative pt-[120px] box-border">
+          <main className="main">
+            <section className="section-slider gsap_slider">
+              <div className="content">
+                <div className="section__slider gsap_h">
+                  <div className="gsap__bl">
+                    <div className="gsap__inner">
+                      <div className="gsap__track">
+                        {loading ? (
+                          <div>Loading...</div>
+                        ) : (
+                          products.map((product, index) => (
+                            <div className="gsap__item" key={index}>
+                              <img
+                                src={product.imageDownloadUrl}
+                                alt={product.itemName}
+                              />
+                              <h2>{product.itemName}</h2>
+                              <p>Category: {product.category}</p>
+                              <p>Price: ${product.price}</p>
+                              <button>Buy Now</button>
+                              <span className="gsap__item-img">
+                                <img
+                                  src={product.imageDownloadUrl}
+                                  alt={product.itemName}
+                                />
+                              </span>
+                            </div>
+                          ))
+                        )}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            ))}
-          </div>
-          <div className="absolute bottom-14 w-max left-[60%] flex gap-5 z-100">
-            {items.map((item, index) => (
-              <div
-                key={index}
-                className={`w-40 h-60 flex-shrink-0 relative cursor-pointer ${
-                  index === activeIndex ? "border-4 border-primary" : ""
-                }`}
-                onClick={() => setActiveIndex(index)}
-              >
-                <img
-                  className="w-full h-full object-cover rounded-[20px]"
-                  src={item.img}
-                  alt={item.name}
-                  loading="lazy"
-                />
-                <div className="absolute bottom-3 left-3 right-3">
-                  <div className="title">{item.name}</div>
-                  <div className="des">{item.price}</div>
-                </div>
+            </section>
+            <section className="section-text">
+              <div className="content">
+                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
               </div>
-            ))}
-          </div>
-          <div className="absolute top-[80%] right-[52%] w-80 max-w-[30%] flex gap-3 items-center z-100">
-            <button
-              className="text-white w-10 h-10 rounded-full bg-gray-600 font-bold text-xl transition-all hover:bg-primary hover:text-[#555]"
-              onClick={handlePrev}
-            >
-              &#8249;
-            </button>
-            <button
-              className="text-white w-10 h-10 rounded-full bg-gray-600 font-bold text-xl transition-all hover:bg-primary hover:text-[#555]"
-              onClick={handleNext}
-            >
-              &#8250;
-            </button>
-          </div>
-        </section>
+            </section>
+          </main>
+        </div>
       </main>
     </div>
   );

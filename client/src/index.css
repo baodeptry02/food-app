@@ -209,7 +209,7 @@ body {
     transform: translateX(0);
   }
 }
-wrapp {
+.wrapp {
   position: relative;
   width: 100%;
   height: auto;
@@ -232,6 +232,8 @@ wrapp {
 .gsap__inner,
 .gsap__track {
   display: flex;
+  padding-right: 100px;
+  padding-left: 50px;
 }
 
 .gsap__inner {

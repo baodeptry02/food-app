@@ -22,59 +22,74 @@ const Menu = () => {
         setLoading(false);
       }
     };
-    setTimeout(() => {
-      fetchProducts();
-    }, 5000);
+    fetchProducts();
   }, []);
 
   useEffect(() => {
     if (loading) return;
 
-    const lenis = new Lenis({
-      duration: 1.2,
-    });
-
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
-
-    lenis.on("scroll", ScrollTrigger.update);
-
-    gsap.ticker.add((time) => {
-      lenis.raf(time * 1000);
-    });
-
-    const initScrollTrigger = () => {
-      const gsapBlWidth = document.querySelector(".gsap__bl").offsetWidth;
-      const gsapTrackWidth = document.querySelector(".gsap__track").offsetWidth;
-      const scrollSliderTransform = gsapTrackWidth - gsapBlWidth;
-
-      gsap.to(".gsap__track", {
-        scrollTrigger: {
-          trigger: ".gsap_slider",
-          start: "center center",
-          end: () => `+=${gsapTrackWidth}`,
-          pin: true,
-          scrub: true,
-        },
-        x: `-=${scrollSliderTransform}px`,
+    // Wait until all images are fully loaded
+    const imagePromises = Array.from(
+      document.querySelectorAll(".gsap__item img")
+    ).map((img) => {
+      return new Promise((resolve) => {
+        if (img.complete) {
+          resolve();
+        } else {
+          img.onload = resolve;
+          img.onerror = resolve;
+        }
       });
-    };
-    initScrollTrigger();
+    });
 
-    const debouncedResize = _.debounce(() => {
-      ScrollTrigger.refresh();
-    }, 500);
-    window.addEventListener("resize", debouncedResize);
+    Promise.all(imagePromises).then(() => {
+      const lenis = new Lenis({
+        duration: 1.2,
+      });
 
-    return () => {
-      window.removeEventListener("resize", debouncedResize);
-      lenis.destroy();
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-      gsap.ticker.remove((time) => lenis.raf(time * 1000));
-    };
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+
+      lenis.on("scroll", ScrollTrigger.update);
+
+      gsap.ticker.add((time) => {
+        lenis.raf(time * 1000);
+      });
+
+      const initScrollTrigger = () => {
+        const gsapBlWidth = document.querySelector(".gsap__bl").offsetWidth;
+        const gsapTrackWidth =
+          document.querySelector(".gsap__track").offsetWidth;
+        const scrollSliderTransform = gsapTrackWidth - gsapBlWidth;
+
+        gsap.to(".gsap__track", {
+          scrollTrigger: {
+            trigger: ".gsap_slider",
+            start: "center center",
+            end: () => `+=${gsapTrackWidth}`,
+            pin: true,
+            scrub: true,
+          },
+          x: `-=${scrollSliderTransform}px`,
+        });
+      };
+      initScrollTrigger();
+
+      const debouncedResize = _.debounce(() => {
+        ScrollTrigger.refresh();
+      }, 500);
+      window.addEventListener("resize", debouncedResize);
+
+      return () => {
+        window.removeEventListener("resize", debouncedResize);
+        lenis.destroy();
+        ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+        gsap.ticker.remove((time) => lenis.raf(time * 1000));
+      };
+    });
   }, [loading]);
 
   return (
@@ -86,25 +101,28 @@ const Menu = () => {
               <div className="gsap__bl">
                 <div className="gsap__inner">
                   <div className="gsap__track">
-                    {loading && <div>Loading...</div>}
-                    {products.map((product, index) => (
-                      <div className="gsap__item" key={index}>
-                        <img
-                          src={product.imageDownloadUrl}
-                          alt={product.itemName}
-                        />
-                        <h2>{product.itemName}</h2>
-                        <p>Category: {product.category}</p>
-                        <p>Price: ${product.price}</p>
-                        <button>Buy Now</button>
-                        <span className="gsap__item-img">
+                    {loading ? (
+                      <div>Loading...</div>
+                    ) : (
+                      products.map((product, index) => (
+                        <div className="gsap__item" key={index}>
                           <img
                             src={product.imageDownloadUrl}
                             alt={product.itemName}
                           />
-                        </span>
-                      </div>
-                    ))}
+                          <h2>{product.itemName}</h2>
+                          <p>Category: {product.category}</p>
+                          <p>Price: ${product.price}</p>
+                          <button>Buy Now</button>
+                          <span className="gsap__item-img">
+                            <img
+                              src={product.imageDownloadUrl}
+                              alt={product.itemName}
+                            />
+                          </span>
+                        </div>
+                      ))
+                    )}
                   </div>
                 </div>
               </div>
