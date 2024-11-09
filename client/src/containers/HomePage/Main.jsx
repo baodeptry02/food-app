@@ -216,7 +216,6 @@ export default function Main() {
     }
   }, [showText]);
   useEffect(() => {
-    console.log(titleHightLightRef.current.querySelectorAll(".split-char"));
     if (titleHightLightRef.current) {
       gsap.fromTo(
         titleHightLightRef.current.querySelectorAll(".split-char"),
@@ -276,76 +275,99 @@ export default function Main() {
     };
   }, []);
 
-  const createTitleTimeline = () => {
+  useEffect(() => {
     const titleTimeline = gsap.timeline({
       scrollTrigger: {
         trigger: section2Ref.current,
-        start: "top 20%",
-        end: "90% 90%",
-        scrub: 1,
+        start: "30% center",
+        end: "65% center",
+        scrub: false,
         anticipatePin: 1,
-        onEnter: () => titleTimeline.restart(true), // Restart the animation on re-entry
+        toggleActions: "play reverse play reverse",
+        markers: true,
       },
     });
-
-    titleTimeline.fromTo(
-      titleRef.current,
-      { opacity: 0, y: 50 },
-      { y: 0, opacity: 1, duration: 2, ease: "power4.inOut" }
-    );
-    titleTimeline.fromTo(
-      titleHightLightRef.current.querySelectorAll(".split-char"),
-      { scale: 1.3, y: 40, rotate: -25, opacity: 0 },
-      {
-        scale: 1,
-        y: 0,
-        rotate: 0,
-        opacity: 1,
-        stagger: 0.5,
-        ease: "back.out(3)",
-        duration: 3,
-      }
-    );
-    titleTimeline.fromTo(
-      welcomeRef.current.querySelectorAll(".split-char"),
-      { scale: 1.3, y: 40, rotate: -25, opacity: 0 },
-      {
-        scale: 1,
-        y: 0,
-        rotate: 0,
-        opacity: 1,
-        stagger: 0.5,
-        ease: "back.out(3)",
-        duration: 3,
-      }
-    );
     titleTimeline.fromTo(
       ramsay.current,
-      { opacity: 0, scale: 0 },
-      { opacity: 1, scale: 1, duration: 2, ease: "power4.inOut" }
+      { opacity: 0, scale: 3 },
+      {
+        opacity: 1,
+        scale: 1,
+        duration: 0.2,
+        ease: "power4.inOut",
+      }
     );
     titleTimeline.fromTo(
       banner.current,
       { opacity: 0, x: -50 },
-      { opacity: 1, x: 0, duration: 2, ease: "power4.inOut" }
+      {
+        opacity: 2,
+        x: 0,
+        duration: 0.2,
+        ease: "power4.inOut",
+      }
+    );
+    titleTimeline.fromTo(
+      welcomeRef.current.querySelectorAll(".split-char"),
+      {
+        scale: 1.3,
+        y: 40,
+        rotate: -25,
+        opacity: 0,
+      },
+      {
+        scale: 1,
+        y: 0,
+        rotate: 0,
+        opacity: 1,
+        stagger: 0.02, // Reduced stagger value
+        ease: "back.out(3)",
+        duration: 0.1,
+      }
+    );
+    titleTimeline.fromTo(
+      titleRef.current,
+      { opacity: 0, y: 50 },
+      { y: 0, opacity: 1, duration: 0.2, ease: "power4.inOut" }
+    );
+    titleTimeline.fromTo(
+      titleHightLightRef.current.querySelectorAll(".split-char"),
+      {
+        scale: 1.3,
+        y: 40,
+        rotate: -25,
+        opacity: 0,
+      },
+      {
+        scale: 1,
+        y: 0,
+        rotate: 0,
+        opacity: 1,
+        stagger: 0.05,
+        ease: "back.out(3)",
+        duration: 0.2,
+      }
     );
     titleTimeline.fromTo(
       description.current,
       { opacity: 0, y: -50 },
-      { opacity: 1, y: 0, duration: 2, ease: "power4.inOut" }
+      {
+        opacity: 2,
+        y: 0,
+        duration: 0.2,
+        ease: "power4.inOut",
+      }
     );
     titleTimeline.fromTo(
       order.current,
       { opacity: 0, y: 100 },
-      { opacity: 1, y: 0, duration: 2, ease: "power4.inOut" }
+      {
+        opacity: 2,
+        y: 0,
+        duration: 0.2,
+        ease: "power4.inOut",
+      }
     );
-
-    return titleTimeline;
-  };
-
-  useEffect(() => {
-    const titleTimeline = createTitleTimeline();
-
     return () => {
       titleTimeline.scrollTrigger.kill();
     };
@@ -357,7 +379,7 @@ export default function Main() {
       start: "top top",
       endTrigger: section3Ref.current,
       end: "top top",
-      pin: true,
+      pin: false,
       pinSpacing: false,
     });
 
@@ -372,7 +394,6 @@ export default function Main() {
           start: "top bottom",
           end: "top top",
           scrub: true,
-          onLEnterBack: () => createTitleTimeline(),
         },
       }
     );
@@ -545,35 +566,30 @@ export default function Main() {
           ref={section3Ref}
           className="w-screen h-screen overflow-hidden relative pt-[120px] box-border"
         >
-          <div>
-            <div className="list">
-              {items.map((item, index) => (
-                <div
-                  key={index}
-                  className={`absolute inset-x-0 inset-y-0 transition-opacity duration-500 ${
-                    index === activeIndex ? "opacity-100" : "opacity-0"
-                  }`}
-                >
-                  <img
-                    className="w-full h-full object-cover"
-                    src={item.img}
-                    alt={item.name}
-                  />
-                  <div className="absolute top-[40%] w-[1140px] max-w-[80%] left-1/2 -translate-x-1/2 box-border text-white pr-[30%]">
-                    <div className="text-4xl mb-5">
-                      Product Name: {item.name}
-                    </div>
-                    <div className="text-3xl mb-5">
-                      Category: {item.category}
-                    </div>
-                    <div className="text-2xl mb-5">Price: {item.price}</div>
-                    <button className="inline-block py-3 px-5 no-underline rounded-md font-bold uppercase bg-white text-gray-600">
-                      Buy now
-                    </button>
-                  </div>
+          <div className="list">
+            {items.map((item, index) => (
+              <div
+                key={index}
+                className={`item item-${index} absolute inset-x-0 inset-y-0 ${
+                  index === activeIndex ? "opacity-100" : "opacity-0"
+                }`}
+              >
+                <img
+                  className="w-full h-full object-cover"
+                  src={item.img}
+                  alt={item.name}
+                  loading="lazy"
+                />
+                <div className="absolute top-[40%] w-[1140px] max-w-[80%] left-1/2 -translate-x-1/2 box-border text-white pr-[30%]">
+                  <div className="text-4xl mb-5">Product Name: {item.name}</div>
+                  <div className="text-3xl mb-5">Category: {item.category}</div>
+                  <div className="text-2xl mb-5">Price: {item.price}</div>
+                  <button className="inline-block py-3 px-5 no-underline rounded-md font-bold uppercase bg-white text-gray-600">
+                    Buy now
+                  </button>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
           <div className="absolute bottom-14 w-max left-[60%] flex gap-5 z-100">
             {items.map((item, index) => (
@@ -588,6 +604,7 @@ export default function Main() {
                   className="w-full h-full object-cover rounded-[20px]"
                   src={item.img}
                   alt={item.name}
+                  loading="lazy"
                 />
                 <div className="absolute bottom-3 left-3 right-3">
                   <div className="title">{item.name}</div>

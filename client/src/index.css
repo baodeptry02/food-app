@@ -6,7 +6,15 @@
   padding: 0;
   box-sizing: border-box;
 }
-
+:root {
+  --pr-color: #fff;
+  --second-color: #0a0a0a;
+  --color-n3: #26cf6c;
+  --cubicbz: cubic-bezier(0.9, 0, 0.1, 1);
+  --fz-big: 90px;
+  --indent: 50px;
+  --indent2: 100px;
+}
 body {
   font-family: "Jost", sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
@@ -157,4 +165,120 @@ body {
   100% {
     transform: translate(-15%, -20%);
   }
+}
+
+.carousel.next .list .item:nth-child(1) img {
+  width: 150px;
+  height: 220px;
+  position: absolute;
+  left: 50%;
+  bottom: 50px;
+  border-radius: 20px;
+  animation: showImage 0.5s 1s linear forwards;
+}
+
+@keyframes showImage {
+  to {
+    width: 100%;
+    height: 100%;
+    left: 0;
+    bottom: 0;
+    border-radius: 0;
+  }
+}
+
+.carousel.next .thumbnail .item:nth-last-child(1) {
+  width: 0;
+  overflow: hidden;
+  animation: showThumbnail 0.5s 1s linear forwards;
+}
+
+@keyframes showThumbnail {
+  to {
+    width: 150px;
+  }
+}
+
+.carousel.next .thumbnail {
+  transform: translateX(150px);
+  animation: transformThumbnail 0.5s 1s linear forwards;
+}
+
+@keyframes transformThumbnail {
+  to {
+    transform: translateX(0);
+  }
+}
+wrapp {
+  position: relative;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+}
+
+.section-slider {
+  height: auto;
+  padding: 30px 0;
+}
+
+.gsap__slider {
+  height: 80vh;
+}
+
+.gsap__bl {
+  width: 100%;
+}
+
+.gsap__inner,
+.gsap__track {
+  display: flex;
+}
+
+.gsap__inner {
+  width: calc(100% + var(--indent));
+}
+
+.gsap__track {
+  will-change: transform;
+}
+
+.gsap__item {
+  position: relative;
+  flex: 0 0 auto;
+  width: 750px;
+  background: #000;
+  will-change: transform;
+}
+
+.gsap__item + .gsap__item {
+  margin-left: var(--indent);
+}
+
+.gsap__item img {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 2;
+}
+
+.gsap__item-img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0.4;
+  filter: blur(15px);
+  transform: scale(1.3);
+  z-index: 1;
+}
+
+.gsap_slider .content,
+.gsap_h,
+.gsap__bl,
+.gsap__inner,
+.gsap__item {
+  height: 100%;
 }

@@ -9,6 +9,7 @@ import { MdLightMode, MdOutlineLightMode } from "react-icons/md";
 
 const DBLeftSection = () => {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
@@ -26,13 +27,39 @@ const DBLeftSection = () => {
       return newTheme;
     });
   };
+  const handleMouseEnter = () => {
+    if (!isAnimating) {
+      setIsAnimating(true);
+    }
+  };
+
+  const handleAnimationEnd = () => {
+    setIsAnimating(false);
+  };
 
   return (
     <div className="h-full py-12 flex flex-col bg-lightOverlay dark:bg-darkBg backdrop-blur-md shadow-md min-w-210 w-300 gap-3 transition-colors duration-500 ease-in-out">
       <NavLink to={"/"} className="flex items-center justify-start px-6 gap-4">
         <img src={Logo} className="w-12" alt="" />
-        <p className="font-semibold text-xl dark:text-white transition-colors duration-500 ease-in-out">
-          City
+        <p
+          onMouseEnter={handleMouseEnter}
+          onAnimationEnd={handleAnimationEnd}
+          className={`app-name font-semibold text-3xl tracking-[8px] font-dancing mx-4 ${
+            isAnimating ? "animate" : ""
+          }`}
+        >
+          <svg height="40" width="200" xmlns="http://www.w3.org/2000/svg">
+            <text
+              x="5"
+              y="30"
+              fill="none"
+              stroke="black"
+              className="dark:stroke-white transition-colors duration-500 ease-in-out"
+              fontSize="35"
+            >
+              City
+            </text>
+          </svg>
         </p>
       </NavLink>
       <hr className="dark:border-darkOverlay-300 transition-colors duration-500 ease-in-out" />
