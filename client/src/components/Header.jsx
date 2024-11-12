@@ -101,7 +101,7 @@ const Header = () => {
   return (
     <header
       ref={headerRef}
-      className="fixed backdrop-blur-md z-10 inset-x-0 top-0 flex items-center justify-between px-12 md:px-20 py-6"
+      className="fixed z-10 inset-x-0 top-0 flex items-center justify-between px-12 md:px-20 py-6"
     >
       {isLoading && <LoadingAnimation />}
       <NavLink
@@ -142,6 +142,7 @@ const Header = () => {
             to={"/"}
           >
             Home
+            <span className="absolute bottom-0 left-1/2 w-0 h-1 bg-current transition-all duration-300 ease-out transform -translate-x-1/2 navlink-line"></span>
           </NavLink>
           <NavLink
             className={({ isActive }) =>
@@ -152,6 +153,7 @@ const Header = () => {
             to={"/menu"}
           >
             Menu
+            <span className="absolute bottom-0 left-1/2 w-0 h-1 bg-current transition-all duration-300 ease-out transform -translate-x-1/2 navlink-line"></span>
           </NavLink>
           <NavLink
             className={({ isActive }) =>
@@ -161,6 +163,7 @@ const Header = () => {
             }
             to={"/services"}
           >
+            <span className="absolute bottom-0 left-1/2 w-0 h-1 bg-current transition-all duration-300 ease-out transform -translate-x-1/2 navlink-line"></span>
             Services
           </NavLink>
           <NavLink
@@ -171,6 +174,7 @@ const Header = () => {
             }
             to={"/aboutus"}
           >
+            <span className="absolute bottom-0 left-1/2 w-0 h-1 bg-current transition-all duration-300 ease-out transform -translate-x-1/2 navlink-line"></span>
             About Us
           </NavLink>
         </ul>

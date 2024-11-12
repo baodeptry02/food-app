@@ -117,7 +117,7 @@ const DBNewItem = () => {
                 type="text"
                 name="itemName"
                 placeholder="Item name here"
-                className="dark:bg-slate-200 w-full px-4 py-3 bg-lightOverlay shadow-md outline-none rounded-md border border-gray-200 focus:border-red-400 focus:shadow-lg transition-all duration-300 ease-in-out"
+                className="dark:bg-slate-200 w-full px-4 py-3 bg-lightOverlay shadow-md outline-none rounded-md border border-gray-200 focus:border-red-600 focus:shadow-lg transition-all duration-300 ease-in-out"
               />
               <ErrorMessage
                 name="itemName"
@@ -136,7 +136,7 @@ const DBNewItem = () => {
                     }}
                     className={`px-4 py-3 rounded-md text-xl text-textColor dark:text-slate-300 font-semibold cursor-pointer hover:shadow-md border border-gray-200 backdrop-blur-md ${
                       data.category === category
-                        ? "bg-red-400 !text-white"
+                        ? "bg-red-600 !text-white"
                         : "bg-transparent"
                     }`}
                   >
@@ -152,7 +152,7 @@ const DBNewItem = () => {
                 type="number"
                 name="price"
                 placeholder="Item price here"
-                className="dark:bg-slate-200 w-full px-4 py-3 bg-lightOverlay shadow-md outline-none rounded-md border border-gray-200 focus:border-red-400 focus:shadow-lg transition-all duration-300 ease-in-out"
+                className="dark:bg-slate-200 w-full px-4 py-3 bg-lightOverlay shadow-md outline-none rounded-md border border-gray-200 focus:border-red-600 focus:shadow-lg transition-all duration-300 ease-in-out"
               />
               <ErrorMessage
                 name="price"
@@ -258,7 +258,7 @@ export const InputValueField = ({
       placeholder={placeHolder}
       value={stateValue}
       onChange={(e) => stateFunc(e.target.value)}
-      className="w-full px-4 py-3 bg-lightOverlay shadow-md outline-none rounded-md border border-gray-200 focus:border-red-400 focus:shadow-lg transition-all duration-300 ease-in-out"
+      className="w-full px-4 py-3 bg-lightOverlay shadow-md outline-none rounded-md border border-gray-200 focus:border-red-600 focus:shadow-lg transition-all duration-300 ease-in-out"
     />
   );
 };

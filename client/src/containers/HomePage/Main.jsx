@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
-import { FoodVideo, KimJongUn } from "../../assests/index";
+import { FoodVideo } from "../../assests/index";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import AnimatedTextSplitter from "../AnimatedTextSplitter";
@@ -10,6 +10,7 @@ import { buttonClick } from "../../animations";
 import Lenis from "@studio-freight/lenis";
 import _ from "lodash";
 import { getAllProducts } from "../../api/productApi";
+import { LuMouse } from "react-icons/lu";
 
 export default function Main() {
   const videoRef = useRef();
@@ -384,7 +385,7 @@ export default function Main() {
           scrollTrigger: {
             trigger: ".gsap_slider",
             start: "center center",
-            end: () => `+=${gsapTrackWidth + 100}`,
+            end: () => `+=${gsapTrackWidth}`,
             pin: true,
             scrub: true,
           },
@@ -564,8 +565,23 @@ export default function Main() {
             </div>
           </motion.div>
         </section>
+        {/* <div className="h-auto bg-gradient-to-r from-[#E90000] to-[#faa6ff] text-[#ff7973]"> */}
+        <div className="h-auto bg-[#fdebec] text-[#ff7973] pb-3 dark:bg-darkBg transition-colors duration-500 ease-in-out">
+          <div className="text-[68px] font-bold capitalize font-[lobster] flex justify-center items-center p-8 relative">
+            <span className="text-shadow-md shadow-black transition duration-300 hover:text-[#E90000] dark:text-red-900 ">
+              Our Best Seller
+            </span>
+            <div className="absolute bottom-[-10px] w-16 h-[4px] bg-yellow-500 animate-pulse rounded-full"></div>
+          </div>
+          <div className="flex items-center justify-center space-x-2 text-lg font-medium mt-12 animate-bounce text-black">
+            <LuMouse className="text-[#ff7973] font-bold text-2xl animate-bounce transition-transform duration-500 transform hover:scale-125" />
+            <span className="text-[#ff7973] font-bold text-2xl transition duration-300 hover:text-[#E90000]">
+              Scroll down to see more
+            </span>
+          </div>
+        </div>
 
-        <div className="wrapp w-screen h-[150vh] overflow-hidden relative pt-[120px] box-border">
+        <section className="dark:bg-darkBg  transition-colors duration-500 ease-in-out wrapp w-screen h-[150vh] overflow-hidden relative pt-[120px] box-border">
           <main className="main">
             <section className="section-slider gsap_slider">
               <div className="content">
@@ -601,13 +617,26 @@ export default function Main() {
                 </div>
               </div>
             </section>
-            <section className="section-text">
-              <div className="content">
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
+            <section class="section-text">
+              <div class="content">
+                <p>
+                  Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eos
+                  voluptatem fugit accusamus fuga vero quos, sint est laboriosam
+                  eveniet ea! Ducimus illum hic quas dolorem minima eius?
+                  Laboriosam iure deserunt totam sequi atque porro, dignissimos
+                  dolore sed laudantium. Ducimus modi corporis quaerat autem
+                  voluptates, quis, facere minima sequi reprehenderit itaque
+                  tempore illum perspiciatis delectus maiores! Aliquam placeat
+                  necessitatibus omnis voluptatem molestias repellat repudiandae
+                  quia ad quas, in accusantium, est enim esse quidem illo
+                  dolorem! Dolor, quam voluptatem! Facilis voluptatem tempore
+                  repellat accusamus quidem illo molestias odio, consequuntur
+                  rem mollitia dolores praesentium quisquam accusantium quo?
+                </p>
               </div>
             </section>
           </main>
-        </div>
+        </section>
       </main>
     </div>
   );

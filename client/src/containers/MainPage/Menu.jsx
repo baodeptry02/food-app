@@ -105,15 +105,19 @@ const Menu = () => {
                       <div>Loading...</div>
                     ) : (
                       products.map((product, index) => (
-                        <div className="gsap__item" key={index}>
+                        <div className="gsap__item absolute" key={index}>
                           <img
                             src={product.imageDownloadUrl}
                             alt={product.itemName}
                           />
-                          <h2>{product.itemName}</h2>
-                          <p>Category: {product.category}</p>
-                          <p>Price: ${product.price}</p>
-                          <button>Buy Now</button>
+                          <div className="relative bottom-1/2 z-10 left-[20%] text-white">
+                            <h2>{product.itemName}</h2>
+                            <p>Category: {product.category}</p>
+                            <p>Price: ${product.price}</p>
+                            <button className="p-4 my-4 outline-none bg-primaryColor text-2xl rounded-2xl ">
+                              Buy Now
+                            </button>
+                          </div>
                           <span className="gsap__item-img">
                             <img
                               src={product.imageDownloadUrl}
@@ -127,11 +131,6 @@ const Menu = () => {
                 </div>
               </div>
             </div>
-          </div>
-        </section>
-        <section className="section-text">
-          <div className="content">
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</p>
           </div>
         </section>
       </main>

@@ -22,7 +22,11 @@ import { getAuth } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { setUserDetails } from "./context/actions/userActions";
 import LocomotiveScroll from "locomotive-scroll";
+import Footer from "./components/Footer";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/all";
 
+gsap.registerPlugin(ScrollTrigger);
 const App = () => {
   const [loading, setLoading] = useState(true);
   const userRef = useRef(null);
@@ -32,6 +36,8 @@ const App = () => {
   const dispatch = useDispatch();
   const scrollRef = useRef(null);
   const locomotiveScroll = useRef(null);
+  const cursor = useRef(null);
+  const pageContent = useRef(null);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -73,6 +79,36 @@ const App = () => {
     };
   }, [location.pathname]);
 
+  // mouse cursor
+  // useEffect(() => {
+  //   const handleMouseMove = (e) => {
+  //     gsap.to(cursor.current, {
+  //       x: e.clientX,
+  //       y: e.clientY,
+  //       duration: 0.1,
+  //     });
+  //   };
+
+  //   scrollRef.current.addEventListener("mousemove", handleMouseMove);
+
+  //   // Create a ScrollTrigger instance to update the cursor position on scroll
+  //   // ScrollTrigger.create({
+  //   //   onUpdate: (self) => {
+  //   //     const { x, y } = self;
+  //   //     gsap.to(cursor.current, {
+  //   //       x: x + window.scrollX,
+  //   //       y: y + window.scrollY,
+  //   //       duration: 0.1,
+  //   //     });
+  //   //   },
+  //   // });
+
+  //   return () => {
+  //     scrollRef.current.removeEventListener("mousemove", handleMouseMove);
+  //     ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+  //   };
+  // }, []);
+
   useEffect(() => {
     setCurrentPath(location.pathname);
 
@@ -110,8 +146,12 @@ const App = () => {
     <div
       ref={scrollRef}
       data-scroll-container
-      className="w-screen min-h-screen h-auto relative"
+      className="w-screen min-h-screen h-auto relative dark:bg-[#121212]"
     >
+      {/* <div
+        ref={cursor}
+        className="h-[4vw] w-[4vw] rounded-full border border-black transform -translate-x-1/2 -translate-y-1/2 z-50 absolute pointer-events-none bg-transparent"
+      ></div> */}
       <ToastContainer
         transition={Slide}
         autoClose={2000}
@@ -148,6 +188,7 @@ const App = () => {
             <Route path="/services" element={<Service />} />
             <Route path="/menu" element={<Menu />} />
           </Routes>
+          <Footer />
         </>
       )}
     </div>

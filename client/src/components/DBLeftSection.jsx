@@ -69,7 +69,7 @@ const DBLeftSection = () => {
           to={"/admin/dashboard/home"}
           className={({ isActive }) =>
             isActive
-              ? `${isActiveStyles} px-4 py-2 border-l-8 border-red-500 dark:border-white dark:text-white transition-colors duration-500 ease-in-out`
+              ? `${isActiveStyles} px-4 py-2 border-l-8 border-red-500  transition-colors duration-500 ease-in-out`
               : `${isNotActiveStyles} px-4 py-2 dark:text-darkTextColor transition-colors duration-500 ease-in-out`
           }
         >
@@ -79,7 +79,7 @@ const DBLeftSection = () => {
           to={"/admin/dashboard/orders"}
           className={({ isActive }) =>
             isActive
-              ? `${isActiveStyles} px-4 py-2 border-l-8 border-red-500 dark:border-white dark:text-white transition-colors duration-500 ease-in-out`
+              ? `${isActiveStyles} px-4 py-2 border-l-8 border-red-500  transition-colors duration-500 ease-in-out`
               : `${isNotActiveStyles} px-4 py-2 dark:text-darkTextColor transition-colors duration-500 ease-in-out`
           }
         >
@@ -89,7 +89,7 @@ const DBLeftSection = () => {
           to={"/admin/dashboard/items"}
           className={({ isActive }) =>
             isActive
-              ? `${isActiveStyles} px-4 py-2 border-l-8 border-red-500 dark:border-white dark:text-white transition-colors duration-500 ease-in-out`
+              ? `${isActiveStyles} px-4 py-2 border-l-8 border-red-500  transition-colors duration-500 ease-in-out`
               : `${isNotActiveStyles} px-4 py-2 dark:text-darkTextColor transition-colors duration-500 ease-in-out`
           }
         >
@@ -99,7 +99,7 @@ const DBLeftSection = () => {
           to={"/admin/dashboard/newItem"}
           className={({ isActive }) =>
             isActive
-              ? `${isActiveStyles} px-4 py-2 border-l-8 border-red-500 dark:border-white dark:text-white transition-colors duration-500 ease-in-out`
+              ? `${isActiveStyles} px-4 py-2 border-l-8 border-red-600  transition-colors duration-500 ease-in-out`
               : `${isNotActiveStyles} px-4 py-2 dark:text-darkTextColor transition-colors duration-500 ease-in-out`
           }
         >
@@ -109,7 +109,7 @@ const DBLeftSection = () => {
           to={"/admin/dashboard/users"}
           className={({ isActive }) =>
             isActive
-              ? `${isActiveStyles} px-4 py-2 border-l-8 border-red-500 dark:border-white dark:text-white transition-colors duration-500 ease-in-out`
+              ? `${isActiveStyles} px-4 py-2 border-l-8 border-red-500  transition-colors duration-500 ease-in-out`
               : `${isNotActiveStyles} px-4 py-2 dark:text-darkTextColor transition-colors duration-500 ease-in-out`
           }
         >
