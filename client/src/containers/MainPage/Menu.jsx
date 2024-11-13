@@ -93,30 +93,42 @@ const Menu = () => {
   }, [loading]);
 
   return (
-    <div className="wrapp">
+    <section className="dark:bg-darkBg  transition-colors duration-500 ease-in-out wrapp w-screen h-[150vh] overflow-hidden relative pt-[120px] box-border">
       <main className="main">
         <section className="section-slider gsap_slider">
           <div className="content">
             <div className="section__slider gsap_h">
               <div className="gsap__bl">
                 <div className="gsap__inner">
-                  <div className="gsap__track">
+                  <div className="gsap__track relative">
                     {loading ? (
                       <div>Loading...</div>
                     ) : (
                       products.map((product, index) => (
-                        <div className="gsap__item absolute" key={index}>
+                        <div
+                          className="gsap__item my-auto !h-[60%] xl:!h-[100%] relative rounded-lg"
+                          key={index}
+                        >
                           <img
+                            className="rounded-lg w-full h-full object-cover"
                             src={product.imageDownloadUrl}
                             alt={product.itemName}
                           />
-                          <div className="relative bottom-1/2 z-10 left-[20%] text-white">
-                            <h2>{product.itemName}</h2>
-                            <p>Category: {product.category}</p>
-                            <p>Price: ${product.price}</p>
-                            <button className="p-4 my-4 outline-none bg-primaryColor text-2xl rounded-2xl ">
-                              Buy Now
-                            </button>
+                          <div className="absolute h-[inherit] top-0 mt-12 z-10 left-[10%] text-white flex flex-col justify-around items-start gap-12 my-auto">
+                            <div>
+                              <h2 className="text-4xl">{product.itemName}</h2>
+                              <p className="mt-6 text-2xl leading-normal">
+                                Category: {product.category}
+                              </p>
+                              <p className=" text-2xl leading-normal">
+                                Price: ${product.price}
+                              </p>
+                            </div>
+                            <div>
+                              <button className="text-test px-4 py-2 bg-transparent border-2 text-white font-roboto uppercase font-semibold text-base rounded-xl xl:mb-24">
+                                Buy Now
+                              </button>
+                            </div>
                           </div>
                           <span className="gsap__item-img">
                             <img
@@ -133,8 +145,26 @@ const Menu = () => {
             </div>
           </div>
         </section>
+        <section class="section-text">
+          <div class="content">
+            <p className="description-content">
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eos
+              voluptatem fugit accusamus fuga vero quos, sint est laboriosam
+              eveniet ea! Ducimus illum hic quas dolorem minima eius? Laboriosam
+              iure deserunt totam sequi atque porro, dignissimos dolore sed
+              laudantium. Ducimus modi corporis quaerat autem voluptates, quis,
+              facere minima sequi reprehenderit itaque tempore illum
+              perspiciatis delectus maiores! Aliquam placeat necessitatibus
+              omnis voluptatem molestias repellat repudiandae quia ad quas, in
+              accusantium, est enim esse quidem illo dolorem! Dolor, quam
+              voluptatem! Facilis voluptatem tempore repellat accusamus quidem
+              illo molestias odio, consequuntur rem mollitia dolores praesentium
+              quisquam accusantium quo?
+            </p>
+          </div>
+        </section>
       </main>
-    </div>
+    </section>
   );
 };
 

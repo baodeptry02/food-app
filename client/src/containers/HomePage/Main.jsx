@@ -29,6 +29,8 @@ export default function Main() {
   const section3Ref = useRef();
 
   const [products, setProducts] = useState([]);
+  console.log(products);
+
   const [loading, setLoading] = useState(true);
   gsap.registerPlugin(ScrollTrigger);
 
@@ -200,7 +202,7 @@ export default function Main() {
       start: "top top",
       endTrigger: section2Ref.current,
       end: "top top",
-      pin: true,
+      pin: false,
       pinSpacing: false,
     });
 
@@ -568,7 +570,7 @@ export default function Main() {
         {/* <div className="h-auto bg-gradient-to-r from-[#E90000] to-[#faa6ff] text-[#ff7973]"> */}
         <div className="h-auto bg-[#fdebec] text-[#ff7973] pb-3 dark:bg-darkBg transition-colors duration-500 ease-in-out">
           <div className="text-[68px] font-bold capitalize font-[lobster] flex justify-center items-center p-8 relative">
-            <span className="text-shadow-md shadow-black transition duration-300 hover:text-[#E90000] dark:text-red-900 ">
+            <span className="text-shadow-md shadow-black transition duration-300 hover:text-[#E90000] dark:text-[#FF5733] ">
               Our Best Seller
             </span>
             <div className="absolute bottom-[-10px] w-16 h-[4px] bg-yellow-500 animate-pulse rounded-full"></div>
@@ -588,20 +590,38 @@ export default function Main() {
                 <div className="section__slider gsap_h">
                   <div className="gsap__bl">
                     <div className="gsap__inner">
-                      <div className="gsap__track">
+                      <div className="gsap__track relative">
                         {loading ? (
                           <div>Loading...</div>
                         ) : (
-                          products.map((product, index) => (
-                            <div className="gsap__item" key={index}>
+                          products?.map((product, index) => (
+                            <div
+                              className="gsap__item my-auto !h-[90%] xl:!h-[100%] relative rounded-lg"
+                              key={index}
+                            >
                               <img
+                                className="rounded-lg w-full h-full object-cover"
                                 src={product.imageDownloadUrl}
                                 alt={product.itemName}
                               />
-                              <h2>{product.itemName}</h2>
-                              <p>Category: {product.category}</p>
-                              <p>Price: ${product.price}</p>
-                              <button>Buy Now</button>
+                              <div className="absolute h-[inherit] top-0 mt-12 z-10 left-[10%] text-white flex flex-col justify-around items-start gap-12 my-auto">
+                                <div>
+                                  <h2 className="text-4xl">
+                                    {product.itemName}
+                                  </h2>
+                                  <p className="mt-6 text-2xl leading-normal">
+                                    Category: {product.category}
+                                  </p>
+                                  <p className=" text-2xl leading-normal">
+                                    Price: ${product.price}
+                                  </p>
+                                </div>
+                                <div>
+                                  <button className="text-test px-6 py-3 bg-transparent border-2 text-white font-roboto uppercase font-semibold text-base rounded-xl xl:mb-24">
+                                    Buy Now
+                                  </button>
+                                </div>
+                              </div>
                               <span className="gsap__item-img">
                                 <img
                                   src={product.imageDownloadUrl}
@@ -619,7 +639,7 @@ export default function Main() {
             </section>
             <section class="section-text">
               <div class="content">
-                <p>
+                <p className="description-content">
                   Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eos
                   voluptatem fugit accusamus fuga vero quos, sint est laboriosam
                   eveniet ea! Ducimus illum hic quas dolorem minima eius?

@@ -1,17 +1,55 @@
-import React from "react";
+import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Logo } from "../assests";
 
 const Footer = () => {
+  const localtion = useLocation();
+  const [isAnimating, setIsAnimating] = useState(false);
+  const navigate = useNavigate();
+
+  const handleMouseEnter = () => {
+    if (!isAnimating) {
+      setIsAnimating(true);
+    }
+  };
+
+  const handleAnimationEnd = () => {
+    setIsAnimating(false);
+  };
+
   return (
     <div>
       <section class="py-10 bg-gray-50 sm:pt-16 lg:pt-24">
-        <div class="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
+        <div class="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl xl:max-w-[70%]">
           <div class="grid grid-cols-2 md:col-span-3 lg:grid-cols-6 gap-y-16 gap-x-12">
             <div class="col-span-2 md:col-span-3 lg:col-span-2 lg:pr-8">
-              <img
-                class="w-auto h-9"
-                src="https://cdn.rareblocks.xyz/collection/celebration/images/logo.svg"
-                alt=""
-              />
+              <div className="logo flex items-center cursor-pointer">
+                <img class="w-auto h-9" src={Logo} alt="" />
+                <p
+                  onMouseEnter={handleMouseEnter}
+                  onAnimationEnd={handleAnimationEnd}
+                  className={`app-name font-semibold text-3xl tracking-[8px] font-dancing mx-4 ${
+                    isAnimating ? "animate" : ""
+                  }`}
+                >
+                  <svg
+                    height="40"
+                    width="200"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <text
+                      x="5"
+                      y="30"
+                      fill="none"
+                      stroke="black"
+                      className="dark:stroke-white transition-colors duration-500 ease-in-out"
+                      fontSize="35"
+                    >
+                      City
+                    </text>
+                  </svg>
+                </p>
+              </div>
 
               <p class="text-base leading-relaxed text-gray-600 mt-7">
                 Amet minim mollit non deserunt ullamco est sit aliqua dolor do
@@ -111,47 +149,47 @@ const Footer = () => {
 
               <ul class="mt-6 space-y-4">
                 <li>
-                  <a
-                    href="#"
+                  <div
+                    onClick={() => navigate("/about")}
                     title=""
-                    class="flex text-base text-black transition-all duration-200 hover:text-primaryColor focus:text-primaryColor"
+                    class="flex text-base text-black cursor-pointer transition-all duration-200 hover:text-primaryColor focus:text-primaryColor"
                   >
                     {" "}
                     About{" "}
-                  </a>
+                  </div>
                 </li>
 
                 <li>
-                  <a
-                    href="#"
+                  <div
+                    onClick={() => (window.location.href = "/about")}
                     title=""
-                    class="flex text-base text-black transition-all duration-200 hover:text-primaryColor focus:text-primaryColor"
+                    class="flex text-base cursor-pointer text-black transition-all duration-200 hover:text-primaryColor focus:text-primaryColor"
                   >
                     {" "}
-                    Features{" "}
-                  </a>
+                    Contact{" "}
+                  </div>
                 </li>
 
                 <li>
-                  <a
-                    href="#"
+                  <div
+                    onClick={() => (window.location.href = "/about")}
                     title=""
-                    class="flex text-base text-black transition-all duration-200 hover:text-primaryColor focus:text-primaryColor"
+                    class="flex text-base cursor-pointer text-black transition-all duration-200 hover:text-primaryColor focus:text-primaryColor"
                   >
                     {" "}
                     Works{" "}
-                  </a>
+                  </div>
                 </li>
 
                 <li>
-                  <a
-                    href="#"
+                  <div
+                    onClick={() => (window.location.href = "/about")}
                     title=""
-                    class="flex text-base text-black transition-all duration-200 hover:text-primaryColor focus:text-primaryColor"
+                    class="flex text-base cursor-pointer text-black transition-all duration-200 hover:text-primaryColor focus:text-primaryColor"
                   >
                     {" "}
                     Career{" "}
-                  </a>
+                  </div>
                 </li>
               </ul>
             </div>
@@ -163,14 +201,13 @@ const Footer = () => {
 
               <ul class="mt-6 space-y-4">
                 <li>
-                  <a
-                    href="#"
+                  <div
                     title=""
-                    class="flex text-base text-black transition-all duration-200 hover:text-primaryColor focus:text-primaryColor"
+                    class="flex text-base cursor-pointer text-black transition-all duration-200 hover:text-primaryColor focus:text-primaryColor"
                   >
                     {" "}
                     Customer Support{" "}
-                  </a>
+                  </div>
                 </li>
 
                 <li>
@@ -208,34 +245,50 @@ const Footer = () => {
               </ul>
             </div>
 
-            <div class="col-span-2 md:col-span-1 lg:col-span-2 lg:pl-8">
-              <p class="text-sm font-semibold tracking-widest text-gray-400 uppercase">
-                Subscribe to newsletter
-              </p>
+            {localtion.pathname === "/" ? (
+              <div>
+                <p class="text-sm font-semibold tracking-widest text-gray-400 uppercase">
+                  Our Location
+                </p>
+                <iframe
+                  className="space-y-4 mt-6"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.163889733436!2d106.7981483745761!3d10.875136457366162!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174d8a6b19d6763%3A0x143c54525028b2e!2zTmjDoCBWxINuIGjDs2EgU2luaCB2acOqbiBUUC5IQ00!5e0!3m2!1svi!2s!4v1731383010706!5m2!1svi!2s"
+                  width="320"
+                  height="240"
+                  style={{ border: 0 }}
+                  allowfullscreen=""
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                ></iframe>
+              </div>
+            ) : (
+              <div class="col-span-2 md:col-span-1 lg:col-span-2 lg:pl-8">
+                <p class="text-sm font-semibold tracking-widest text-gray-400 uppercase">
+                  Subscribe to newsletter
+                </p>
+                <form action="#" method="POST" className="mt-6">
+                  <div>
+                    <label for="email" className="sr-only">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      id="email"
+                      placeholder="Enter your email"
+                      class="block w-full p-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-primaryColor caret-blue-600"
+                    />
+                  </div>
 
-              <form action="#" method="POST" className="mt-6">
-                <div>
-                  <label for="email" className="sr-only">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    placeholder="Enter your email"
-                    className="block w-full p-4 text-black placeholder-gray-500 transition-all duration-200 bg-white border border-gray-200 rounded-md focus:outline-none focus:border-primaryColor caret-blue-600"
-                  />
-                  <input type="text" />
-                </div>
-
-                <button
-                  type="submit"
-                  className="inline-flex items-center justify-center px-6 py-4 mt-3 font-semibold text-white transition-all duration-200 bg-primaryColor rounded-md hover:bg-red-700 focus:bg-red-700"
-                >
-                  Subscribe
-                </button>
-              </form>
-            </div>
+                  <button
+                    type="submit"
+                    className="inline-flex items-center justify-center px-6 py-4 mt-3 font-semibold text-white transition-all duration-200 bg-primaryColor rounded-md hover:bg-red-700 focus:bg-red-700"
+                  >
+                    Subscribe
+                  </button>
+                </form>
+              </div>
+            )}
           </div>
 
           <hr class="mt-16 mb-10 border-gray-200" />

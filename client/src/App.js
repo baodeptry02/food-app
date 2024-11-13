@@ -25,6 +25,7 @@ import LocomotiveScroll from "locomotive-scroll";
 import Footer from "./components/Footer";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/all";
+import { Chatbot } from "./components";
 
 gsap.registerPlugin(ScrollTrigger);
 const App = () => {
@@ -122,7 +123,7 @@ const App = () => {
     }
   }, [location.pathname, dispatch]);
 
-  const hideHeaderRoutes = ["/login", "/change-password", "/admin"];
+  const hideHeaderRoutes = ["/login", "/admin"];
 
   const validRoutes = [
     "/",
@@ -134,7 +135,6 @@ const App = () => {
     "/contact",
     "/menu",
     "/services",
-    // Thêm các đường dẫn hợp lệ khác ở đây
   ];
 
   const isNotFoundRoute = !validRoutes.includes(location.pathname);
@@ -178,6 +178,7 @@ const App = () => {
       {!loading && (
         <>
           {!loading && !shouldHideHeader && !isNotFoundRoute && <Header />}
+          <Chatbot />
           <Routes>
             <Route path="/*" element={<NotFound />} />
             <Route path="/" element={<Main />} />
