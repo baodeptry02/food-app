@@ -10,6 +10,7 @@ import {
   ResetPassword,
   Service,
   Menu,
+  Me,
 } from "./containers";
 import { ToastContainer, Slide } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -135,6 +136,7 @@ const App = () => {
     "/contact",
     "/menu",
     "/services",
+    "/me/profile",
   ];
 
   const isNotFoundRoute = !validRoutes.includes(location.pathname);
@@ -188,6 +190,7 @@ const App = () => {
             <Route path="/admin/dashboard/*" element={<Dashboard />} />
             <Route path="/services" element={<Service />} />
             <Route path="/menu" element={<Menu />} />
+            <Route path="/me/*" element={<Me />} />
           </Routes>
           <Footer />
         </>

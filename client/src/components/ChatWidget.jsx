@@ -3,6 +3,7 @@ import { IoSend } from "react-icons/io5";
 import { TbMessageChatbot } from "react-icons/tb";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import gsap from "gsap";
+import { toast } from "react-toastify";
 
 const BotMessage = ({ text }) => (
   <div className="bot-message p-2 my-1 max-w-[75%] bg-[#444444] dark:bg-[#ccc] self-end text-left rounded-lg text-white dark:text-black">
@@ -91,6 +92,13 @@ const ChatWidget = () => {
   };
 
   useEffect(() => {
+    gsap.fromTo(
+      container.current,
+      { opacity: 0, x: 100 },
+      { opacity: 1, duration: 1, x: 0, delay: 4 }
+    );
+  }, []);
+  useEffect(() => {
     scrollToBottom();
   }, [messages, loading]);
 
@@ -98,7 +106,7 @@ const ChatWidget = () => {
     if (message) {
       generateResponse(message);
     } else {
-      alert("You must write something... !");
+      toast.info("You must write something... !");
     }
   };
 
@@ -161,11 +169,11 @@ const ChatWidget = () => {
 
       {/* Chat Window */}
       {isOpen && (
-        <div className="z-[100000000] chat-window fixed bottom-20 right-5 w-80 bg-[#0E0E0E] text-white dark:bg-[#f0f0f0] dark:text-black rounded-lg shadow-lg p-4">
+        <div className="z-[100000000] chat-window fixed bottom-20 right-5 w-80 bg-[#1a1a1a] text-white dark:bg-[#f0f0f0] dark:text-black rounded-lg shadow-lg p-4">
           <div className="header flex justify-between items-center mb-4">
             <h2 className="text-xl">AssistMe</h2>
             <button
-              className="bg-[#181818] dark:bg-[#f0f0f0] p-2 rounded-full cursor-pointer"
+              className="bg-[#181818] dark:bg-[#f0f0f0] p-2 rounded-full cursor-pointer border border-white dark:border-black"
               onClick={newChat}
             >
               New Chat
@@ -190,7 +198,7 @@ const ChatWidget = () => {
             <div ref={messagesEndRef} />
           </div>
 
-          <div className="inputBox flex items-center bg-[#181818] dark:bg-[#f0f0f0] rounded-full px-4 py-2 dark:border-4">
+          <div className="inputBox flex items-center bg-[#1a1a1a] dark:bg-[#e4e4e4] rounded-full px-4 py-2 border-white border dark:border-none">
             <input
               value={message}
               onChange={(e) => setMessage(e.target.value)}

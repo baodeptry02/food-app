@@ -6,3 +6,4 @@ export { default as ResetPassword } from "./ResetPassword";
 export { default as NotFound } from "./404Page/404Page";
 export { default as Menu } from "./MainPage/Menu";
 export { default as Service } from "./MainPage/Service";
+export { default as Me } from "./User/Me";

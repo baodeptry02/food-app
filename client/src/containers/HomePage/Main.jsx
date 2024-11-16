@@ -11,6 +11,7 @@ import Lenis from "@studio-freight/lenis";
 import _ from "lodash";
 import { getAllProducts } from "../../api/productApi";
 import { LuMouse } from "react-icons/lu";
+import Typed from "typed.js";
 
 export default function Main() {
   const videoRef = useRef();
@@ -26,10 +27,9 @@ export default function Main() {
   const welcomeRef = useRef();
   const description = useRef();
   const order = useRef();
-  const section3Ref = useRef();
+  const typedElement = useRef();
 
   const [products, setProducts] = useState([]);
-  console.log(products);
 
   const [loading, setLoading] = useState(true);
   gsap.registerPlugin(ScrollTrigger);
@@ -256,6 +256,32 @@ export default function Main() {
       }
     );
     titleTimeline.fromTo(
+      welcomeRef.current.querySelectorAll(".split-char"),
+      {
+        y: 115,
+        opacity: 0,
+      },
+      {
+        scale: 1,
+        y: 0,
+        opacity: 1,
+        stagger: 0.02,
+        ease: "back.out(3)",
+        duration: 0.5,
+        lineHeight: 5.9,
+        clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+      }
+    );
+    titleTimeline.call(() => {
+      const chars = welcomeRef.current.querySelectorAll(".split-char");
+      chars.forEach((char) => {
+        char.style.transform = "none"; // Xóa mọi dịch chuyển
+        char.style.lineHeight = "normal"; // Reset line-height về mặc định
+        char.style.clipPath = "none"; // Reset clip-path
+      });
+    });
+
+    titleTimeline.fromTo(
       banner.current,
       { opacity: 0, x: -50 },
       {
@@ -265,24 +291,7 @@ export default function Main() {
         ease: "power4.inOut",
       }
     );
-    titleTimeline.fromTo(
-      welcomeRef.current.querySelectorAll(".split-char"),
-      {
-        scale: 1.3,
-        y: 40,
-        rotate: -25,
-        opacity: 0,
-      },
-      {
-        scale: 1,
-        y: 0,
-        rotate: 0,
-        opacity: 1,
-        stagger: 0.02, // Reduced stagger value
-        ease: "back.out(3)",
-        duration: 0.1,
-      }
-    );
+
     titleTimeline.fromTo(
       titleRef.current,
       { opacity: 0, y: 50 },
@@ -410,6 +419,22 @@ export default function Main() {
     });
   }, [loading]);
 
+  useEffect(() => {
+    const options = {
+      strings: ["Breads", "Deserts", "Drinks", "Snacks"],
+      typeSpeed: 50,
+      backSpeed: 50,
+      backDelay: 400,
+      loop: true,
+    };
+
+    const typed = new Typed(typedElement.current, options);
+
+    return () => {
+      typed.destroy();
+    };
+  }, []);
+
   return (
     <div>
       <main ref={container1} className="flex flex-col bg-primary">
@@ -499,7 +524,7 @@ export default function Main() {
             {/* <p className="title text-lg font-semibold text-orange-500">
           <AnimatedTextSplitter text={text} />
         </p> */}
-            <div className="flex flex-col items-start justify-center gap-6">
+            <div className="flex flex-col items-start justify-center gap-6 lg:gap-3">
               <div
                 ref={banner}
                 className="mt-8 px-4 py-1 flex items-center justify-center gap-2 bg-orange-100 rounded-full dark:bg-orange-900 transition-colors duration-500 ease-in-out"
@@ -516,7 +541,7 @@ export default function Main() {
                 </div>
               </div>
               <div>
-                <p className=" font-poppins text-6xl text-red-700 dark:text-red-300 mt-8 font-semibold tracking-wider transition-colors duration-500 ease-in-out">
+                <p className=" font-poppins text-6xl text-red-700 dark:text-red-300 mt-8 lg:mt-4 font-semibold tracking-wider transition-colors duration-500 ease-in-out">
                   <AnimatedTextSplitter
                     ref={welcomeRef}
                     className="text"
@@ -584,6 +609,14 @@ export default function Main() {
         </div>
 
         <section className="dark:bg-darkBg  transition-colors duration-500 ease-in-out wrapp w-screen h-[150vh] overflow-hidden relative pt-[120px] box-border">
+          <div className="pl-36 xl:block hidden  z-10 font-bold text-4xl text-black dark:text-primary">
+            We have{" "}
+            <span
+              className="text-primaryColor dark:text-[#FF5733]"
+              ref={typedElement}
+            ></span>{" "}
+            in our menu
+          </div>
           <main className="main">
             <section className="section-slider gsap_slider">
               <div className="content">

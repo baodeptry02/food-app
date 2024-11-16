@@ -101,7 +101,7 @@ const Header = () => {
   return (
     <header
       ref={headerRef}
-      className="fixed z-10 inset-x-0 top-0 flex items-center justify-between px-12 md:px-20 py-6 backdrop-blur-md"
+      className="fixed z-10 inset-x-0 top-0 flex items-center justify-between px-12 md:px-20 py-6 lg:py-4 backdrop-blur-md"
     >
       {isLoading && <LoadingAnimation />}
       <NavLink
@@ -233,21 +233,21 @@ const Header = () => {
                 <hr />
                 <Link
                   className="text-xl text-textColor dark:text-slate-50 hover:text-red-500 dark:hover:text-red-500 transition-colors duration-500 ease-in-out"
-                  to={"/profile"}
+                  to={"/me/profile"}
                 >
                   My Profile
                 </Link>
                 <hr />
                 <Link
                   className="text-xl text-textColor dark:text-slate-50 hover:text-red-500 dark:hover:text-red-500 transition-colors duration-500 ease-in-out"
-                  to={"/user-orders"}
+                  to={"/me/orders"}
                 >
                   Orders
                 </Link>
                 <hr />
                 <Link
                   className="text-xl text-textColor dark:text-slate-50 hover:text-red-500 dark:hover:text-red-500 transition-colors duration-500 ease-in-out"
-                  to={"/change-password"}
+                  to={"/me/change-password"}
                 >
                   Change Password
                 </Link>

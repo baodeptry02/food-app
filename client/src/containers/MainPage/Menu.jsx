@@ -4,7 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "@studio-freight/lenis";
 import _ from "lodash";
 import { getAllProducts } from "../../api/productApi";
-
+import { IoPricetags } from "react-icons/io5";
 gsap.registerPlugin(ScrollTrigger);
 
 const Menu = () => {
@@ -106,36 +106,39 @@ const Menu = () => {
                     ) : (
                       products.map((product, index) => (
                         <div
-                          className="gsap__item my-auto !h-[60%] xl:!h-[100%] relative rounded-lg"
+                          className="gsap__item1 !h-[60%] xl:!h-[100%] relative rounded-lg px-4"
                           key={index}
                         >
-                          <img
-                            className="rounded-lg w-full h-full object-cover"
-                            src={product.imageDownloadUrl}
-                            alt={product.itemName}
-                          />
-                          <div className="absolute h-[inherit] top-0 mt-12 z-10 left-[10%] text-white flex flex-col justify-around items-start gap-12 my-auto">
-                            <div>
-                              <h2 className="text-4xl">{product.itemName}</h2>
-                              <p className="mt-6 text-2xl leading-normal">
-                                Category: {product.category}
-                              </p>
-                              <p className=" text-2xl leading-normal">
-                                Price: ${product.price}
-                              </p>
+                          <fieldset className="px-4 py-3 border-2 border-gray-800 rounded-lg w-[540px] max-w-full relative mt-12">
+                            <legend className="text-2xl font-bold text-gray-800 px-4">
+                              {product.itemName}
+                            </legend>
+                            <div className="relative">
+                              <img
+                                className="w-full aspect-[4/3] object-cover object-[0%_10%] rounded-md"
+                                src={product.imageDownloadUrl}
+                                alt="Tiara Basori"
+                              />
+                              {/* Text overlay */}
+                              <div className="absolute z-10 flex items-center justify-between w-full bg-opacity-50 p-4 rounded-md bottom-4 px-4">
+                                <button className="text-test px-6 py-3 bg-transparent border-2 text-white font-roboto font-bold uppercase text-base rounded-xl xl:mb-24">
+                                  Buy Now
+                                </button>
+                                <p className="text-base px-6 py-3 font-bold flex items-center gap-2 backdrop-blur-md rounded-full border-2 text-primaryColor">
+                                  <IoPricetags className="text-primaryColor" />{" "}
+                                  <span>${product.price}</span>
+                                </p>
+                              </div>
                             </div>
-                            <div>
-                              <button className="text-test px-4 py-2 bg-transparent border-2 text-white font-roboto uppercase font-semibold text-base rounded-xl xl:mb-24">
-                                Buy Now
-                              </button>
-                            </div>
-                          </div>
-                          <span className="gsap__item-img">
-                            <img
-                              src={product.imageDownloadUrl}
-                              alt={product.itemName}
-                            />
-                          </span>
+                            <p className="text-justify mt-4">
+                              Lorem ipsum, dolor sit amet consectetur
+                              adipisicing elit. Omnis hic facilis dicta vel,
+                              reprehenderit corporis, dignissimos inventore
+                              perspiciatis minima ducimus praesentium,
+                              aspernatur vitae nemo nulla. Molestias quasi atque
+                              ullam laboriosam.
+                            </p>
+                          </fieldset>
                         </div>
                       ))
                     )}

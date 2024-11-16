@@ -93,7 +93,7 @@ const NotFound = () => {
   }, []);
   return (
     <div className="container-1 h-screen flex justify-center items-center bg-black overflow-hidden w-screen">
-      <div className="flex flex-col h-70% w-3/5 lg:w-3/4 lg:h-[75%] xl:h-2/3 rounded-3xl backdrop-blur-sm z-10 bg-galaxyOverlay">
+      <div className="flex flex-col h-70% w-3/5 lg:w-3/4 lg:h-[80%] xl:h-2/3 rounded-3xl backdrop-blur-sm z-10 bg-galaxyOverlay">
         {/* Header */}
         <header className="text-primary flex items-center justify-between p-4 lg:py-0 mt-8 lg:mt-4 rounded-t-3xl px-28">
           <NavLink

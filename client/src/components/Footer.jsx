@@ -294,7 +294,7 @@ const Footer = () => {
           <hr class="mt-16 mb-10 border-gray-200" />
 
           <p class="text-sm text-center text-gray-600">
-            © Copyright 2021, All Rights Reserved by Baodeptry02
+            © Copyright 2024, All Rights Reserved by Baodeptry02
           </p>
         </div>
       </section>

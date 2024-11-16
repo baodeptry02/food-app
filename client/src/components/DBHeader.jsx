@@ -18,8 +18,8 @@ import { useNavigate } from "react-router-dom";
 const DBHeader = () => {
   const user = useSelector((state) => state.userState.user);
 
-  const { location, error } = useLocation();
-  const [address, setAddress] = useState("");
+  // const { location, error } = useLocation();
+  // const [address, setAddress] = useState("");
   const dispatch = useDispatch();
   const firebaseAuth = getAuth(app);
   const navigate = useNavigate();
@@ -36,49 +36,49 @@ const DBHeader = () => {
       });
   };
 
-  const getHumanReadableLocation = async (latitude, longitude) => {
-    const url = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`;
+  // const getHumanReadableLocation = async (latitude, longitude) => {
+  //   const url = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`;
 
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-      if (data && data.display_name) {
-        return data.display_name;
-      } else {
-        console.error("Error fetching location:", data);
-        return null;
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      return null;
-    }
-  };
+  //   try {
+  //     const response = await fetch(url);
+  //     const data = await response.json();
+  //     if (data && data.display_name) {
+  //       return data.display_name;
+  //     } else {
+  //       console.error("Error fetching location:", data);
+  //       return null;
+  //     }
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //     return null;
+  //   }
+  // };
 
-  useEffect(() => {
-    if (location) {
-      getHumanReadableLocation(location.latitude, location.longitude).then(
-        (address) => {
-          if (address) {
-            setAddress(address);
-          }
-        }
-      );
-    }
-  }, [location]);
+  // useEffect(() => {
+  //   if (location) {
+  //     getHumanReadableLocation(location.latitude, location.longitude).then(
+  //       (address) => {
+  //         if (address) {
+  //           setAddress(address);
+  //         }
+  //       }
+  //     );
+  //   }
+  // }, [location]);
 
   return (
-    <div className="w-full flex items-center justify-between gap-3 ">
+    <div className="w-full flex items-center justify-between gap-3">
       <p className="text-2xl text-headingColor dark:text-white transition-colors duration-500 ease-in-out">
         Welcome to City
         {user?.name && (
           <span className="block text-base text-gray-500 dark:text-white transition-colors duration-500 ease-in-out">{`Hello ${user?.name} ...!`}</span>
         )}
-        {address && (
+        {/* {address && (
           <span className="block text-base text-gray-500 dark:text-white transition-colors duration-500 ease-in-out">{`Your location: ${address}`}</span>
         )}
         {error && (
           <span className="block text-base text-red-500">{`Error: ${error}`}</span>
-        )}
+        )} */}
       </p>
       <div className=" flex items-center justify-center gap-4 ">
         <div className=" flex items-center justify-center gap-3 px-4 py-2 bg-lightOverlay dark:bg-slate-200 backdrop-blur-md rounded-md shadow-md transition-colors duration-500 ease-in-out">
