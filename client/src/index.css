@@ -232,16 +232,6 @@ body {
   font-size: 25px;
   line-height: 1.4;
 }
-
-.text-test {
-  /* text-shadow: 0 0 10px #ff073a, 0 0 20px #ff073a, 0 0 40px #ff073a,
-    0 0 80px #ff073a; */
-  border-radius: var(--Typography-Line-Height-lineHeightLG, 24px);
-  border: 2px solid #fff;
-  background: rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(10.649999618530273px);
-}
-
 @keyframes blink {
   0% {
     opacity: 0.2;
@@ -274,4 +264,82 @@ body {
 .text-section2.split-char {
   transform: translateY(40px);
   transition: transform 0.5s;
+}
+
+.button-buy-now {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: white;
+  border: 2px solid white;
+  background-color: transparent;
+  padding: 10px 20px;
+  border-radius: 10px;
+  transition: color 0.3s ease-in-out;
+  border-radius: var(--Typography-Line-Height-lineHeightLG, 24px);
+  border: 2px solid #fff;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10.649999618530273px);
+}
+
+.button-buy-now::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff; /* Màu bạn muốn fill */
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease-in-out;
+  z-index: -1; /* Đưa lớp phủ xuống dưới chữ */
+}
+
+.button-buy-now:hover {
+  color: #000; /* Thay đổi màu chữ khi hover */
+}
+
+.button-buy-now:hover::after {
+  transform: scaleX(1); /* Hiển thị lớp phủ từ trái sang phải */
+}
+
+.button-profile {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  font-weight: bold;
+  color: black;
+  border: 2px solid #ef4444;
+  background-color: transparent;
+  padding: 10px 20px;
+  border-radius: 20px;
+  transition: color 0.3s ease-in-out;
+  backdrop-filter: blur(10px);
+  margin-top: 20px;
+}
+
+.button-profile::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ef4444;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease-in-out;
+  z-index: -1;
+  border-radius: 16px;
+}
+
+.button-profile:hover {
+  color: white;
+}
+
+.button-profile:hover::after {
+  transform: scaleX(1);
 }

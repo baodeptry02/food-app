@@ -60,59 +60,6 @@ const Login = () => {
     }
   }, [user]);
 
-  const loginWithGoogle = async () => {
-    setIsLoading(true);
-    try {
-      const userCred = await signInWithPopup(firebaseAuth, provider);
-      const user = userCred.user;
-      const token = await user.getIdToken();
-      const refreshToken = user.refreshToken;
-      await user.reload();
-      console.log(user);
-
-      let userData;
-      try {
-        userData = await getUserFromFirestore(user.uid);
-        console.log("User data already exists in Firestore");
-      } catch (error) {
-        if (error.message === "No such user!") {
-          const username = user.email.split("@")[0];
-
-          await saveUserToFirestore({
-            uid: user.uid,
-            name: user.displayName || username || "N/A",
-            email: user.email || "N/A",
-            photoURL: user.photoURL || "",
-            emailVerified: user.emailVerified || false,
-          });
-          console.log("User data saved to Firestore");
-
-          userData = await getUserFromFirestore(user.uid);
-        } else {
-          throw error;
-        }
-      }
-
-      Cookies.set("authToken", token, { expires: 7 });
-      Cookies.set("refreshToken", refreshToken, { expires: 7 });
-
-      // Save user data in localStorage
-      localStorage.setItem("user", JSON.stringify(userData));
-
-      toast.success("Login successful!");
-      navigate("/", { replace: true });
-      dispatch(setUserDetails(userData));
-      console.log("Login successful!");
-    } catch (error) {
-      console.error("Error during Google login:", error);
-      toast.error("Something went wrong. Please double check and try again!");
-    } finally {
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 1500);
-    }
-  };
-
   const initialValues = {
     email: "",
     password: "",
@@ -153,6 +100,8 @@ const Login = () => {
         email: user.email || "N/A",
         photoURL: user.photoURL || "",
         emailVerified: user.emailVerified || false,
+        role: "user",
+        lastSignIn: new Date().toLocaleDateString(),
       };
 
       await saveUserToFirestore(userToSave);
@@ -170,6 +119,65 @@ const Login = () => {
       } else {
         toast.error("Something went wrong. Please try again!");
       }
+    } finally {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1500);
+    }
+  };
+
+  const updateLastSignIn = async (uid) => {
+    const lastSignInTime = new Date().toLocaleDateString("en-GB"); // Use "en-GB" locale for DD/MM/YYYY format
+    await updateUserInFirestore(uid, { lastSignIn: lastSignInTime });
+  };
+
+  const loginWithGoogle = async () => {
+    setIsLoading(true);
+    try {
+      const userCred = await signInWithPopup(firebaseAuth, provider);
+      const user = userCred.user;
+      const token = await user.getIdToken();
+      const refreshToken = user.refreshToken;
+      await user.reload();
+
+      let userData;
+      try {
+        userData = await getUserFromFirestore(user.uid);
+        console.log("User data already exists in Firestore");
+      } catch (error) {
+        if (error.message === "No such user!") {
+          const username = user.email.split("@")[0];
+
+          await saveUserToFirestore({
+            uid: user.uid,
+            name: user.displayName || username || "N/A",
+            email: user.email || "N/A",
+            photoURL: user.photoURL || "",
+            emailVerified: user.emailVerified || false,
+          });
+          console.log("User data saved to Firestore");
+
+          userData = await getUserFromFirestore(user.uid);
+        } else {
+          throw error;
+        }
+      }
+
+      await updateLastSignIn(user.uid);
+
+      Cookies.set("authToken", token, { expires: 7 });
+      Cookies.set("refreshToken", refreshToken, { expires: 7 });
+
+      // Save user data in localStorage
+      localStorage.setItem("user", JSON.stringify(userData));
+
+      toast.success("Login successful!");
+      navigate("/", { replace: true });
+      dispatch(setUserDetails(userData));
+      console.log("Login successful!");
+    } catch (error) {
+      console.error("Error during Google login:", error);
+      toast.error("Something went wrong. Please double check and try again!");
     } finally {
       setTimeout(() => {
         setIsLoading(false);
@@ -231,6 +239,7 @@ const Login = () => {
       const token = await user.getIdToken();
       const refreshToken = user.refreshToken;
 
+      await updateLastSignIn(user.uid);
       let userData = await getUserFromFirestore(user.uid);
 
       if (user.emailVerified && !userData.emailVerified) {

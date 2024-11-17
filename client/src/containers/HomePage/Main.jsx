@@ -12,6 +12,7 @@ import _ from "lodash";
 import { getAllProducts } from "../../api/productApi";
 import { LuMouse } from "react-icons/lu";
 import Typed from "typed.js";
+import { IoPricetags } from "react-icons/io5";
 
 export default function Main() {
   const videoRef = useRef();
@@ -637,23 +638,21 @@ export default function Main() {
                                 src={product.imageDownloadUrl}
                                 alt={product.itemName}
                               />
-                              <div className="absolute h-[inherit] top-0 mt-12 z-10 left-[10%] text-white flex flex-col justify-around items-start gap-12 my-auto">
+                              <div className="absolute h-[inherit] top-0 z-10 left-[10%] text-white flex flex-col justify-around items-start gap-12 my-auto">
                                 <div>
                                   <h2 className="text-4xl">
                                     {product.itemName}
                                   </h2>
-                                  <p className="mt-6 text-2xl leading-normal">
-                                    Category: {product.category}
-                                  </p>
-                                  <p className=" text-2xl leading-normal">
-                                    Price: ${product.price}
-                                  </p>
                                 </div>
-                                <div>
-                                  <button className="text-test px-6 py-3 bg-transparent border-2 text-white font-roboto uppercase font-semibold text-base rounded-xl xl:mb-24">
-                                    Buy Now
-                                  </button>
-                                </div>
+                              </div>
+                              <div className="absolute z-10 flex items-center justify-between w-full bg-opacity-50 py-8 rounded-md bottom-4 px-20">
+                                <button className="button-buy-now px-6 py-3 bg-transparent border-2 text-white font-roboto font-bold uppercase text-base rounded-xl">
+                                  Buy Now
+                                </button>
+                                <p className="text-base px-6 py-3 font-bold flex items-center gap-2 backdrop-blur-md rounded-full border-2 text-primaryColor">
+                                  <IoPricetags className="text-primaryColor" />{" "}
+                                  <span>${product.price}</span>
+                                </p>
                               </div>
                               <span className="gsap__item-img">
                                 <img
