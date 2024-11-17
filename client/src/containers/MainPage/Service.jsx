@@ -95,7 +95,7 @@ const Service = () => {
 
       console.log("Encoded:", encodedProvince, encodedDistrict, encodedWard);
 
-      const url = `https://cors-anywhere.herokuapp.com/https://services.giaohangtietkiem.vn/services/address/getAddressLevel4?province=${encodedProvince}&district=${encodedDistrict}&ward_street=${encodedWard}`;
+      const url = `https://services.giaohangtietkiem.vn/services/address/getAddressLevel4?province=${encodedProvince}&district=${encodedDistrict}&ward_street=${encodedWard}`;
       console.log("URL:", url);
       const response = await axios.get(`${url}`, {
         headers: {
