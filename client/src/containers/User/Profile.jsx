@@ -7,12 +7,16 @@ import { FaCamera } from "react-icons/fa";
 import { toast } from "react-toastify";
 import CountrySelector from "../../utils/CountrySelector";
 import Typed from "typed.js";
+import DateSelector from "../../utils/DateSelector";
+import AddressSelector from "../../utils/AddressSelector";
 
 const Profile = () => {
   const user = useSelector((state) => state.userState.user);
   const [isEditing, setIsEditing] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   const typedElement = useRef(null);
+  const [addressData, setAddressData] = useState([]);
+  const [selectedAddress, setSelectedAddress] = useState("");
   const [formData, setFormData] = useState({
     name: user?.name || "",
     email: user?.email || "",
@@ -86,7 +90,7 @@ const Profile = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen ">
-      <div className="bg-white dark:bg-gray-800 shadow-md rounded-xl px-8 py-6 pb-6 w-full xl:max-w-[50%] max-w-[70%]">
+      <div className="bg-white dark:bg-gray-800 shadow-md rounded-xl px-8 py-6 pb-6 w-full xl:max-w-[60%] max-w-[70%]">
         <div className="text-4xl font-bold pl-8 pb-4">
           Hello,
           <span className="text-primaryColor dark:text-white mr-4">
@@ -141,7 +145,7 @@ const Profile = () => {
                 <FaCamera />
               </button>
             </div>
-            <div className="flex items-center gap-2 mt-8 w-full overflow-hidden whitespace-nowrap">
+            <div className="flex items-center gap-2 mt-8 w-full overflow-hidden whitespace-nowrap justify-center">
               {/* Created At */}
               <h1 className="text-lg font-semibold text-primaryColor">
                 Created At:
@@ -152,7 +156,7 @@ const Profile = () => {
                 )}
               </span>
             </div>
-            <div className="flex items-center gap-2 mt-2 w-full overflow-hidden whitespace-nowrap">
+            <div className="flex items-center gap-2 mt-2 w-full overflow-hidden whitespace-nowrap justify-center">
               {/* Created At */}
               <h1 className="text-lg font-semibold text-primaryColor">
                 Last SignIn:
@@ -162,76 +166,124 @@ const Profile = () => {
             <button className="button-profile">Change Password</button>
           </div>
           {/* User Information Form */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
-            <div>
-              <label className="block text-gray-600 text-sm font-medium mb-1 dark:text-gray-300">
-                Your Name
-              </label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                readOnly={!isEditing}
-                onClick={showAlert}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:focus:ring-blue-500"
-              />
+          <div className=" gap-4 w-full">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+              <div>
+                <label className="block text-gray-600 text-sm font-medium mb-1 dark:text-gray-300">
+                  Your Name
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  readOnly={!isEditing}
+                  onClick={showAlert}
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:focus:ring-blue-500"
+                />
+              </div>
+              <div>
+                <label className="block text-gray-600 text-sm font-medium mb-1 dark:text-gray-300">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  readOnly
+                  onClick={showAlert}
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:focus:ring-blue-500"
+                />
+              </div>
             </div>
-            <div>
-              <label className="block text-gray-600 text-sm font-medium mb-1 dark:text-gray-300">
-                Email
-              </label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                readOnly
-                onClick={showAlert}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:focus:ring-blue-500"
-              />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+              <div>
+                <label className="block text-gray-600 text-sm font-medium mb-1 dark:text-gray-300">
+                  Gender
+                </label>
+                <select
+                  name="gender"
+                  value={formData.gender}
+                  onChange={handleInputChange}
+                  disabled={!isEditing}
+                  onClick={showAlert}
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:focus:ring-blue-500"
+                >
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-gray-600 text-sm font-medium mb-1 dark:text-gray-300">
+                  Phone Number
+                </label>
+                <input
+                  type="text"
+                  name="phoneNumber"
+                  value={formData.phoneNumber}
+                  onChange={handleInputChange}
+                  readOnly={!isEditing}
+                  onClick={showAlert}
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:focus:ring-blue-500"
+                />
+              </div>
             </div>
-            <div>
-              <label className="block text-gray-600 text-sm font-medium mb-1 dark:text-gray-300">
-                Gender
-              </label>
-              <select
-                name="gender"
-                value={formData.gender}
-                onChange={handleInputChange}
-                disabled={!isEditing}
-                onClick={showAlert}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:focus:ring-blue-500"
-              >
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-gray-600 text-sm font-medium mb-1 dark:text-gray-300">
-                Phone Number
-              </label>
-              <input
-                type="text"
-                name="phoneNumber"
-                value={formData.phoneNumber}
-                onChange={handleInputChange}
-                readOnly={!isEditing}
-                onClick={showAlert}
-                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:focus:ring-blue-500"
-              />
-            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 mt-5 gap-4">
+              <div>
+                <label className="block text-gray-600 text-sm font-medium mb-1 dark:text-gray-300">
+                  Date of Birth
+                </label>
+                <DateSelector disabled={!isEditing} />
+              </div>
 
-            <div>
+              <div>
+                <label className="block text-gray-600 text-sm font-medium mb-1 dark:text-gray-300">
+                  Country
+                </label>
+                <CountrySelector
+                  value={formData.country}
+                  onChange={handleInputChange}
+                  isEditing={isEditing}
+                  onClick={showAlert}
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:focus:ring-blue-500"
+                />
+              </div>
+            </div>
+            <div className="mt-5 gap-4">
+              <div>
+                <label className="block text-gray-600 text-sm font-medium mb-1 dark:text-gray-300">
+                  Address Detail
+                </label>
+                <AddressSelector
+                  disabled={!isEditing}
+                  setAddressData={setAddressData}
+                />
+              </div>
+            </div>
+            <div className="mt-5 gap-4">
               <label className="block text-gray-600 text-sm font-medium mb-1 dark:text-gray-300">
-                Country
+                Street
               </label>
-              <CountrySelector
-                value={formData.country}
-                onChange={handleInputChange}
-                isEditing={isEditing}
-                onClick={showAlert}
-              />
+              {addressData && addressData.length > 0 && (
+                <div>
+                  <select
+                    id="address-select"
+                    onChange={(e) => {
+                      const selected = e.target.value;
+                      setSelectedAddress(selected);
+                    }}
+                    className="w-auto border border-gray-300 rounded-md px-1 py-2 focus:outline-none focus:ring focus:ring-blue-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:focus:ring-blue-500 mr-4"
+                  >
+                    <option value="">Select Street Detail</option>
+                    {addressData.map((address, index) => (
+                      <option key={index} value={address}>
+                        {address}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
             </div>
           </div>
         </div>

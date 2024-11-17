@@ -19,3 +19,16 @@ export const getAllProducts = async () => {
     return null;
   }
 };
+
+export const getAddressData = async (province, district, ward_street) => {
+  try {
+    const res = await axios.post(`${baseURL}/api/product/address`, {
+      province,
+      district,
+      ward_street,
+    });
+    return res.data.data;
+  } catch (err) {
+    return null;
+  }
+};
