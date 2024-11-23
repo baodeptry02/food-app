@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import gsap from 'gsap';
 import StepProgressBar from './ProgressBar';
 import { VietQR, ZaloPay } from '../assests';
 import { BiTrash } from 'react-icons/bi';
@@ -8,18 +9,66 @@ const Cart = () => {
   const cart = useSelector((state) => state.cartState.cartItems);
   const dispatch = useDispatch();
   const [selectedItems, setSelectedItems] = useState([]);
+  const productRefs = useRef([]);
+  const containerLeft = useRef(null);
+  const container = useRef(null);
+
+  // GSAP animation on mount
+  useEffect(() => {
+    const tl = gsap.timeline();
+    if (productRefs.current.length > 0) {
+      tl.fromTo(
+        containerLeft.current,
+        { opacity: 0, scale: 0 },
+        {
+          opacity: 1,
+          scale: 1,
+          duration: 0.6,
+          ease: 'power3.out',
+        }
+      );
+      tl.fromTo(
+        productRefs.current,
+        { opacity: 0, y: -50 },
+        {
+          opacity: 1,
+          y: 0,
+          stagger: 0.15,
+          duration: 0.6,
+          ease: 'power3.out',
+        }
+      );
+      tl.fromTo(
+        container.current,
+        { opacity: 0, scale: 0 },
+        {
+          opacity: 1,
+          scale: 1,
+          duration: 0.6,
+          ease: 'power3.out',
+        }
+      );
+      const paymentElements = gsap.utils.toArray('.payment-item'); // Select all payment elements
+      tl.fromTo(
+        paymentElements,
+        { x: -100, opacity: 0 },
+        {
+          x: 0,
+          opacity: 1,
+          stagger: 0.2,
+          duration: 0.6,
+          ease: 'power3.out',
+        },
+        '-=0.3' // Start before the previous animation finishes
+      );
+    }
+  }, []);
 
   const toggleSelectItem = (id) => {
     setSelectedItems((prev) =>
       prev.includes(id) ? prev.filter((itemId) => itemId !== id) : [...prev, id]
     );
   };
-
-  // const updateQuantity = (id, newQuantity) => {
-  //   if (newQuantity > 0) {
-  //     dispatch(updateCartItem({ id, quantity: newQuantity }));
-  //   }
-  // };
 
   const calculateTotalPrice = () => {
     return cart.reduce(
@@ -43,13 +92,17 @@ const Cart = () => {
       {/* Layout chính của trang */}
       <div className="w-full flex flex-col lg:flex-row gap-6 p-8 px-60">
         {/* Bên trái: Render sản phẩm trong giỏ hàng */}
-        <div className="w-full lg:w-2/3 bg-white dark:bg-darkSecondary p-6 rounded-lg shadow">
+        <div
+          ref={containerLeft}
+          className="w-full lg:w-2/3 bg-white dark:bg-darkSecondary p-6 rounded-lg shadow"
+        >
           <h2 className="text-xl font-bold mb-4">Your Order</h2>
           {cart.length > 0 ? (
-            cart.map((item) => (
+            cart.map((item, index) => (
               <div
                 key={item.id}
                 className="flex items-center justify-between p-4 border-b dark:border-darkBg"
+                ref={(el) => (productRefs.current[index] = el)} // Assign ref to each product
               >
                 {/* Checkbox để chọn sản phẩm */}
                 <input
@@ -112,6 +165,7 @@ const Cart = () => {
 
         {/* Bên phải: Tổng tiền */}
         <div
+          ref={container}
           className="w-full lg:w-1/3 bg-white dark:bg-darkSecondary p-6 rounded-lg shadow relative lg:sticky lg:top-16"
           style={{ height: '400px' }} // Cố định chiều cao
         >
@@ -139,7 +193,7 @@ const Cart = () => {
           </div>
 
           {/* Các nút thanh toán */}
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center payment-item">
             {/* Nút VietQR */}
             <button className="relative w-[80%] border-red-400 border-2 text-primaryColor rounded-xl p-2 mt-4 flex items-center justify-center gap-4 overflow-hidden group">
               <span className="absolute inset-0 bg-red-400 scale-x-0 origin-center group-hover:scale-x-100 transition-transform duration-500 ease-in-out"></span>
