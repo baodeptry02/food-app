@@ -1,5 +1,5 @@
-import React from "react";
-import zxcvbn from "zxcvbn";
+import React from 'react';
+import zxcvbn from 'zxcvbn';
 
 const PasswordStrengthBar = ({ password }) => {
   const testResult = zxcvbn(password);
@@ -8,34 +8,34 @@ const PasswordStrengthBar = ({ password }) => {
   const createPassLabel = () => {
     switch (testResult.score) {
       case 0:
-        return "Very Weak";
+        return 'Very Weak';
       case 1:
-        return "Weak";
+        return 'Weak';
       case 2:
-        return "Fair";
+        return 'Fair';
       case 3:
-        return "Good";
+        return 'Good';
       case 4:
-        return "Strong";
+        return 'Strong';
       default:
-        return "";
+        return '';
     }
   };
 
   const progressColor = () => {
     switch (testResult.score) {
       case 0:
-        return "bg-red-500";
+        return 'bg-red-500';
       case 1:
-        return "bg-orange-500";
+        return 'bg-orange-500';
       case 2:
-        return "bg-yellow-500";
+        return 'bg-yellow-500';
       case 3:
-        return "bg-blue-500";
+        return 'bg-blue-500';
       case 4:
-        return "bg-green-500";
+        return 'bg-green-500';
       default:
-        return "";
+        return '';
     }
   };
 

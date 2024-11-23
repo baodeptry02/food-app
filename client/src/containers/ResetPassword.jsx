@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { toast } from "react-toastify";
-import LoginInput from "../components/LoginInput";
-import { FaEnvelope } from "react-icons/fa";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { buttonClick } from "../animations";
-import { motion } from "framer-motion";
-import { sendForgetPassword } from "../api/authApi";
+import React, { useState } from 'react';
+import { toast } from 'react-toastify';
+import LoginInput from '../components/LoginInput';
+import { FaEnvelope } from 'react-icons/fa';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { buttonClick } from '../animations';
+import { motion } from 'framer-motion';
+import { sendForgetPassword } from '../api/authApi';
 
 const ChangePassword = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -17,20 +17,20 @@ const ChangePassword = () => {
       const result = await sendForgetPassword(email);
       console.log(result);
       if (result.status !== 500) {
-        toast.success("Password reset email sent!");
+        toast.success('Password reset email sent!');
       } else {
         toast.error("Email isn't existed in database!");
       }
     } catch (error) {
-      console.error("Error sending password reset email:", error);
-      toast.error("Failed to send password reset email. Please try again.");
+      console.error('Error sending password reset email:', error);
+      toast.error('Failed to send password reset email. Please try again.');
     } finally {
       setIsLoading(false);
     }
   };
 
   const validationSchema = Yup.object({
-    email: Yup.string().email("Invalid email address").required("Required"),
+    email: Yup.string().email('Invalid email address').required('Required'),
   });
 
   return (
@@ -38,7 +38,7 @@ const ChangePassword = () => {
       <div className="p-8 rounded-lg shadow-md w-full max-w-md bg-white bg-opacity-50 backdrop-filter backdrop-blur-lg">
         <h2 className="text-2xl font-bold mb-6 text-center">Forgot Password</h2>
         <Formik
-          initialValues={{ email: "" }}
+          initialValues={{ email: '' }}
           validationSchema={validationSchema}
           onSubmit={(values) => handleForgotPassword(values.email)}
         >
@@ -62,7 +62,7 @@ const ChangePassword = () => {
                 className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-200"
                 tabIndex={2}
               >
-                {isLoading ? "Sending..." : "Send Reset Email"}
+                {isLoading ? 'Sending...' : 'Send Reset Email'}
               </motion.button>
             </Form>
           )}

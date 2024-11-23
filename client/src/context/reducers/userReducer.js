@@ -5,23 +5,28 @@ const initialState = {
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "GET_USER":
+    case 'GET_USER':
       return state;
-    case "SET_USER":
+    case 'SET_USER':
       return {
         ...state,
         user: action.payload,
       };
-    case "SET_USER_LOCATION":
+    case 'SET_USER_LOCATION':
       return {
         ...state,
         location: action.payload,
       };
-    case "LOGOUT_USER":
+    case 'LOGOUT_USER':
       return {
         ...state,
         user: null,
         location: null, // Reset location on logout
+      };
+    case 'UPDATE_USER':
+      return {
+        ...state,
+        user: action.payload,
       };
     default:
       return state;

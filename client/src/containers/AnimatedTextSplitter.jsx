@@ -1,13 +1,13 @@
-import React, { useEffect, useRef, forwardRef } from "react";
-import clsx from "clsx";
-import gsap from "gsap";
+import React, { useEffect, useRef, forwardRef } from 'react';
+import clsx from 'clsx';
+import gsap from 'gsap';
 
 const AnimatedTextSplitter = forwardRef(
   (
     {
-      text = "", // Đặt giá trị mặc định để tránh điều kiện không gọi hook
+      text = '', // Đặt giá trị mặc định để tránh điều kiện không gọi hook
       className,
-      wordDisplayStyle = "inline-block",
+      wordDisplayStyle = 'inline-block',
       style,
       animationProps,
     },
@@ -27,7 +27,7 @@ const AnimatedTextSplitter = forwardRef(
           opacity: 0,
           duration: 1.5,
           stagger: 0.1,
-          ease: "power2.inOut",
+          ease: 'power2.inOut',
           ...animationProps, // Thêm các tùy chọn animation tuỳ chỉnh
         });
       }
@@ -35,15 +35,15 @@ const AnimatedTextSplitter = forwardRef(
 
     if (!text) return null; // Đặt điều kiện render sau hook
 
-    const words = text.split(" ");
+    const words = text.split(' ');
 
     return (
-      <span style={{ whiteSpace: "pre", ...style }} ref={ref}>
+      <span style={{ whiteSpace: 'pre', ...style }} ref={ref}>
         {words.map((word, wordIndex) => {
-          const splitText = word.split("");
+          const splitText = word.split('');
           return (
             <span
-              className={clsx("split-word", className)}
+              className={clsx('split-word', className)}
               style={{ display: wordDisplayStyle }}
               key={`${wordIndex}-${word}`}
             >

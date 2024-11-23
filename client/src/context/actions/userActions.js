@@ -1,28 +1,35 @@
-import Cookies from "js-cookie";
+import Cookies from 'js-cookie';
 
 export const setUserDetails = (user) => ({
-  type: "SET_USER",
+  type: 'SET_USER',
   payload: user,
 });
 
 export const getUserDetails = () => ({
-  type: "GET_USER",
+  type: 'GET_USER',
 });
 
 export const logoutUser = () => {
-  Cookies.remove("authToken");
-  Cookies.remove("refreshToken");
-  localStorage.removeItem("user");
+  Cookies.remove('authToken');
+  Cookies.remove('refreshToken');
+  localStorage.removeItem('user');
   return {
-    type: "LOGOUT_USER",
+    type: 'LOGOUT_USER',
     user: null,
   };
 };
 
 export const setUserLocation = (location) => {
-  localStorage.setItem("userLocation", JSON.stringify(location));
+  localStorage.setItem('userLocation', JSON.stringify(location));
   return {
-    type: "SET_USER_LOCATION",
+    type: 'SET_USER_LOCATION',
     payload: location,
+  };
+};
+
+export const updateUser = (user) => {
+  return {
+    type: 'UPDATE_USER',
+    payload: user,
   };
 };

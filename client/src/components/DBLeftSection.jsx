@@ -1,29 +1,29 @@
-import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
-import { Logo } from "../assests";
-import { isActiveStyles, isNotActiveStyles } from "../utils/styles.utils";
-import { motion } from "framer-motion";
-import { buttonClick } from "../animations";
-import { IoMoonOutline } from "react-icons/io5";
-import { MdLightMode, MdOutlineLightMode } from "react-icons/md";
+import React, { useEffect, useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import { Logo } from '../assests';
+import { isActiveStyles, isNotActiveStyles } from '../utils/styles.utils';
+import { motion } from 'framer-motion';
+import { buttonClick } from '../animations';
+import { IoMoonOutline } from 'react-icons/io5';
+import { MdOutlineLightMode } from 'react-icons/md';
 
 const DBLeftSection = () => {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
+    const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
-      setIsDarkTheme(savedTheme === "dark");
-      document.documentElement.classList.toggle("dark", savedTheme === "dark");
+      setIsDarkTheme(savedTheme === 'dark');
+      document.documentElement.classList.toggle('dark', savedTheme === 'dark');
     }
   }, []);
 
   const toggleTheme = () => {
     setIsDarkTheme((prevTheme) => {
       const newTheme = !prevTheme;
-      localStorage.setItem("theme", newTheme ? "dark" : "light");
-      document.documentElement.classList.toggle("dark", newTheme);
+      localStorage.setItem('theme', newTheme ? 'dark' : 'light');
+      document.documentElement.classList.toggle('dark', newTheme);
       return newTheme;
     });
   };
@@ -39,13 +39,13 @@ const DBLeftSection = () => {
 
   return (
     <div className="h-full py-12 flex flex-col bg-lightOverlay dark:bg-darkBg backdrop-blur-md shadow-md min-w-210 w-300 gap-3 transition-colors duration-500 ease-in-out">
-      <NavLink to={"/"} className="flex items-center justify-start px-6 gap-4">
+      <NavLink to={'/'} className="flex items-center justify-start px-6 gap-4">
         <img src={Logo} className="w-12" alt="" />
         <p
           onMouseEnter={handleMouseEnter}
           onAnimationEnd={handleAnimationEnd}
           className={`app-name font-semibold text-3xl tracking-[8px] font-dancing mx-4 ${
-            isAnimating ? "animate" : ""
+            isAnimating ? 'animate' : ''
           }`}
         >
           <svg height="40" width="200" xmlns="http://www.w3.org/2000/svg">
@@ -66,7 +66,7 @@ const DBLeftSection = () => {
 
       <ul className="flex flex-col gap-4 flex-grow">
         <NavLink
-          to={"/admin/dashboard/home"}
+          to={'/admin/dashboard/home'}
           className={({ isActive }) =>
             isActive
               ? `${isActiveStyles} px-4 py-2 border-l-8 border-red-500  transition-colors duration-500 ease-in-out`
@@ -76,7 +76,7 @@ const DBLeftSection = () => {
           Home
         </NavLink>
         <NavLink
-          to={"/admin/dashboard/orders"}
+          to={'/admin/dashboard/orders'}
           className={({ isActive }) =>
             isActive
               ? `${isActiveStyles} px-4 py-2 border-l-8 border-red-500  transition-colors duration-500 ease-in-out`
@@ -86,7 +86,7 @@ const DBLeftSection = () => {
           Orders
         </NavLink>
         <NavLink
-          to={"/admin/dashboard/items"}
+          to={'/admin/dashboard/items'}
           className={({ isActive }) =>
             isActive
               ? `${isActiveStyles} px-4 py-2 border-l-8 border-red-500  transition-colors duration-500 ease-in-out`
@@ -96,7 +96,7 @@ const DBLeftSection = () => {
           Items
         </NavLink>
         <NavLink
-          to={"/admin/dashboard/newItem"}
+          to={'/admin/dashboard/newItem'}
           className={({ isActive }) =>
             isActive
               ? `${isActiveStyles} px-4 py-2 border-l-8 border-red-600  transition-colors duration-500 ease-in-out`
@@ -106,7 +106,7 @@ const DBLeftSection = () => {
           Add New Item
         </NavLink>
         <NavLink
-          to={"/admin/dashboard/users"}
+          to={'/admin/dashboard/users'}
           className={({ isActive }) =>
             isActive
               ? `${isActiveStyles} px-4 py-2 border-l-8 border-red-500  transition-colors duration-500 ease-in-out`

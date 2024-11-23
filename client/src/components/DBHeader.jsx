@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   BsFillBellFill,
   BsToggles2,
   MdLogout,
   MdSearch,
-} from "../assests/icons/index";
-import { useLocation } from "../context/LocationContext"; // Ensure the path is correct
-import { buttonClick } from "../animations";
-import { motion } from "framer-motion";
-import { Avatar } from "../assests";
-import { getAuth } from "firebase/auth";
-import { logoutUser } from "../context/actions/userActions";
-import { app } from "../config/firebase.config";
-import { useNavigate } from "react-router-dom";
+} from '../assests/icons/index';
+// import { useLocation } from '../context/LocationContext'; // Ensure the path is correct
+import { buttonClick } from '../animations';
+import { motion } from 'framer-motion';
+import { Avatar } from '../assests';
+import { getAuth } from 'firebase/auth';
+import { logoutUser } from '../context/actions/userActions';
+import { app } from '../config/firebase.config';
+import { useNavigate } from 'react-router-dom';
 
 const DBHeader = () => {
   const user = useSelector((state) => state.userState.user);
@@ -29,7 +29,7 @@ const DBHeader = () => {
     firebaseAuth
       .signOut()
       .then(() => {
-        navigate("/login");
+        navigate('/login');
       })
       .catch((error) => {
         throw error;

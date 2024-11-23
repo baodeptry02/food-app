@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -37,20 +37,20 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.6/lottie.min.js"></script>
     <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        let lottieContainer = document.querySelector(".animation");
+      document.addEventListener('DOMContentLoaded', () => {
+        let lottieContainer = document.querySelector('.animation');
 
         if (lottieContainer) {
           LottieScrollTrigger({
-            trigger: ".animation",
-            start: "top center",
-            endTrigger: ".end-lottie",
+            trigger: '.animation',
+            start: 'top center',
+            endTrigger: '.end-lottie',
             end: `bottom center +=${
-              document.querySelector(".animation").offsetHeight
+              document.querySelector('.animation').offsetHeight
             }`,
-            renderer: "svg",
-            target: ".animation",
-            path: "./VideoIntro.json",
+            renderer: 'svg',
+            target: '.animation',
+            path: './VideoIntro.json',
             scrub: 2,
           });
         }
@@ -60,8 +60,8 @@
         let playhead = { frame: 0 },
           target = gsap.utils.toArray(vars.target)[0],
           speed =
-            { slow: "+=2000", medium: "+=1000", fast: "+=500" }[vars.speed] ||
-            "+=1500",
+            { slow: '+=2000', medium: '+=1000', fast: '+=500' }[vars.speed] ||
+            '+=1500',
           st = {
             trigger: vars.trigger,
             start: vars.start,
@@ -72,12 +72,12 @@
           ctx = gsap.context && gsap.context(),
           animation = lottie.loadAnimation({
             container: target,
-            renderer: vars.renderer || "svg",
+            renderer: vars.renderer || 'svg',
             loop: false,
             autoplay: false,
             path: vars.path,
             rendererSettings: vars.rendererSettings || {
-              preserveAspectRatio: "xMidYMid slice",
+              preserveAspectRatio: 'xMidYMid slice',
             },
           });
 
@@ -85,11 +85,11 @@
           st[p] = vars[p];
         }
 
-        animation.addEventListener("DOMLoaded", () => {
+        animation.addEventListener('DOMLoaded', () => {
           let createTween = () => {
             animation.frameTween = gsap.to(playhead, {
               frame: animation.totalFrames - 1,
-              ease: "none",
+              ease: 'none',
               onUpdate: () => animation.goToAndStop(playhead.frame, true),
               scrollTrigger: st,
             });

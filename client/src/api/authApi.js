@@ -1,17 +1,17 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const baseURL =
-  "http://localhost:5001/lms-backend-1d9f5/us-central1/app";
+  'http://localhost:5001/lms-backend-1d9f5/us-central1/app';
 
 export const validateUserJWTToken = async (token) => {
   try {
     const res = await axios.get(`${baseURL}/api/users/jwtVerification`, {
-      headers: { Authorization: "Bearer " + token },
+      headers: { Authorization: 'Bearer ' + token },
     });
     return res.data.data;
   } catch (err) {
-    return null;
+    return err;
   }
 };
 
@@ -58,11 +58,11 @@ export const sendVerifyEmail = async (email) => {
   } catch (err) {
     if (err.response && err.response.data && err.response.data.error) {
       const errorMessage = err.response.data.error;
-      if (errorMessage.includes("TOO_MANY_ATTEMPTS_TRY_LATER")) {
-        toast.error("Too many requests. Please try again later.");
+      if (errorMessage.includes('TOO_MANY_ATTEMPTS_TRY_LATER')) {
+        toast.error('Too many requests. Please try again later.');
       }
     } else {
-      toast.error("Failed to send verification email. Please try again later.");
+      toast.error('Failed to send verification email. Please try again later.');
     }
     return err;
   }

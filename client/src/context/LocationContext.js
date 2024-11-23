@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 // Create a context for the location
 const LocationContext = createContext();
@@ -17,22 +17,22 @@ export const LocationProvider = ({ children }) => {
           setError(null); // Clear any previous errors
         },
         (error) => {
-          console.error("Error watching position:", error);
+          console.error('Error watching position:', error);
           switch (error.code) {
             case error.PERMISSION_DENIED:
-              setError("User denied the request for Geolocation.");
+              setError('User denied the request for Geolocation.');
               break;
             case error.POSITION_UNAVAILABLE:
-              setError("Location information is unavailable.");
+              setError('Location information is unavailable.');
               break;
             case error.TIMEOUT:
-              setError("The request to get user location timed out.");
+              setError('The request to get user location timed out.');
               break;
             case error.UNKNOWN_ERROR:
-              setError("An unknown error occurred.");
+              setError('An unknown error occurred.');
               break;
             default:
-              setError("An unknown error occurred.");
+              setError('An unknown error occurred.');
               break;
           }
         }
@@ -41,7 +41,7 @@ export const LocationProvider = ({ children }) => {
       // Cleanup function to stop watching the position
       return () => navigator.geolocation.clearWatch(watchId);
     } else {
-      setError("Geolocation is not supported by this browser.");
+      setError('Geolocation is not supported by this browser.');
     }
   }, []);
 

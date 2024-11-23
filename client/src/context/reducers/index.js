@@ -1,8 +1,12 @@
-import { combineReducers } from "redux";
-import userReducer from "./userReducer";
+import { combineReducers } from 'redux';
+import userReducer from './userReducer';
+import productReducer from './productReducer';
+import cartReducer from './cartReducer';
 
 const myReducer = combineReducers({
-  userState: userReducer, // Renamed to `userState` for clarity
+  userState: userReducer,
+  productState: productReducer,
+  cartState: cartReducer,
 });
 
 export default myReducer;

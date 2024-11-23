@@ -1,5 +1,5 @@
-import Select from "react-select";
-import countryList from "react-select-country-list";
+import Select from 'react-select';
+import countryList from 'react-select-country-list';
 
 const CountrySelector = ({ value, onChange, isEditing }) => {
   const countries = countryList().getData(); // Lấy danh sách quốc gia
@@ -22,10 +22,10 @@ const CountrySelector = ({ value, onChange, isEditing }) => {
     <Select
       options={options}
       isSearchable
-      placeholder={isEditing ? "Select a country" : "Editing disabled"}
+      placeholder={isEditing ? 'Select a country' : 'Editing disabled'}
       value={options.find((option) => option.value === value)}
       onChange={(selectedOption) =>
-        onChange({ target: { name: "country", value: selectedOption.value } })
+        onChange({ target: { name: 'country', value: selectedOption.value } })
       }
       isDisabled={!isEditing} // Disable select khi không ở trạng thái edit
       classNamePrefix="react-select"

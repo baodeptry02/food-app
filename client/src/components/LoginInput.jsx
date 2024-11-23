@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { buttonClick, fadeInOut } from "../animations";
-import { Field, ErrorMessage } from "formik";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { buttonClick, fadeInOut } from '../animations';
+import { Field, ErrorMessage } from 'formik';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const LoginInput = ({
   placeHolder,
@@ -23,22 +23,22 @@ const LoginInput = ({
     <motion.div {...fadeInOut} className={`flex flex-col w-full `}>
       <div
         className={`flex items-center gap-4 bg-lightOverlay backdrop-blur-md rounded-md px-4 py-2 ${
-          isFocus ? "shadow-md shadow-red-400" : "shadow-none"
+          isFocus ? 'shadow-md shadow-red-400' : 'shadow-none'
         }`}
       >
         {icon}
         <Field
           name={name}
-          type={showPassword ? "text" : type}
+          type={showPassword ? 'text' : type}
           placeholder={placeHolder}
           className={`w-full bg-transparent text-headingColor text-lg font-semibold outline-none ${
-            errors && touched ? "border-red-500" : ""
+            errors && touched ? 'border-red-500' : ''
           }`}
           onFocus={() => setIsFocus(true)}
           onBlur={() => setIsFocus(false)}
           tabIndex={tabIndex}
         />
-        {type === "password" && (
+        {type === 'password' && (
           <motion.div
             {...buttonClick}
             className="absolute right-4 cursor-pointer"

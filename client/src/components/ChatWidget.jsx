@@ -1,24 +1,24 @@
-import React, { useEffect, useRef, useState } from "react";
-import { IoSend } from "react-icons/io5";
-import { TbMessageChatbot } from "react-icons/tb";
-import { GoogleGenerativeAI } from "@google/generative-ai";
-import gsap from "gsap";
-import { toast } from "react-toastify";
+import React, { useEffect, useRef, useState } from 'react';
+import { IoSend } from 'react-icons/io5';
+import { TbMessageChatbot } from 'react-icons/tb';
+import { GoogleGenerativeAI } from '@google/generative-ai';
+import gsap from 'gsap';
+import { toast } from 'react-toastify';
 
 const BotMessage = ({ text }) => (
-  <div className="bot-message p-2 my-1 max-w-[75%] bg-[#444444] dark:bg-[#ccc] self-end text-left rounded-lg text-white dark:text-black">
+  <div className="bot-message p-2 my-1 max-w-[75%] bg-[#444444] dark:bg-[#ccc] self-start text-left rounded-lg text-white dark:text-black">
     {text}
   </div>
 );
 
 const UserMessage = ({ text }) => (
-  <div className="user-message p-2 my-1 max-w-[75%] bg-[#2D2D2D] dark:bg-[#ccc] self-start text-left rounded-lg text-white dark:text-black">
+  <div className="user-message p-2 my-1 max-w-[75%] bg-[#2D2D2D] dark:bg-[#ccc] self-end text-left rounded-lg text-white dark:text-black">
     {text}
   </div>
 );
 
 const ChatWidget = () => {
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -38,19 +38,19 @@ const ChatWidget = () => {
 
     tl.to(container.current, {
       duration: 0.3,
-      width: "168px",
+      width: '168px',
     })
       .to(
         textRef.current,
         {
           duration: 0.8,
           opacity: 1,
-          position: "relative",
+          position: 'relative',
           left: 0,
           x: 0,
           delay: 0.3,
         },
-        "-=0.3"
+        '-=0.3'
       )
       .call(() => {
         isAnimating.current = false;
@@ -68,17 +68,17 @@ const ChatWidget = () => {
       duration: 0.1,
       opacity: 0,
       x: -50,
-      position: "absolute",
-      left: "100%",
+      position: 'absolute',
+      left: '100%',
     })
       .to(
         container.current,
         {
           duration: 0.1,
-          width: "48px",
-          height: "48px",
+          width: '48px',
+          height: '48px',
         },
-        "-=0.1"
+        '-=0.1'
       )
       .call(() => {
         isAnimating.current = false;
@@ -87,7 +87,7 @@ const ChatWidget = () => {
 
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
@@ -106,12 +106,12 @@ const ChatWidget = () => {
     if (message) {
       generateResponse(message);
     } else {
-      toast.info("You must write something... !");
+      toast.info('You must write something... !');
     }
   };
 
   const handleEnter = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       hitRequest();
     }
   };
@@ -119,24 +119,24 @@ const ChatWidget = () => {
   const generateResponse = async (msg) => {
     if (!msg) return;
 
-    const userMessage = { type: "userMsg", text: msg };
+    const userMessage = { type: 'userMsg', text: msg };
     setMessages((prevMessages) => [...prevMessages, userMessage]);
-    setMessage("");
+    setMessage('');
     setLoading(true);
 
     try {
       const genAI = new GoogleGenerativeAI(
         process.env.REACT_APP_GEMINI_API_KEY
       );
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
       const result = await model.generateContent(msg);
 
-      const botMessage = { type: "responseMsg", text: result.response.text() };
+      const botMessage = { type: 'responseMsg', text: result.response.text() };
       setMessages((prevMessages) => [...prevMessages, botMessage]);
-    } catch (error) {
+    } catch (err) {
       const errorMessage = {
-        type: "responseMsg",
-        text: "Error: Could not get response.",
+        type: 'responseMsg',
+        text: 'Error: Could not get response.',
       };
       setMessages((prevMessages) => [...prevMessages, errorMessage]);
     } finally {
@@ -182,14 +182,14 @@ const ChatWidget = () => {
 
           <div className="messages h-64 overflow-y-auto mb-4 flex flex-col ">
             {messages.map((msg, index) =>
-              msg.type === "userMsg" ? (
+              msg.type === 'userMsg' ? (
                 <UserMessage key={index} text={msg.text} />
               ) : (
                 <BotMessage key={index} text={msg.text} />
               )
             )}
             {loading && (
-              <div className="bot-message w-[20%] p-2 my-1 bg-[#444444] dark:bg-[#ccc] self-end text-left rounded-lg flex items-center justify-center">
+              <div className="bot-message w-[20%] p-2 my-1 bg-[#444444] dark:bg-[#ccc] self-start text-left rounded-lg flex items-center justify-center">
                 <div className="dot"></div>
                 <div className="dot"></div>
                 <div className="dot"></div>

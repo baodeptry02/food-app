@@ -1,5 +1,5 @@
-import React from "react";
-import { DBLeftSection, DBRightSection } from "../components";
+import React from 'react';
+import { DBLeftSection, DBRightSection } from '../components';
 
 const Dashboard = () => {
   return (

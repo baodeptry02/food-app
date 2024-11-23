@@ -1,47 +1,40 @@
-import React, { useEffect, useState } from "react";
-import { LoginBg, Logo } from "../assests";
-import { LoginInput } from "../components";
-import { FaEnvelope, FaLock, FcGoogle } from "../assests/icons";
-import { motion } from "framer-motion";
-import { buttonClick } from "../animations";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { LoginBg, Logo } from '../assests';
+import { LoginInput } from '../components';
+import { FaEnvelope, FaLock, FcGoogle } from '../assests/icons';
+import { motion } from 'framer-motion';
+import { buttonClick } from '../animations';
+import { useNavigate } from 'react-router-dom';
 import {
   getAuth,
   signInWithPopup,
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  sendEmailVerification,
-} from "firebase/auth";
-import { app, db } from "../config/firebase.config";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { toast } from "react-toastify";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  setUserDetails,
-  setUserLocation,
-} from "../context/actions/userActions";
-import {
-  getUserFromFirestore,
-  saveUserToFirestore,
-  updateUserInFirestore,
-} from "../utils/fireStores.utils";
-import Cookies from "js-cookie";
-import { sendOtpEmail, sendVerifyEmail, verifyOtp } from "../api/authApi";
-import OtpModal from "./OtpModal";
-import LoadingAnimation from "../animations/loading-animation";
-import PasswordChecklistComponent from "./PasswordCheckList";
-import PasswordStrengthBar from "./PasswordStrengthBar";
+} from 'firebase/auth';
+import { app } from '../config/firebase.config';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserDetails } from '../context/actions/userActions';
+import { updateUserInFirestore } from '../utils/fireStores.utils';
+import { getUserFromFirestore, createUser } from '../api/userApi';
+import Cookies from 'js-cookie';
+import { sendOtpEmail, sendVerifyEmail, verifyOtp } from '../api/authApi';
+import OtpModal from './OtpModal';
+import LoadingAnimation from '../animations/loading-animation';
+import PasswordChecklistComponent from './PasswordCheckList';
+import PasswordStrengthBar from './PasswordStrengthBar';
 
 const Login = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showForgetPassword, setShowForgetPassword] = useState(true);
   const [isOtpSent, setIsOtpSent] = useState(false);
-  const [otp, setOtp] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [otp, setOtp] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const firebaseAuth = getAuth(app);
   const provider = new GoogleAuthProvider();
@@ -56,27 +49,27 @@ const Login = () => {
 
   useEffect(() => {
     if (user) {
-      return navigate("/", { replace: true });
+      return navigate('/', { replace: true });
     }
   }, [user]);
 
   const initialValues = {
-    email: "",
-    password: "",
-    confirm_password: "",
+    email: '',
+    password: '',
+    confirm_password: '',
   };
 
   const validationSchema = Yup.object({
-    email: Yup.string().email("Invalid email address").required("Required"),
+    email: Yup.string().email('Invalid email address').required('Required'),
     password: Yup.string()
-      .min(6, "Must be at least 6 characters")
-      .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
-      .matches(/[a-z]/, "Password must contain at least one lowercase letter")
-      .matches(/[0-9]/, "Password must contain at least one number"),
+      .min(6, 'Must be at least 6 characters')
+      .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
+      .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
+      .matches(/[0-9]/, 'Password must contain at least one number'),
     confirm_password: isSignUp
       ? Yup.string()
-          .oneOf([Yup.ref("password"), null], "Passwords must match")
-          .required("Required")
+          .oneOf([Yup.ref('password'), null], 'Passwords must match')
+          .required('Required')
       : Yup.string(),
   });
 
@@ -92,32 +85,32 @@ const Login = () => {
       );
       const user = userCred.user;
 
-      const username = email.split("@")[0];
+      const username = email.split('@')[0];
 
       const userToSave = {
         uid: user.uid,
-        name: username || "N/A",
-        email: user.email || "N/A",
-        photoURL: user.photoURL || "",
+        name: username || 'N/A',
+        email: user.email || 'N/A',
+        photoURL: user.photoURL || '',
         emailVerified: user.emailVerified || false,
-        role: "user",
+        role: 'user',
         lastSignIn: new Date().toLocaleDateString(),
       };
 
-      await saveUserToFirestore(userToSave);
+      await createUser(userToSave);
 
       await sendVerifyEmail(email);
 
       await firebaseAuth.signOut();
 
       toast.success(
-        "Register successful. An email has been sent to your email!"
+        'Register successful. An email has been sent to your email!'
       );
     } catch (error) {
-      if (error.code === "auth/email-already-in-use") {
-        toast.error("Email is already in use. Please use a different email.");
+      if (error.code === 'auth/email-already-in-use') {
+        toast.error('Email is already in use. Please use a different email.');
       } else {
-        toast.error("Something went wrong. Please try again!");
+        toast.error('Something went wrong. Please try again!');
       }
     } finally {
       setTimeout(() => {
@@ -127,7 +120,7 @@ const Login = () => {
   };
 
   const updateLastSignIn = async (uid) => {
-    const lastSignInTime = new Date().toLocaleDateString("en-GB"); // Use "en-GB" locale for DD/MM/YYYY format
+    const lastSignInTime = new Date().toLocaleDateString('en-GB'); // Use "en-GB" locale for DD/MM/YYYY format
     await updateUserInFirestore(uid, { lastSignIn: lastSignInTime });
   };
 
@@ -136,6 +129,7 @@ const Login = () => {
     try {
       const userCred = await signInWithPopup(firebaseAuth, provider);
       const user = userCred.user;
+      console.log(user);
       const token = await user.getIdToken();
       const refreshToken = user.refreshToken;
       await user.reload();
@@ -143,19 +137,23 @@ const Login = () => {
       let userData;
       try {
         userData = await getUserFromFirestore(user.uid);
-        console.log("User data already exists in Firestore");
+        console.log(userData);
+        console.log();
       } catch (error) {
-        if (error.message === "No such user!") {
-          const username = user.email.split("@")[0];
+        if (error.message === 'No such user!') {
+          const username = user.email.split('@')[0];
 
-          await saveUserToFirestore({
+          await createUser({
             uid: user.uid,
-            name: user.displayName || username || "N/A",
-            email: user.email || "N/A",
-            photoURL: user.photoURL || "",
+            name: user.displayName || username || 'N/A',
+            email: user.email || 'N/A',
+            photoURL: user.photoURL || '',
             emailVerified: user.emailVerified || false,
+            createdAt: new Date(
+              parseInt(user.metadata.createdAt)
+            ).toLocaleDateString('en-GB'),
           });
-          console.log("User data saved to Firestore");
+          console.log('User data saved to Firestore');
 
           userData = await getUserFromFirestore(user.uid);
         } else {
@@ -165,19 +163,19 @@ const Login = () => {
 
       await updateLastSignIn(user.uid);
 
-      Cookies.set("authToken", token, { expires: 7 });
-      Cookies.set("refreshToken", refreshToken, { expires: 7 });
+      Cookies.set('authToken', token, { expires: 7 });
+      Cookies.set('refreshToken', refreshToken, { expires: 7 });
 
       // Save user data in localStorage
-      localStorage.setItem("user", JSON.stringify(userData));
+      localStorage.setItem('user', JSON.stringify(userData));
 
-      toast.success("Login successful!");
-      navigate("/", { replace: true });
+      toast.success('Login successful!');
+      navigate('/', { replace: true });
       dispatch(setUserDetails(userData));
-      console.log("Login successful!");
+      console.log('Login successful!');
     } catch (error) {
-      console.error("Error during Google login:", error);
-      toast.error("Something went wrong. Please double check and try again!");
+      console.error('Error during Google login:', error);
+      toast.error('Something went wrong. Please double check and try again!');
     } finally {
       setTimeout(() => {
         setIsLoading(false);
@@ -205,7 +203,7 @@ const Login = () => {
           return;
         } else {
           toast.error(
-            "Email is not verified. A verification email has been sent."
+            'Email is not verified. A verification email has been sent.'
           );
         }
         await firebaseAuth.signOut();
@@ -214,13 +212,13 @@ const Login = () => {
 
       await sendOtpEmail(email);
       setIsOtpSent(true);
-      toast.info("OTP sent to your email. Please check your inbox.");
+      toast.info('OTP sent to your email. Please check your inbox.');
     } catch (error) {
-      console.error("Error sending OTP:", error);
-      if (error.code === "auth/too-many-requests") {
-        toast.error("Too many requests. Please try again later.");
+      console.error('Error sending OTP:', error);
+      if (error.code === 'auth/too-many-requests') {
+        toast.error('Too many requests. Please try again later.');
       } else {
-        toast.error("Something went wrong. Please check and try again!");
+        toast.error('Something went wrong. Please check and try again!');
       }
     } finally {
       setIsLoading(false);
@@ -247,18 +245,18 @@ const Login = () => {
         await updateUserInFirestore(user.uid, { emailVerified: true });
       }
 
-      Cookies.set("authToken", token, { expires: 7 });
-      Cookies.set("refreshToken", refreshToken, { expires: 7 });
-      localStorage.setItem("user", JSON.stringify(userData));
-      toast.success("Login successful!");
-      navigate("/", { replace: true });
+      Cookies.set('authToken', token, { expires: 7 });
+      Cookies.set('refreshToken', refreshToken, { expires: 7 });
+      localStorage.setItem('user', JSON.stringify(userData));
+      toast.success('Login successful!');
+      navigate('/', { replace: true });
       dispatch(setUserDetails(userData));
     } catch (error) {
-      console.error("Login Error: ", error);
-      if (error.code === "auth/too-many-requests") {
-        toast.error("Too many login attempts. Please try again later.");
+      console.error('Login Error: ', error);
+      if (error.code === 'auth/too-many-requests') {
+        toast.error('Too many login attempts. Please try again later.');
       } else {
-        toast.error("Something went wrong. Please double check and try again.");
+        toast.error('Something went wrong. Please double check and try again.');
       }
     } finally {
       setIsLoading(false);
@@ -275,7 +273,7 @@ const Login = () => {
       />
       <div className="flex flex-col items-center bg-lightOverlay w-[80%] md:w-508 h-full z-10 backdrop-blur-md p-2 px-4 py-12 gap-4 xl:gap-6">
         <div
-          onClick={() => navigate("/")}
+          onClick={() => navigate('/')}
           className="cursor-pointer flex items-center justify-start gap-4 w-full "
         >
           <img src={Logo} className="w-8" alt="Logo" />
@@ -283,11 +281,11 @@ const Login = () => {
         </div>
         <p className="text-3xl font-semibold text-headingColor">Welcome Back</p>
         <p className="text-xl text-textColor -mt-6">
-          {isSignUp ? "Sign Up" : "Sign In"} with following
+          {isSignUp ? 'Sign Up' : 'Sign In'} with following
         </p>
         {!isSignUp ? (
           <p>
-            Doesn't have an account:{" "}
+            Doesn't have an account:{' '}
             <motion.button
               {...buttonClick}
               className="text-red-400 underline cursor-pointer bg-transparent"
@@ -301,7 +299,7 @@ const Login = () => {
           </p>
         ) : (
           <p>
-            Already have an account:{" "}
+            Already have an account:{' '}
             <motion.button
               {...buttonClick}
               className="text-red-400 underline cursor-pointer bg-transparent"
@@ -361,11 +359,11 @@ const Login = () => {
               <PasswordChecklistComponent password={values.password} />
               {!isSignUp && showForgetPassword && (
                 <p>
-                  You dont remember your password:{" "}
+                  You dont remember your password:{' '}
                   <motion.button
                     {...buttonClick}
                     className="text-red-400 underline cursor-pointer bg-transparent"
-                    onClick={() => navigate("/reset-password")}
+                    onClick={() => navigate('/reset-password')}
                     type="button"
                   >
                     Click here

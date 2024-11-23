@@ -1,29 +1,40 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { getAddressData } from "../api/productApi";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { getAddressData } from '../api/productApi';
 
-const AddressSelector = ({ setAddressData, disabled }) => {
+const AddressSelector = ({ setAddressData, disabled, onChange, value }) => {
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
-  const [selectedProvinceID, setSelectedProvinceID] = useState("");
-  const [selectedDistrictID, setSelectedDistrictID] = useState("");
-  const [selectedWardID, setSelectedWardID] = useState("");
-  const [manualAddress, setManualAddress] = useState("");
-  const [useManualAddress, setUseManualAddress] = useState(false);
+  const [selectedProvinceID, setSelectedProvinceID] = useState(
+    value?.provinceId || ''
+  );
+  const [selectedDistrictID, setSelectedDistrictID] = useState(
+    value?.districtId || ''
+  );
+  const [selectedWardID, setSelectedWardID] = useState(value?.wardId || '');
+  const [manualAddress, setManualAddress] = useState(
+    value?.manualAddress || ''
+  );
+
+  useEffect(() => {
+    if (value) {
+      setSelectedProvinceID(value.provinceId || '');
+      setSelectedDistrictID(value.districtId || '');
+      setSelectedWardID(value.wardId || '');
+      setManualAddress(value.manualAddress || '');
+    }
+  }, [value]);
 
   useEffect(() => {
     const fetchProvinces = async () => {
       const response = await axios.get(
-        "https://online-gateway.ghn.vn/shiip/public-api/master-data/province",
+        'https://online-gateway.ghn.vn/shiip/public-api/master-data/province',
         {
-          headers: { token: "33d08723-a497-11ef-bfcf-9e83397c467a" },
+          headers: { token: '33d08723-a497-11ef-bfcf-9e83397c467a' },
         }
       );
       setProvinces(response.data.data);
-      if (response.data.data.length === 1) {
-        setUseManualAddress(true);
-      }
     };
     fetchProvinces();
   }, []);
@@ -33,14 +44,13 @@ const AddressSelector = ({ setAddressData, disabled }) => {
       const fetchDistricts = async () => {
         const response = await axios.get(
           `https://online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=${selectedProvinceID}`,
-          { headers: { token: "33d08723-a497-11ef-bfcf-9e83397c467a" } }
+          { headers: { token: '33d08723-a497-11ef-bfcf-9e83397c467a' } }
         );
         setDistricts(response.data.data);
-        if (response.data.data.length === 1) {
-          setUseManualAddress(true);
-        }
       };
       fetchDistricts();
+    } else {
+      setDistricts([]);
     }
   }, [selectedProvinceID]);
 
@@ -49,27 +59,50 @@ const AddressSelector = ({ setAddressData, disabled }) => {
       const fetchWards = async () => {
         const response = await axios.get(
           `https://online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=${selectedDistrictID}`,
-          { headers: { token: "33d08723-a497-11ef-bfcf-9e83397c467a" } }
+          { headers: { token: '33d08723-a497-11ef-bfcf-9e83397c467a' } }
         );
         setWards(response.data.data);
-        if (response.data.data.length === 1) {
-          setUseManualAddress(true);
-        }
       };
       fetchWards();
+    } else {
+      setWards([]);
     }
   }, [selectedDistrictID]);
 
-  const handleFind = async () => {
-    try {
-      const provinceName = provinces
-        .find((prov) => prov.ProvinceID == selectedProvinceID)
-        ?.ProvinceName.toString();
+  useEffect(() => {
+    if (onChange) {
+      const provinceName = provinces.find(
+        (prov) => prov.ProvinceID == selectedProvinceID
+      )?.ProvinceName;
       const districtName = districts.find(
         (dist) => dist.DistrictID == selectedDistrictID
       )?.DistrictName;
       const wardName = wards.find(
-        (ward) => ward.WardCode === selectedWardID
+        (ward) => ward.WardCode == selectedWardID
+      )?.WardName;
+
+      onChange({
+        provinceId: selectedProvinceID,
+        districtId: selectedDistrictID,
+        wardId: selectedWardID,
+        provinceName: provinceName || '',
+        districtName: districtName || '',
+        wardName: wardName || '',
+        manualAddress: manualAddress || '',
+      });
+    }
+  }, [selectedProvinceID, selectedDistrictID, selectedWardID, manualAddress]);
+
+  const handleFind = async () => {
+    try {
+      const provinceName = provinces.find(
+        (prov) => prov.ProvinceID == selectedProvinceID
+      )?.ProvinceName;
+      const districtName = districts.find(
+        (dist) => dist.DistrictID == selectedDistrictID
+      )?.DistrictName;
+      const wardName = wards.find(
+        (ward) => ward.WardCode == selectedWardID
       )?.WardName;
 
       const response = await getAddressData(
@@ -79,7 +112,7 @@ const AddressSelector = ({ setAddressData, disabled }) => {
       );
       setAddressData(response.data);
     } catch (error) {
-      console.error("Error fetching address data:", error);
+      console.error('Error fetching address data:', error);
     }
   };
 
@@ -106,7 +139,7 @@ const AddressSelector = ({ setAddressData, disabled }) => {
       <select
         onChange={(e) => setSelectedDistrictID(e.target.value)}
         value={selectedDistrictID}
-        disabled={disabled}
+        disabled={disabled || !selectedProvinceID}
         className="w-auto border border-gray-300 rounded-md px-1 py-2 focus:outline-none focus:ring focus:ring-blue-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:focus:ring-blue-500 mr-4"
       >
         <option value="">Select District</option>
@@ -120,7 +153,7 @@ const AddressSelector = ({ setAddressData, disabled }) => {
       <select
         onChange={(e) => setSelectedWardID(e.target.value)}
         value={selectedWardID}
-        disabled={disabled}
+        disabled={disabled || !selectedDistrictID}
         className="w-auto border border-gray-300 rounded-md px-1 py-2 focus:outline-none focus:ring focus:ring-blue-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:focus:ring-blue-500 mr-4"
       >
         <option value="">Select Ward</option>

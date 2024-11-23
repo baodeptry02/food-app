@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import React, { useEffect, useState, useRef } from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import {
   ChangePassword,
   Dashboard,
@@ -11,22 +11,26 @@ import {
   Service,
   Menu,
   Me,
-} from "./containers";
-import { ToastContainer, Slide } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import Cookies from "js-cookie";
+} from './containers';
+import { ToastContainer, Slide } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Cookies from 'js-cookie';
 
-import LoadingAnimation from "./animations/loading-animation";
-import Header from "./components/Header";
-import { app } from "./config/firebase.config";
-import { getAuth } from "firebase/auth";
-import { useDispatch } from "react-redux";
-import { setUserDetails } from "./context/actions/userActions";
-import LocomotiveScroll from "locomotive-scroll";
-import Footer from "./components/Footer";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/all";
-import { Chatbot } from "./components";
+import LoadingAnimation from './animations/loading-animation';
+import Header from './components/Header';
+import { app } from './config/firebase.config';
+import { getAuth } from 'firebase/auth';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserDetails } from './context/actions/userActions';
+import LocomotiveScroll from 'locomotive-scroll';
+import Footer from './components/Footer';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/all';
+import { Chatbot } from './components';
+import { getAllProducts } from './api/productApi';
+import { setProducts } from './context/actions/productActions';
+import { getCartByUser } from './api/cartApi';
+import { setCart } from './context/actions/cartAction';
 
 gsap.registerPlugin(ScrollTrigger);
 const App = () => {
@@ -34,12 +38,23 @@ const App = () => {
   const userRef = useRef(null);
   const auth = getAuth(app);
   const location = useLocation();
-  const [currentPath, setCurrentPath] = useState("");
+  const [currentPath, setCurrentPath] = useState('');
   const dispatch = useDispatch();
   const scrollRef = useRef(null);
   const locomotiveScroll = useRef(null);
-  const cursor = useRef(null);
-  const pageContent = useRef(null);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await getAllProducts();
+        dispatch(setProducts(res));
+      } catch (error) {
+        console.error('Failed to fetch products:', error);
+      }
+    };
+
+    fetchProducts();
+  }, [dispatch]);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -47,7 +62,7 @@ const App = () => {
         el: scrollRef.current,
         smooth: true,
         multiplier: 1.5,
-        class: "is-reveal",
+        class: 'is-reveal',
       });
 
       return () => {
@@ -64,7 +79,7 @@ const App = () => {
     });
 
     const handleLoading = () => {
-      if (location.pathname !== "/") {
+      if (location.pathname !== '/') {
         setLoading(true);
         setTimeout(() => {
           setLoading(false);
@@ -114,29 +129,39 @@ const App = () => {
   useEffect(() => {
     setCurrentPath(location.pathname);
 
-    const authToken = Cookies.get("authToken");
+    const authToken = Cookies.get('authToken');
     if (authToken) {
-      const storedUser = localStorage.getItem("user");
+      const storedUser = localStorage.getItem('user');
       if (storedUser) {
         const userData = JSON.parse(storedUser);
         dispatch(setUserDetails(userData));
+        try {
+          const fetchCart = async () => {
+            const cart = await getCartByUser(userData.uid);
+            dispatch(setCart(cart));
+          };
+          fetchCart();
+        } catch (error) {
+          console.error('Failed to fetch cart:', error);
+        }
       }
     }
   }, [location.pathname, dispatch]);
 
-  const hideHeaderRoutes = ["/login", "/admin"];
+  const hideHeaderRoutes = ['/login', '/admin'];
 
   const validRoutes = [
-    "/",
-    "/login",
-    "/change-password",
-    "/reset-password",
-    "/admin",
-    "/about",
-    "/contact",
-    "/menu",
-    "/services",
-    "/me/profile",
+    '/',
+    '/login',
+    '/change-password',
+    '/reset-password',
+    '/admin',
+    '/about',
+    '/contact',
+    '/menu',
+    '/services',
+    '/me/profile',
+    '/me/cart',
   ];
 
   const isNotFoundRoute = !validRoutes.includes(location.pathname);
@@ -162,7 +187,7 @@ const App = () => {
         pauseOnFocusLoss={false}
         limit={5}
       />
-      {loading && location.pathname !== "/" && <LoadingAnimation />}
+      {loading && location.pathname !== '/' && <LoadingAnimation />}
       {/* {!loading && (
         <Canvas
           style={{

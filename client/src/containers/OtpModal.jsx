@@ -1,11 +1,11 @@
-import React, { useState, useRef, useEffect } from "react";
-import { toast } from "react-toastify";
-import { sendOtpEmail, verifyOtp as verifyOtpApi } from "../api/authApi";
-import { FaEnvelope } from "react-icons/fa";
-import LoadingAnimation from "../animations/loading-animation";
+import React, { useState, useRef, useEffect } from 'react';
+import { toast } from 'react-toastify';
+import { sendOtpEmail, verifyOtp as verifyOtpApi } from '../api/authApi';
+import { FaEnvelope } from 'react-icons/fa';
+import LoadingAnimation from '../animations/loading-animation';
 
 const OtpModal = ({ isOpen, onClose, email, onOtpSuccess }) => {
-  const [otp, setOtp] = useState(new Array(6).fill(""));
+  const [otp, setOtp] = useState(new Array(6).fill(''));
   const [resendTimer, setResendTimer] = useState(30);
   const [isLoading, setIsLoading] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
@@ -20,7 +20,7 @@ const OtpModal = ({ isOpen, onClose, email, onOtpSuccess }) => {
   }, [resendTimer]);
 
   useEffect(() => {
-    if (otp.every((digit) => digit !== "")) {
+    if (otp.every((digit) => digit !== '')) {
       handleVerifyOtp();
     }
   }, [otp]);
@@ -39,8 +39,8 @@ const OtpModal = ({ isOpen, onClose, email, onOtpSuccess }) => {
 
   const handlePaste = (e) => {
     const clipboardData = e.clipboardData || window.clipboardData;
-    const pastedData = clipboardData.getData("Text").slice(0, 6);
-    const newOtp = [...pastedData.split("")];
+    const pastedData = clipboardData.getData('Text').slice(0, 6);
+    const newOtp = [...pastedData.split('')];
     setOtp(newOtp);
 
     if (inputRefs.current[0]) {
@@ -49,10 +49,10 @@ const OtpModal = ({ isOpen, onClose, email, onOtpSuccess }) => {
   };
 
   const handleKeyDown = (e, index) => {
-    if (e.key === "Backspace" && otp[index] === "") {
+    if (e.key === 'Backspace' && otp[index] === '') {
       if (index > 0) {
         const newOtp = [...otp];
-        newOtp[index - 1] = "";
+        newOtp[index - 1] = '';
         setOtp(newOtp);
         inputRefs.current[index - 1].focus();
       }
@@ -61,31 +61,31 @@ const OtpModal = ({ isOpen, onClose, email, onOtpSuccess }) => {
 
   const handleVerifyOtp = async () => {
     setIsVerifying(true);
-    const otpCode = otp.join("");
+    const otpCode = otp.join('');
     if (otpCode.length !== 6) {
-      toast.error("Please enter the 6-digit OTP.");
+      toast.error('Please enter the 6-digit OTP.');
       setIsVerifying(false);
       return;
     }
 
     try {
       const response = await verifyOtpApi({ email: email, otp: otpCode });
-      console.log("OTP Verification Response:", response);
+      console.log('OTP Verification Response:', response);
 
       if (response.status === 200) {
         onOtpSuccess();
         onClose();
       } else {
         toast.error(
-          "Invalid or expired OTP. Please try again or request the new one."
+          'Invalid or expired OTP. Please try again or request the new one.'
         );
-        setOtp(new Array(6).fill(""));
+        setOtp(new Array(6).fill(''));
         inputRefs.current[0].focus();
       }
     } catch (error) {
-      console.error("OTP Verification Error: ", error);
-      toast.error("Failed to verify OTP. Please try again.");
-      setOtp(new Array(6).fill(""));
+      console.error('OTP Verification Error: ', error);
+      toast.error('Failed to verify OTP. Please try again.');
+      setOtp(new Array(6).fill(''));
       inputRefs.current[0].focus();
     } finally {
       setIsVerifying(false);
@@ -93,7 +93,7 @@ const OtpModal = ({ isOpen, onClose, email, onOtpSuccess }) => {
   };
 
   const closeModal = (e) => {
-    if (e.target === e.currentTarget || e.target.className === "modal-close") {
+    if (e.target === e.currentTarget || e.target.className === 'modal-close') {
       onClose();
     }
   };
@@ -102,25 +102,25 @@ const OtpModal = ({ isOpen, onClose, email, onOtpSuccess }) => {
     setIsLoading(true);
     try {
       const response = await sendOtpEmail(email);
-      console.log("Send OTP Email Response:", response);
+      console.log('Send OTP Email Response:', response);
       if (response.status === 200) {
-        toast.success("OTP sent successfully. Please check your email.");
+        toast.success('OTP sent successfully. Please check your email.');
         setResendTimer(30);
       } else {
-        toast.error("Failed to send OTP. Please try again.");
+        toast.error('Failed to send OTP. Please try again.');
       }
     } catch (error) {
-      console.error("Send OTP Email Error: ", error);
-      toast.error("Failed to send OTP. Please try again.");
+      console.error('Send OTP Email Error: ', error);
+      toast.error('Failed to send OTP. Please try again.');
     } finally {
       setIsLoading(false);
     }
   };
 
   const maskEmail = (email) => {
-    const [localPart, domain] = email.split("@");
+    const [localPart, domain] = email.split('@');
     const maskedLocalPart =
-      localPart.slice(0, 2) + "*****" + localPart.slice(-1);
+      localPart.slice(0, 2) + '*****' + localPart.slice(-1);
     return `${maskedLocalPart}@${domain}`;
   };
 
@@ -167,8 +167,8 @@ const OtpModal = ({ isOpen, onClose, email, onOtpSuccess }) => {
             onClick={handleSendOtpEmail}
             className={`w-full py-2 text-lg text-white rounded transition duration-300 ${
               resendTimer > 0 || isLoading
-                ? "bg-gray-500 cursor-not-allowed"
-                : "bg-gray-500 hover:bg-gray-600"
+                ? 'bg-gray-500 cursor-not-allowed'
+                : 'bg-gray-500 hover:bg-gray-600'
             }`}
             disabled={resendTimer > 0 || isLoading}
           >
@@ -197,7 +197,7 @@ const OtpModal = ({ isOpen, onClose, email, onOtpSuccess }) => {
                 <span className="ml-2">Sending...</span>
               </div>
             ) : (
-              `Resend Email ${resendTimer > 0 ? `(${resendTimer}s)` : ""}`
+              `Resend Email ${resendTimer > 0 ? `(${resendTimer}s)` : ''}`
             )}
           </button>
         </div>

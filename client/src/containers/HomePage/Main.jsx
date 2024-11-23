@@ -1,18 +1,18 @@
-import React, { useEffect, useRef, useState } from "react";
-import { gsap } from "gsap";
-import { FoodVideo } from "../../assests/index";
-import { useGSAP } from "@gsap/react";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import AnimatedTextSplitter from "../AnimatedTextSplitter";
-import { Delivery, RamSay } from "../../assests";
-import { motion } from "framer-motion";
-import { buttonClick } from "../../animations";
-import Lenis from "@studio-freight/lenis";
-import _ from "lodash";
-import { getAllProducts } from "../../api/productApi";
-import { LuMouse } from "react-icons/lu";
-import Typed from "typed.js";
-import { IoPricetags } from "react-icons/io5";
+import React, { useEffect, useRef, useState } from 'react';
+import { gsap } from 'gsap';
+import { FoodVideo } from '../../assests/index';
+import { useGSAP } from '@gsap/react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import AnimatedTextSplitter from '../AnimatedTextSplitter';
+import { Delivery, RamSay } from '../../assests';
+import { motion } from 'framer-motion';
+import { buttonClick } from '../../animations';
+import Lenis from '@studio-freight/lenis';
+import _ from 'lodash';
+import { getAllProducts } from '../../api/productApi';
+import { LuMouse } from 'react-icons/lu';
+import Typed from 'typed.js';
+import { IoPricetags } from 'react-icons/io5';
 
 export default function Main() {
   const videoRef = useRef();
@@ -39,106 +39,106 @@ export default function Main() {
     const videoElement = videoRef.current;
     if (videoElement) {
       videoElement.play().catch((error) => {
-        console.error("Error attempting to play video:", error);
+        console.error('Error attempting to play video:', error);
       });
     }
   }, []);
 
   useGSAP(() => {
     const tl = gsap.timeline({ delay: 6 });
-    const counter3 = document.querySelector(".counter-3");
+    const counter3 = document.querySelector('.counter-3');
     for (let i = 0; i < 2; i++) {
       for (let j = 0; j < 10; j++) {
-        const num = document.createElement("div");
-        num.className = "num";
+        const num = document.createElement('div');
+        num.className = 'num';
         num.textContent = j;
         counter3.appendChild(num);
       }
     }
-    const finalDiv = document.createElement("div");
-    finalDiv.className = "num";
-    finalDiv.textContent = "0";
+    const finalDiv = document.createElement('div');
+    finalDiv.className = 'num';
+    finalDiv.textContent = '0';
     counter3.appendChild(finalDiv);
 
     function animate(counter, duration, delay = 0) {
-      const numHeight = counter.querySelector(".num").clientHeight;
+      const numHeight = counter.querySelector('.num').clientHeight;
       const totalDistance =
-        (counter.querySelectorAll(".num").length - 1) * numHeight;
+        (counter.querySelectorAll('.num').length - 1) * numHeight;
 
       gsap.to(counter, {
         duration: duration,
         y: -totalDistance,
         delay: delay,
-        ease: "power2.inOut",
+        ease: 'power2.inOut',
       });
     }
     animate(counter3, 3);
-    animate(document.querySelector(".counter-2"), 3);
-    animate(document.querySelector(".counter-1"), 1, 2);
-    gsap.to(".digit", {
-      top: "-150px",
+    animate(document.querySelector('.counter-2'), 3);
+    animate(document.querySelector('.counter-1'), 1, 2);
+    gsap.to('.digit', {
+      top: '-150px',
       stagger: {
         amount: 0.25,
       },
       delay: 3,
       duration: 1,
-      ease: "power4.inOut",
+      ease: 'power4.inOut',
     });
-    gsap.from(".loader-1", {
+    gsap.from('.loader-1', {
       width: 0,
       duration: 3,
-      ease: "power2.inOut",
+      ease: 'power2.inOut',
     });
-    gsap.from(".loader-2", {
+    gsap.from('.loader-2', {
       width: 0,
       delay: 1.9,
       duration: 1.5,
-      ease: "power2.inOut",
+      ease: 'power2.inOut',
     });
-    gsap.to(".loader", {
-      background: "none",
+    gsap.to('.loader', {
+      background: 'none',
       delay: 3,
       duration: 0.1,
     });
-    gsap.to(".loader-1", {
+    gsap.to('.loader-1', {
       rotate: 90,
       y: -50,
       duration: 0.5,
       delay: 3,
     });
     gsap.to(
-      ".loader-2",
+      '.loader-2',
       {
         x: -75,
         y: 75,
         duration: 0.5,
       },
-      "<"
+      '<'
     );
-    gsap.to(".loader", {
+    gsap.to('.loader', {
       scale: 40,
       duration: 1,
       delay: 4,
-      ease: "power2.inOut",
+      ease: 'power2.inOut',
     });
-    gsap.to(".loader", {
+    gsap.to('.loader', {
       rotate: 45,
       y: 800,
       x: 2100,
       duration: 1,
       delay: 4,
-      ease: "power2.inOut",
+      ease: 'power2.inOut',
     });
-    gsap.to(".loading-screen", {
+    gsap.to('.loading-screen', {
       opacity: 0,
       duration: 1,
       delay: 5,
       onComplete: () => {
-        document.querySelector(".loading-screen").style.display = "none";
+        document.querySelector('.loading-screen').style.display = 'none';
       },
     });
     tl.fromTo(
-      ".video-element",
+      '.video-element',
       {
         opacity: 0,
       },
@@ -148,36 +148,36 @@ export default function Main() {
       }
     );
     tl.to(
-      ".block",
+      '.block',
       {
-        clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
+        clipPath: 'polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)',
         duration: 1,
         stagger: {
           amount: 0.5,
-          from: "random",
-          ease: "power3.out",
+          from: 'random',
+          ease: 'power3.out',
         },
         onComplete: () => setShowText(true),
       },
-      "<"
+      '<'
     );
   }, []);
 
   useEffect(() => {
     if (showText && textRef.current) {
-      gsap.from(textRef.current.querySelectorAll(".split-char"), {
+      gsap.from(textRef.current.querySelectorAll('.split-char'), {
         y: -100,
         opacity: 0,
         duration: 1.5,
         stagger: 0.1,
-        ease: "power2.inOut",
+        ease: 'power2.inOut',
       });
     }
   }, [showText]);
   useEffect(() => {
     if (titleHightLightRef.current) {
       gsap.fromTo(
-        titleHightLightRef.current.querySelectorAll(".split-char"),
+        titleHightLightRef.current.querySelectorAll('.split-char'),
         {
           scale: 1.3,
           y: 40,
@@ -190,7 +190,7 @@ export default function Main() {
           rotate: 0,
           opacity: 1,
           stagger: 0.5,
-          ease: "back.out(3)",
+          ease: 'back.out(3)',
           duration: 0.5,
         }
       );
@@ -200,9 +200,9 @@ export default function Main() {
   useEffect(() => {
     const pin = ScrollTrigger.create({
       trigger: videoRef.current,
-      start: "top top",
+      start: 'top top',
       endTrigger: section2Ref.current,
-      end: "top top",
+      end: 'top top',
       pin: false,
       pinSpacing: false,
     });
@@ -215,8 +215,8 @@ export default function Main() {
         duration: 1,
         scrollTrigger: {
           trigger: section2Ref.current,
-          start: "top bottom",
-          end: "top top",
+          start: 'top bottom',
+          end: 'top top',
           scrub: true,
           onLeave: () => {
             setShowText(false); // Hides text on leaving
@@ -238,11 +238,11 @@ export default function Main() {
     const titleTimeline = gsap.timeline({
       scrollTrigger: {
         trigger: section2Ref.current,
-        start: "30% center",
-        end: "65% center",
+        start: '30% center',
+        end: '65% center',
         scrub: false,
         anticipatePin: 1,
-        toggleActions: "play reverse play reverse",
+        toggleActions: 'play reverse play reverse',
         markers: true,
       },
     });
@@ -253,11 +253,11 @@ export default function Main() {
         opacity: 1,
         scale: 1,
         duration: 0.2,
-        ease: "power4.inOut",
+        ease: 'power4.inOut',
       }
     );
     titleTimeline.fromTo(
-      welcomeRef.current.querySelectorAll(".split-char"),
+      welcomeRef.current.querySelectorAll('.split-char'),
       {
         y: 115,
         opacity: 0,
@@ -267,18 +267,18 @@ export default function Main() {
         y: 0,
         opacity: 1,
         stagger: 0.02,
-        ease: "back.out(3)",
+        ease: 'back.out(3)',
         duration: 0.5,
         lineHeight: 5.9,
-        clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+        clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)',
       }
     );
     titleTimeline.call(() => {
-      const chars = welcomeRef.current.querySelectorAll(".split-char");
+      const chars = welcomeRef.current.querySelectorAll('.split-char');
       chars.forEach((char) => {
-        char.style.transform = "none"; // Xóa mọi dịch chuyển
-        char.style.lineHeight = "normal"; // Reset line-height về mặc định
-        char.style.clipPath = "none"; // Reset clip-path
+        char.style.transform = 'none'; // Xóa mọi dịch chuyển
+        char.style.lineHeight = 'normal'; // Reset line-height về mặc định
+        char.style.clipPath = 'none'; // Reset clip-path
       });
     });
 
@@ -289,17 +289,17 @@ export default function Main() {
         opacity: 2,
         x: 0,
         duration: 0.2,
-        ease: "power4.inOut",
+        ease: 'power4.inOut',
       }
     );
 
     titleTimeline.fromTo(
       titleRef.current,
       { opacity: 0, y: 50 },
-      { y: 0, opacity: 1, duration: 0.2, ease: "power4.inOut" }
+      { y: 0, opacity: 1, duration: 0.2, ease: 'power4.inOut' }
     );
     titleTimeline.fromTo(
-      titleHightLightRef.current.querySelectorAll(".split-char"),
+      titleHightLightRef.current.querySelectorAll('.split-char'),
       {
         scale: 1.3,
         y: 40,
@@ -312,7 +312,7 @@ export default function Main() {
         rotate: 0,
         opacity: 1,
         stagger: 0.05,
-        ease: "back.out(3)",
+        ease: 'back.out(3)',
         duration: 0.2,
       }
     );
@@ -323,7 +323,7 @@ export default function Main() {
         opacity: 2,
         y: 0,
         duration: 0.2,
-        ease: "power4.inOut",
+        ease: 'power4.inOut',
       }
     );
     titleTimeline.fromTo(
@@ -333,7 +333,7 @@ export default function Main() {
         opacity: 2,
         y: 0,
         duration: 0.2,
-        ease: "power4.inOut",
+        ease: 'power4.inOut',
       }
     );
     return () => {
@@ -347,7 +347,7 @@ export default function Main() {
         const productsData = await getAllProducts();
         setProducts(productsData);
       } catch (error) {
-        console.error("Error fetching products:", error);
+        console.error('Error fetching products:', error);
       } finally {
         setLoading(false);
       }
@@ -358,7 +358,7 @@ export default function Main() {
   useEffect(() => {
     if (loading) return;
     const imagePromises = Array.from(
-      document.querySelectorAll(".gsap__item img")
+      document.querySelectorAll('.gsap__item img')
     ).map((img) => {
       return new Promise((resolve) => {
         if (img.complete) {
@@ -381,22 +381,22 @@ export default function Main() {
       }
       requestAnimationFrame(raf);
 
-      lenis.on("scroll", ScrollTrigger.update);
+      lenis.on('scroll', ScrollTrigger.update);
 
       gsap.ticker.add((time) => {
         lenis.raf(time * 1000);
       });
 
       const initScrollTrigger = () => {
-        const gsapBlWidth = document.querySelector(".gsap__bl").offsetWidth;
+        const gsapBlWidth = document.querySelector('.gsap__bl').offsetWidth;
         const gsapTrackWidth =
-          document.querySelector(".gsap__track").offsetWidth;
+          document.querySelector('.gsap__track').offsetWidth;
         const scrollSliderTransform = gsapTrackWidth - gsapBlWidth;
 
-        gsap.to(".gsap__track", {
+        gsap.to('.gsap__track', {
           scrollTrigger: {
-            trigger: ".gsap_slider",
-            start: "center center",
+            trigger: '.gsap_slider',
+            start: 'center center',
             end: () => `+=${gsapTrackWidth}`,
             pin: true,
             scrub: true,
@@ -409,10 +409,10 @@ export default function Main() {
       const debouncedResize = _.debounce(() => {
         ScrollTrigger.refresh();
       }, 500);
-      window.addEventListener("resize", debouncedResize);
+      window.addEventListener('resize', debouncedResize);
 
       return () => {
-        window.removeEventListener("resize", debouncedResize);
+        window.removeEventListener('resize', debouncedResize);
         lenis.destroy();
         ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
         gsap.ticker.remove((time) => lenis.raf(time * 1000));
@@ -422,7 +422,7 @@ export default function Main() {
 
   useEffect(() => {
     const options = {
-      strings: ["Breads", "Deserts", "Drinks", "Snacks"],
+      strings: ['Breads', 'Deserts', 'Drinks', 'Snacks'],
       typeSpeed: 50,
       backSpeed: 50,
       backDelay: 400,
@@ -458,8 +458,8 @@ export default function Main() {
             <div
               className="absolute text-white text-6xl uppercase tracking-10 font-poppins pointer-events-none"
               style={{
-                WebkitTextStroke: "2px black",
-                WebkitTextFillColor: "white",
+                WebkitTextStroke: '2px black',
+                WebkitTextFillColor: 'white',
               }}
             >
               <AnimatedTextSplitter
@@ -478,40 +478,40 @@ export default function Main() {
           <div className="block flex-1 h-full bg-primary clip-path-custom"></div>
           <div className="block flex-1 h-full bg-primary clip-path-custom"></div>
         </div>
-        <div class="z-20 loading-screen fixed w-full h-full top-0 left-0 bg-black text-white pointer-events-none">
-          <div class="loader absolute top-1/2 left-1/2 w-[300px] h-[50px] -translate-x-1/2 -translate-y-1/2 flex bg-[rgb(80,80,80)]">
-            <div class="loader-1 bar relative bg-white w-[200px] h-[50px]"></div>
-            <div class="loader-2 bar relative bg-white w-[100px] h-[50px]"></div>
+        <div className="z-20 loading-screen fixed w-full h-full top-0 left-0 bg-black text-white pointer-events-none">
+          <div className="loader absolute top-1/2 left-1/2 w-[300px] h-[50px] -translate-x-1/2 -translate-y-1/2 flex bg-[rgb(80,80,80)]">
+            <div className="loader-1 bar relative bg-white w-[200px] h-[50px]"></div>
+            <div className="loader-2 bar relative bg-white w-[100px] h-[50px]"></div>
           </div>
-          <div class="font-normal counter fixed left-[50px] bottom-[50px] flex h-[100px] text-[100px] leading-[102px] clip-path-custom1">
-            <div class="counter-1 digit relative -top-[15px]">
-              <div class="num">0</div>
-              <div class="num num1offset1 relative -right-2">1</div>
+          <div className="font-normal counter fixed left-[50px] bottom-[50px] flex h-[100px] text-[100px] leading-[102px] clip-path-custom1">
+            <div className="counter-1 digit relative -top-[15px]">
+              <div className="num">0</div>
+              <div className="num num1offset1 relative -right-2">1</div>
             </div>
-            <div class="counter-2 digit relative -top-[15px]">
-              <div class="num">0</div>
-              <div class="num num1offset2 relative -right-[10px]">1</div>
-              <div class="num">2</div>
-              <div class="num">3</div>
-              <div class="num">4</div>
-              <div class="num">5</div>
-              <div class="num">6</div>
-              <div class="num">7</div>
-              <div class="num">8</div>
-              <div class="num">9</div>
-              <div class="num">0</div>
+            <div className="counter-2 digit relative -top-[15px]">
+              <div className="num">0</div>
+              <div className="num num1offset2 relative -right-[10px]">1</div>
+              <div className="num">2</div>
+              <div className="num">3</div>
+              <div className="num">4</div>
+              <div className="num">5</div>
+              <div className="num">6</div>
+              <div className="num">7</div>
+              <div className="num">8</div>
+              <div className="num">9</div>
+              <div className="num">0</div>
             </div>
-            <div class="counter-3 digit relative top-[-15px]">
-              <div class="num">0</div>
-              <div class="num">1</div>
-              <div class="num">2</div>
-              <div class="num">3</div>
-              <div class="num">4</div>
-              <div class="num">5</div>
-              <div class="num">6</div>
-              <div class="num">7</div>
-              <div class="num">8</div>
-              <div class="num">9</div>
+            <div className="counter-3 digit relative top-[-15px]">
+              <div className="num">0</div>
+              <div className="num">1</div>
+              <div className="num">2</div>
+              <div className="num">3</div>
+              <div className="num">4</div>
+              <div className="num">5</div>
+              <div className="num">6</div>
+              <div className="num">7</div>
+              <div className="num">8</div>
+              <div className="num">9</div>
             </div>
           </div>
         </div>
@@ -588,7 +588,7 @@ export default function Main() {
                 className="absolute right-0 md:-right-12 w-auto h-auto md:w-auto md:h-[540px] xl:h-[650px] bg-center bg-cover object-cover"
                 src={RamSay}
                 alt=""
-                style={{ imageRendering: "crisp-edges" }}
+                style={{ imageRendering: 'crisp-edges' }}
               />
             </div>
           </motion.div>
@@ -611,11 +611,11 @@ export default function Main() {
 
         <section className="dark:bg-darkBg  transition-colors duration-500 ease-in-out wrapp w-screen h-[150vh] overflow-hidden relative pt-[120px] box-border">
           <div className="pl-36 xl:block hidden  z-10 font-bold text-4xl text-black dark:text-primary">
-            We have{" "}
+            We have{' '}
             <span
               className="text-primaryColor dark:text-[#FF5733]"
               ref={typedElement}
-            ></span>{" "}
+            ></span>{' '}
             in our menu
           </div>
           <main className="main">
@@ -650,7 +650,7 @@ export default function Main() {
                                   Buy Now
                                 </button>
                                 <p className="text-base px-6 py-3 font-bold flex items-center gap-2 backdrop-blur-md rounded-full border-2 text-primaryColor">
-                                  <IoPricetags className="text-primaryColor" />{" "}
+                                  <IoPricetags className="text-primaryColor" />{' '}
                                   <span>${product.price}</span>
                                 </p>
                               </div>
@@ -669,8 +669,8 @@ export default function Main() {
                 </div>
               </div>
             </section>
-            <section class="section-text">
-              <div class="content">
+            <section className="section-text">
+              <div className="content">
                 <p className="description-content">
                   Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eos
                   voluptatem fugit accusamus fuga vero quos, sint est laboriosam

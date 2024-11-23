@@ -1,22 +1,22 @@
-import React, { useState } from "react";
-import { statuses } from "../utils/styles.utils";
-import Spinner from "./Spinner";
-import { FaCloudUploadAlt } from "react-icons/fa";
-import { storage } from "../config/firebase.config";
+import React, { useState } from 'react';
+import { statuses } from '../utils/styles.utils';
+import Spinner from './Spinner';
+import { FaCloudUploadAlt } from 'react-icons/fa';
+import { storage } from '../config/firebase.config';
 import {
   deleteObject,
   getDownloadURL,
   ref,
   uploadBytesResumable,
-} from "firebase/storage";
-import { toast } from "react-toastify";
-import { motion } from "framer-motion";
-import { buttonClick } from "../animations";
-import { MdDelete } from "react-icons/md";
-import { createProduct } from "../api/productApi";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import LoadingAnimation from "../animations/loading-animation";
+} from 'firebase/storage';
+import { toast } from 'react-toastify';
+import { motion } from 'framer-motion';
+import { buttonClick } from '../animations';
+import { MdDelete } from 'react-icons/md';
+import { createProduct } from '../api/productApi';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+import LoadingAnimation from '../animations/loading-animation';
 
 const DBNewItem = () => {
   const [category, setCategory] = useState(null);
@@ -32,7 +32,7 @@ const DBNewItem = () => {
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     uploadTask.on(
-      "state_changed",
+      'state_changed',
       (snapshot) => {
         const progress = (
           (snapshot.bytesTransferred / snapshot.totalBytes) *
@@ -41,7 +41,7 @@ const DBNewItem = () => {
         setProgress(progress);
       },
       () => {
-        toast.error("An error occurred while uploading the image");
+        toast.error('An error occurred while uploading the image');
         setIsUploading(false);
       },
       () => {
@@ -49,8 +49,8 @@ const DBNewItem = () => {
           setImageDownloadUrl(downloadURL);
           setProgress(null);
           setIsUploading(false);
-          toast.success("Image uploaded successfully!");
-          setFieldValue("imageDownloadUrl", downloadURL);
+          toast.success('Image uploaded successfully!');
+          setFieldValue('imageDownloadUrl', downloadURL);
         });
       }
     );
@@ -64,21 +64,21 @@ const DBNewItem = () => {
       .then(() => {
         setImageDownloadUrl(null);
         setIsUploading(false);
-        toast.success("Image deleted successfully!");
+        toast.success('Image deleted successfully!');
       })
       .catch(() => {
-        toast.error("An error occurred while deleting the image");
+        toast.error('An error occurred while deleting the image');
         setIsUploading(false);
       });
   };
 
   const validationSchema = Yup.object().shape({
-    itemName: Yup.string().required("Item name is required"),
-    category: Yup.string().required("Category is required"),
+    itemName: Yup.string().required('Item name is required'),
+    category: Yup.string().required('Category is required'),
     price: Yup.number()
-      .required("Price is required")
-      .min(0, "Price must be a positive number"),
-    imageDownloadUrl: Yup.string().required("Image is required"),
+      .required('Price is required')
+      .min(0, 'Price must be a positive number'),
+    imageDownloadUrl: Yup.string().required('Image is required'),
   });
 
   const submitData = async (values, { resetForm }) => {
@@ -86,12 +86,12 @@ const DBNewItem = () => {
 
     try {
       await createProduct(values);
-      toast.success("Product added successfully!");
+      toast.success('Product added successfully!');
       resetForm();
       setCategory(null);
       setImageDownloadUrl(null);
     } catch (error) {
-      toast.error("An error occurred while adding the product");
+      toast.error('An error occurred while adding the product');
     } finally {
       setIsSubmitting(false);
     }
@@ -100,10 +100,10 @@ const DBNewItem = () => {
   return (
     <Formik
       initialValues={{
-        itemName: "",
-        category: "",
-        price: "",
-        imageDownloadUrl: "",
+        itemName: '',
+        category: '',
+        price: '',
+        imageDownloadUrl: '',
       }}
       validationSchema={validationSchema}
       onSubmit={submitData}
@@ -131,13 +131,13 @@ const DBNewItem = () => {
                   <p
                     key={data.id}
                     onClick={() => {
-                      setFieldValue("category", data.category);
+                      setFieldValue('category', data.category);
                       setCategory(data.category);
                     }}
                     className={`px-4 py-3 rounded-md text-xl text-textColor dark:text-slate-300 font-semibold cursor-pointer hover:shadow-md border border-gray-200 backdrop-blur-md ${
                       data.category === category
-                        ? "bg-red-600 !text-white"
-                        : "bg-transparent"
+                        ? 'bg-red-600 !text-white'
+                        : 'bg-transparent'
                     }`}
                   >
                     {data.title}
@@ -197,7 +197,7 @@ const DBNewItem = () => {
                             onChange={(e) => {
                               uploadImage(e, setFieldValue);
                               setFieldValue(
-                                "imageDownloadUrl",
+                                'imageDownloadUrl',
                                 e.target.files[0].name
                               );
                             }}
@@ -219,7 +219,7 @@ const DBNewItem = () => {
                         className="p-3 absolute top-3 right-3 rounded-full bg-red-500 text-xl cursor-pointer outline-none hover:shadow-md duration-500 transition-all ease-in-out"
                         onClick={() => {
                           deleteImageFromFirebase(imageDownloadUrl);
-                          setFieldValue("imageDownloadUrl", "");
+                          setFieldValue('imageDownloadUrl', '');
                         }}
                       >
                         <MdDelete className="-rotate-0 text-xl" />

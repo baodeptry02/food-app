@@ -1,19 +1,19 @@
-import React, { useEffect, useRef, useState } from "react";
-import { MdLogout, MdShoppingCart } from "react-icons/md";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
-import { Avatar, Logo, Astronaut } from "../../assests";
-import { isActiveStyles, isNotActiveStyles } from "../../utils/styles.utils";
-import { motion } from "framer-motion";
-import { useDispatch, useSelector } from "react-redux";
-import { buttonClick, slideTop } from "../../animations/index";
-import { logoutUser } from "../../context/actions/userActions";
-import { getAuth } from "firebase/auth";
-import { app } from "../../config/firebase.config";
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
-import { MotionPathPlugin } from "gsap/all";
-import { FaFacebookF, FaTelegramPlane, FaTwitter } from "react-icons/fa";
-import { BiLogoInstagramAlt } from "react-icons/bi";
+import React, { useEffect, useRef, useState } from 'react';
+import { MdLogout, MdShoppingCart } from 'react-icons/md';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { Avatar, Logo, Astronaut } from '../../assests';
+import { isActiveStyles, isNotActiveStyles } from '../../utils/styles.utils';
+import { motion } from 'framer-motion';
+import { useDispatch, useSelector } from 'react-redux';
+import { buttonClick, slideTop } from '../../animations/index';
+import { logoutUser } from '../../context/actions/userActions';
+import { getAuth } from 'firebase/auth';
+import { app } from '../../config/firebase.config';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
+import { MotionPathPlugin } from 'gsap/all';
+import { FaFacebookF, FaTelegramPlane, FaTwitter } from 'react-icons/fa';
+import { BiLogoInstagramAlt } from 'react-icons/bi';
 
 const NotFound = () => {
   const dispatch = useDispatch();
@@ -35,15 +35,15 @@ const NotFound = () => {
     return path;
   };
   useGSAP(() => {
-    gsap.set(".navlink", { opacity: 1 });
-    gsap.set(".logo", { opacity: 1 });
+    gsap.set('.navlink', { opacity: 1 });
+    gsap.set('.logo', { opacity: 1 });
 
     gsap.registerPlugin(MotionPathPlugin);
 
-    gsap.to(".img", {
+    gsap.to('.img', {
       duration: 200,
       repeat: -1,
-      ease: "none",
+      ease: 'none',
       immediateRender: true,
       motionPath: {
         path: generateRandomPath(80, 100, 100, 100),
@@ -58,17 +58,17 @@ const NotFound = () => {
     firebaseAuth
       .signOut()
       .then(() => {
-        navigate("/login");
+        navigate('/login');
       })
       .catch((error) => {
         throw error;
       });
   };
   const rain = () => {
-    const cloud = document.querySelector(".container-1");
-    const e = document.createElement("div");
+    const cloud = document.querySelector('.container-1');
+    const e = document.createElement('div');
 
-    e.classList.add("star");
+    e.classList.add('star');
     cloud.appendChild(e);
 
     const left = Math.floor(Math.random() * (window.innerWidth - 200));
@@ -93,11 +93,11 @@ const NotFound = () => {
   }, []);
   return (
     <div className="container-1 h-screen flex justify-center items-center bg-black overflow-hidden w-screen">
-      <div className="flex flex-col h-70% w-3/5 lg:w-3/4 lg:h-[80%] xl:h-2/3 rounded-3xl backdrop-blur-sm z-10 bg-galaxyOverlay">
+      <div className="flex flex-col h-70% w-3/5 lg:w-3/4 lg:h-[80%] xl:h-[60%] xl:w-[60%] rounded-3xl backdrop-blur-sm z-10 bg-galaxyOverlay">
         {/* Header */}
         <header className="text-primary flex items-center justify-between p-4 lg:py-0 mt-8 lg:mt-4 rounded-t-3xl px-28">
           <NavLink
-            to={"/"}
+            to={'/'}
             className="logo flex items-center justify-center gap-4 opacity-0 "
           >
             <img src={Logo} className="w-12" alt="Logo" />
@@ -111,7 +111,7 @@ const NotFound = () => {
                     ? `${isActiveStyles} navlink opacity-0 `
                     : `${isNotActiveStyles} text-white navlink opacity-0`
                 }
-                to={"/"}
+                to={'/'}
               >
                 Home
               </NavLink>
@@ -121,7 +121,7 @@ const NotFound = () => {
                     ? `${isActiveStyles} navlink opacity-0 `
                     : `${isNotActiveStyles} text-white navlink opacity-0`
                 }
-                to={"/menu"}
+                to={'/menu'}
               >
                 Menu
               </NavLink>
@@ -131,7 +131,7 @@ const NotFound = () => {
                     ? `${isActiveStyles} navlink opacity-0 `
                     : `${isNotActiveStyles} text-white navlink opacity-0`
                 }
-                to={"/services"}
+                to={'/services'}
               >
                 Services
               </NavLink>
@@ -141,7 +141,7 @@ const NotFound = () => {
                     ? `${isActiveStyles} navlink opacity-0 text- `
                     : `${isNotActiveStyles} text-white navlink opacity-0 `
                 }
-                to={"/aboutus"}
+                to={'/aboutus'}
               >
                 About Us
               </NavLink>
@@ -180,28 +180,28 @@ const NotFound = () => {
                   >
                     <Link
                       className="hover:text-red-500 text-xl text-textColor"
-                      to={"/admin/dashboard/home"}
+                      to={'/admin/dashboard/home'}
                     >
                       Dashboard
                     </Link>
                     <hr />
                     <Link
                       className="hover:text-red-500 text-xl text-textColor"
-                      to={"/profile"}
+                      to={'/profile'}
                     >
                       My Profile
                     </Link>
                     <hr />
                     <Link
                       className="hover:text-red-500 text-xl text-textColor"
-                      to={"/user-orders"}
+                      to={'/user-orders'}
                     >
                       Orders
                     </Link>
                     <hr />
                     <Link
                       className="hover:text-red-500 text-xl text-textColor"
-                      to={"/change-password"}
+                      to={'/change-password'}
                     >
                       Change Password
                     </Link>
@@ -220,7 +220,7 @@ const NotFound = () => {
                 )}
               </div>
             ) : (
-              <NavLink to={"/login"}>
+              <NavLink to={'/login'}>
                 <motion.button
                   {...buttonClick}
                   className="px-4 py-2 rounded-md shadow-md bg-lightOverlay border border-red-300 cursor-pointer"
@@ -251,7 +251,7 @@ const NotFound = () => {
             <div className="mt-10">
               <button
                 className="rounded-full uppercase bg-primaryColor py-4 px-10 lg:py-4 lg:px-8 text-primary text-base mr-10 ml-2 leading-5 font-semibold"
-                onClick={() => navigate("/")}
+                onClick={() => navigate('/')}
               >
                 Go Home
               </button>

@@ -1,6 +1,6 @@
-import React from "react";
-import { DBHeader, DBNewItem } from ".";
-import { Route, Routes } from "react-router-dom";
+import React from 'react';
+import { DBHeader, DBNewItem } from '.';
+import { Route, Routes } from 'react-router-dom';
 
 const DBRightSection = () => {
   return (
