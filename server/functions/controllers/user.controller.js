@@ -7,10 +7,24 @@ class UserController {
   createUser = catchAsync(async (req, res) => {
     const user = req.body;
     try {
-      await saveUserToFirestore(user);
+      await userService.saveUserToFirestore(user);
       return CREATED(res, 'User created successfully', user);
     } catch (error) {
       throw new APIError(500, 'Error creating user', error.stack);
+    }
+  });
+
+  getUsers = catchAsync(async (req, res) => {
+    const userId = req.params.id;
+    if (!userId) {
+      return BAD_REQUEST(res, 'User ID is required');
+    }
+
+    try {
+      const user = await userService.getUserFromFirestore(userId);
+      return OK(res, 'User retrieved successfully', user);
+    } catch (error) {
+      throw new APIError(500, 'Error retrieving user', error.stack);
     }
   });
 
@@ -23,7 +37,7 @@ class UserController {
     }
 
     try {
-      await updateUserInFirestore(userId, updatedData);
+      await userService.updateUserInFirestore(userId, updatedData);
       return OK(res, 'User updated successfully', updatedData);
     } catch (error) {
       throw new APIError(500, 'Error updating user', error.stack);

@@ -243,7 +243,6 @@ export default function Main() {
         scrub: false,
         anticipatePin: 1,
         toggleActions: 'play reverse play reverse',
-        markers: true,
       },
     });
     titleTimeline.fromTo(

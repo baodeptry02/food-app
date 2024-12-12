@@ -1,10 +1,12 @@
 const { verifyToken } = require('../services/auth.service');
-const { OK, BAD_REQUEST } = require('../config/response.config');
+const {
+  OK,
+  BAD_REQUEST,
+  INTERNAL_SERVER_ERROR,
+} = require('../config/response.config');
 const APIError = require('../utils/APIError');
 const catchAsync = require('../utils/catchAsync');
 const authService = require('../services/auth.service');
-const admin = require('../config/firebaseAdmin.config');
-
 class AuthController {
   jwtVerification = catchAsync(async (req, res) => {
     if (!req.headers.authorization) {

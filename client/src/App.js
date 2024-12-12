@@ -26,7 +26,7 @@ import LocomotiveScroll from 'locomotive-scroll';
 import Footer from './components/Footer';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/all';
-import { Chatbot } from './components';
+import { Chatbot, Vietqr } from './components';
 import { getAllProducts } from './api/productApi';
 import { setProducts } from './context/actions/productActions';
 import { getCartByUser } from './api/cartApi';
@@ -47,7 +47,8 @@ const App = () => {
     const fetchProducts = async () => {
       try {
         const res = await getAllProducts();
-        dispatch(setProducts(res));
+        if (res) dispatch(setProducts(res));
+        return;
       } catch (error) {
         console.error('Failed to fetch products:', error);
       }
@@ -138,7 +139,10 @@ const App = () => {
         try {
           const fetchCart = async () => {
             const cart = await getCartByUser(userData.uid);
-            dispatch(setCart(cart));
+            if (cart) {
+              dispatch(setCart(cart));
+            }
+            return;
           };
           fetchCart();
         } catch (error) {
@@ -160,11 +164,27 @@ const App = () => {
     '/contact',
     '/menu',
     '/services',
-    '/me/profile',
-    '/me/cart',
+    '/me/*',
+    '/payment/vietqr',
   ];
 
-  const isNotFoundRoute = !validRoutes.includes(location.pathname);
+  const isValidRoute = (path) => {
+    return validRoutes.some((route) => {
+      if (route.includes(':')) {
+        // Handle dynamic routes
+        const routeRegex = new RegExp(`^${route.replace(/:\w+/g, '[^/]+')}$`);
+        return routeRegex.test(path);
+      }
+      if (route.endsWith('*')) {
+        // Handle wildcard routes
+        const baseRoute = route.slice(0, -1);
+        return path.startsWith(baseRoute);
+      }
+      return route === path;
+    });
+  };
+
+  const isNotFoundRoute = !isValidRoute(location.pathname);
 
   const shouldHideHeader =
     hideHeaderRoutes.includes(location.pathname) || isNotFoundRoute;
@@ -216,6 +236,7 @@ const App = () => {
             <Route path="/services" element={<Service />} />
             <Route path="/menu" element={<Menu />} />
             <Route path="/me/*" element={<Me />} />
+            <Route path="/payment/vietqr" element={<Vietqr />} />
           </Routes>
           <Footer />
         </>

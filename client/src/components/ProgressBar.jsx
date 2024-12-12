@@ -10,8 +10,9 @@ const StepProgressBar = () => {
 
   const steps = [
     { label: 'Menu', path: '/menu' },
-    { label: 'Your Order', path: '/me/cart' },
-    { label: 'Payment Progress', path: '/payment' },
+    { label: 'Your Cart', path: '/me/cart' },
+    { label: 'Confirm Order', path: '/me/confirm-order' },
+    { label: 'Payment Progress', path: '/payment/vietqr' },
   ];
 
   // Xác định bước hiện tại dựa trên URL
@@ -20,7 +21,7 @@ const StepProgressBar = () => {
   );
 
   return (
-    <div className="m-5 w-full pb-8">
+    <div className="m-5 w-full">
       <Steps
         current={currentStep}
         className="custom-steps"

@@ -1,5 +1,5 @@
 const catchAsync = require('../utils/catchAsync');
-const { OK, CREATED, BAD_REQUEST } = require('../config/response.config');
+const { OK, CREATED } = require('../config/response.config');
 const APIError = require('../utils/APIError');
 const productService = require('../services/product.service');
 
@@ -11,6 +11,29 @@ class ProductController {
       return CREATED(res, 'Product created successfully', product);
     } catch (error) {
       throw new APIError(500, 'Error creating product', error.stack);
+    }
+  });
+
+  getAllProducts = catchAsync(async (req, res) => {
+    try {
+      const products = await productService.getAllProductsFromFirestore();
+      return OK(res, 'Products retrieved successfully', products);
+    } catch (error) {
+      throw new APIError(500, 'Error retrieving products', error.stack);
+    }
+  });
+
+  getAddressData = catchAsync(async (req, res) => {
+    const { province, district, ward_street } = req.body;
+    try {
+      const response = await productService.fetchAddressData(
+        province,
+        district,
+        ward_street
+      );
+      return OK(res, 'Address data retrieved successfully', response);
+    } catch (error) {
+      throw new APIError(500, 'Error retrieving address data', error.stack);
     }
   });
 }

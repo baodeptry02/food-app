@@ -43,7 +43,7 @@ const Header = () => {
   useGSAP(
     () => {
       const isHomePage = location.pathname === '/';
-      const delay = isHomePage ? 5 : 1.5;
+      const delay = isHomePage ? 5 : 0.5;
 
       gsap.set('.logo', { opacity: 1, y: 0 });
       gsap.set('.navlink', { opacity: 1, y: 0 });

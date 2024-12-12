@@ -1,7 +1,6 @@
 const admin = require('../config/firebaseAdmin.config');
 const transporter = require('../config/nodemailer.config');
 const db = admin.firestore();
-
 class userService {
   async saveUserToFirestore(user) {
     try {
@@ -10,12 +9,27 @@ class userService {
         uid: user.uid,
         name: user.displayName || user.email,
         email: user.email,
-        photoURL: user.photoURL || null,
-        createdAt: admin.firestore.FieldValue.serverTimestamp(),
+        photoURL: user.photoURL || '',
+        createdAt: new Date(),
       });
       console.log('User saved to Firestore');
     } catch (error) {
       console.error('Error saving user to Firestore:', error);
+    }
+  }
+
+  async getUserFromFirestore(userId) {
+    try {
+      const userRef = db.collection('users').doc(userId);
+      const userDoc = await userRef.get();
+      if (!userDoc.exists) {
+        console.error('No such user document!');
+        return null;
+      }
+      console.log('User retrieved from Firestore');
+      return userDoc.data();
+    } catch (error) {
+      console.error('Error retrieving user from Firestore:', error);
     }
   }
 

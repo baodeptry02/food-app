@@ -6,7 +6,7 @@ class SuccessResponse {
     this.options = options;
   }
 
-  send(res, headers = {}) {
+  send(res = {}) {
     return res.status(this.status).json(this);
   }
 }
@@ -40,7 +40,7 @@ const OK = (res, message, data, options = {}) => {
 };
 const BAD_REQUEST = (res, message, data = null) => {
   return res.status(400).json({
-    status: 'fail',
+    status: 400,
     message,
     data,
   });
@@ -48,7 +48,7 @@ const BAD_REQUEST = (res, message, data = null) => {
 
 const FORBIDDEN = (res, message, data = null) => {
   return res.status(403).json({
-    status: 'fail',
+    status: 403,
     message,
     data,
   });
@@ -56,7 +56,15 @@ const FORBIDDEN = (res, message, data = null) => {
 
 const NOT_FOUND = (res, message, data = null) => {
   return res.status(404).json({
-    status: 'fail',
+    status: 404,
+    message,
+    data,
+  });
+};
+
+const INTERNAL_SERVER_ERROR = (res, message, data = null) => {
+  return res.status(500).json({
+    status: 500,
     message,
     data,
   });
@@ -68,4 +76,5 @@ module.exports = {
   BAD_REQUEST,
   FORBIDDEN,
   NOT_FOUND,
+  INTERNAL_SERVER_ERROR,
 };

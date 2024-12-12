@@ -11,7 +11,7 @@ import Sus from '../animations/sus.json';
 const FilterSection = () => {
   const [category, setCategory] = useState('fruits');
   const [isLoading, setIsLoading] = useState(false);
-  const products = useSelector((state) => state.productState.products);
+  const products = useSelector((state) => state?.productState?.products);
 
   const handleChangeCategory = (newCategory) => {
     setIsLoading(true);

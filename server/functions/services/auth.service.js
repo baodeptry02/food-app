@@ -149,6 +149,7 @@ class AuthService {
 
     const newUrl = `https://lms-backend-1d9f5.firebaseapp.com/__/auth/action?mode=verifyEmail&oobCode=${oobCode}&apiKey=${apiKey}&lang=${lang}`;
     const encodedUrl = encodeURIComponent(newUrl);
+    console.log(encodedUrl);
 
     const timestamp = Date.now();
     const randomString = Math.random().toString(36).substring(2, 15); // Generate a random string

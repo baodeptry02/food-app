@@ -24,7 +24,7 @@ const SliderCard = ({ data, index }) => {
       };
       dispatch(addProductToCart(cartItem));
       toast.success('Item added to cart successfully');
-      await addToCart(cartItem, userId, productId);
+      await addToCart(cartItem, 'increment', userId, productId);
     } catch (error) {
       console.error('Error adding item to cart:', error);
     }

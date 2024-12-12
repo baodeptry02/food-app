@@ -10,7 +10,8 @@ router.post(
   validate(ProductValidation.createProduct),
   productController.createProduct
 );
-// router.get('/', productController.getAllProducts);
+router.get('/', productController.getAllProducts);
+router.post('/address', productController.getAddressData);
 // router.get('/:id', productController.getProduct);
 // router.put('/:id', productController.updateProduct);
 // router.delete('/:id', productController.deleteProduct);

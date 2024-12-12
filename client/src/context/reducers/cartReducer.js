@@ -34,7 +34,15 @@ const cartReducer = (state = initialState, action) => {
         cartItems: [...state.cartItems, action.payload],
       };
     }
-
+    case 'SET_SELECTED_PRODUCTS':
+      return { ...state, selectedProducts: action.payload };
+    case 'REMOVE_SELECTED_ITEMS':
+      return {
+        ...state,
+        cartItems: state.cartItems.filter(
+          (item) => !action.payload.includes(item.id)
+        ),
+      };
     default:
       return state;
   }

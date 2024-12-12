@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { SliderCard } from '.';
 
 const Slider = () => {
-  const products = useSelector((state) => state.productState.products);
+  const products = useSelector((state) => state?.productState?.products);
   const [fruits, setFruits] = useState(null);
 
   useEffect(() => {

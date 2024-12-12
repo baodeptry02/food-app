@@ -33,7 +33,11 @@ app.get('/', (req, res) => {
 
 const userRoute = require('./routes/user.router');
 const productRoute = require('./routes/product.router');
+const cartRoute = require('./routes/cart.router');
 app.use('/api/users', userRoute);
 app.use('/api/product', productRoute);
-
+app.use('/api/cart', cartRoute);
+app.use('/api/order', require('./routes/order.router'));
+app.use('/api/payment', require('./routes/zalopay.router'));
+app.use('/api/transaction', require('./routes/transaction.router'));
 exports.app = functions.https.onRequest(app);
