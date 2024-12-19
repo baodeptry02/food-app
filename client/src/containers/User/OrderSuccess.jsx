@@ -41,32 +41,39 @@ const OrderSuccess = () => {
   }, [user?.uid, orderId]);
 
   if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <p className="text-gray-600 text-lg">Loading order details...</p>
-      </div>
-    );
+    return;
   }
-
-  console.log(data);
-
   return data ? (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 py-10">
       <div className="bg-white shadow-md rounded-lg p-8 max-w-6xl w-full flex">
-        {/* Bên trái */}
         <div className="flex flex-col justify-center w-1/2 p-4">
           {data?.selectedProducts.length > 2 ? (
             <Lottie animationData={Shopping} className="w-1/2 mx-auto" />
           ) : (
             <Lottie animationData={Shopping} className="w-1/3 mx-auto" />
           )}
-          <h1 className="text-3xl font-bold text-gray-800 mb-4">
-            Thank you for your purchase!
-          </h1>
-          <p className="text-gray-600 mb-6">
-            Your order will be processed within 24 hours during working days. We
-            will notify you by email once your order has been shipped.
-          </p>
+          {data?.status === 'PAID' ? (
+            <>
+              <h1 className="text-3xl font-bold text-gray-800 mb-4">
+                Thank you for your purchase!
+              </h1>
+              <p className="text-gray-600 mb-6">
+                Your order will be processed within 24 hours during working
+                days. We will notify you by email once your order has been
+                shipped.
+              </p>
+            </>
+          ) : (
+            <>
+              <h1 className="text-3xl font-bold text-red-600 mb-4">
+                Your order has been processed payment!
+              </h1>
+              <p className="text-red-600 mb-6">
+                Please make the payment as soon as possible before the its
+                expires.
+              </p>
+            </>
+          )}
           <h2 className="text-xl font-semibold text-gray-800 mb-4">
             Billing address
           </h2>
@@ -94,7 +101,6 @@ const OrderSuccess = () => {
           </button>
         </div>
 
-        {/* Bên phải */}
         <div className="border-l border-gray-300 pl-6 w-1/2">
           <h2 className="text-xl bg-primary font-semibold text-gray-800 p-4 rounded-lg">
             Order Summary
@@ -118,9 +124,20 @@ const OrderSuccess = () => {
               <p className="text-gray-600 mb-2">
                 <strong>Date:</strong>{' '}
                 {data?.createdAt
-                  ? new Date(data.createdAt._seconds * 1000).toLocaleString(
-                      'en-US'
-                    )
+                  ? (() => {
+                      const date = new Date(data.createdAt._seconds * 1000);
+
+                      const formattedDate = date.toLocaleDateString('en-GB');
+
+                      const formattedTime = date.toLocaleTimeString('en-US', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit',
+                        hour12: true,
+                      });
+
+                      return `${formattedDate}, ${formattedTime}`;
+                    })()
                   : 'N/A'}
               </p>
             </div>

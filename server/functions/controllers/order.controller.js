@@ -63,6 +63,20 @@ class OrderController {
       return NOT_FOUND(res, 'Error retrieving order');
     }
   });
+  getAllOrders = catchAsync(async (req, res) => {
+    const { userId } = req.params;
+
+    if (!userId || typeof userId !== 'string' || userId.trim() === '') {
+      return BAD_REQUEST(res, 'Invalid or missing userId');
+    }
+
+    try {
+      const orders = await orderService.getAllOrdersFromFirestore(userId);
+      return OK(res, 'Orders retrieved successfully', orders);
+    } catch (error) {
+      return NOT_FOUND(res, 'Error retrieving orders');
+    }
+  });
 }
 
 module.exports = new OrderController();

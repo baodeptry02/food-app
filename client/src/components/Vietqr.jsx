@@ -1,19 +1,22 @@
 import React, { useEffect, useRef, useState } from 'react';
 import StepProgressBar from './ProgressBar';
 import { IoIosArrowRoundBack } from 'react-icons/io';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import sus from '../animations/sus.json';
 import Lottie from 'lottie-react';
 import { checkTransaction } from '../api/transactionApi';
 import { debounce } from 'lodash';
-import { updateOrder } from '../api/orderApi';
+import { getOrder, updateOrder } from '../api/orderApi';
 import { useSelector } from 'react-redux';
 const Vietqr = () => {
   const location = useLocation();
   const user = useSelector((state) => state?.userState?.user);
-  const { totalCartPrice, orderId, date, timeExpired } = location.state || {};
+  const { totalCartPrice, date, timeExpired } = location.state || {};
   const [isAnimating, setIsAnimating] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [data, setData] = useState(null);
   const navigate = useNavigate();
   const timerRef = useRef(null);
   const handleMouseEnter = () => {
@@ -21,12 +24,37 @@ const Vietqr = () => {
       setIsAnimating(true);
     }
   };
+  const { orderId } = useParams();
+  useEffect(() => {
+    const fetchOrder = async () => {
+      try {
+        setLoading(true);
+        setError(null); // Reset lỗi khi bắt đầu fetch
+        if (user?.uid && orderId) {
+          const res = await getOrder(user.uid, orderId);
+          if (res.status !== 404) {
+            setData(res);
+          } else {
+            return;
+          }
+        } else {
+          throw new Error('Invalid user or order ID.');
+        }
+      } catch (err) {
+        setError(err.message); // Cập nhật lỗi
+        console.error('Error while fetching order:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOrder();
+  }, [user?.uid, orderId]);
 
   const fetchTransaction = async () => {
     try {
       const res = await checkTransaction(orderId);
       if (res.status !== 200) {
-        console.log('fail');
         return;
       } else {
         toast.success('Payment success!');

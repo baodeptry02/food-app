@@ -165,7 +165,7 @@ const App = () => {
     '/menu',
     '/services',
     '/me/*',
-    '/payment/vietqr',
+    '/payment/vietqr/*',
   ];
 
   const isValidRoute = (path) => {
@@ -236,7 +236,7 @@ const App = () => {
             <Route path="/services" element={<Service />} />
             <Route path="/menu" element={<Menu />} />
             <Route path="/me/*" element={<Me />} />
-            <Route path="/payment/vietqr" element={<Vietqr />} />
+            <Route path="/payment/vietqr/:orderId" element={<Vietqr />} />
           </Routes>
           <Footer />
         </>

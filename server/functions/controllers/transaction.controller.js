@@ -16,7 +16,7 @@ class TransactionController {
           status: 200,
         });
       } else {
-        return BAD_REQUEST(res, 'Transaction not found', {});
+        return;
       }
     } catch (error) {
       throw new APIError(500, 'Error retrieving transaction', error.stack);

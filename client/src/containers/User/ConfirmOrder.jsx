@@ -23,7 +23,6 @@ const ConfirmOrder = () => {
   const selectedProducts =
     useSelector((state) => state?.cartState?.selectedProducts) ||
     location?.state?.selectedProducts;
-  console.log(selectedProducts);
   const user = useSelector((state) => state?.userState?.user);
   const [orderId, setOrderId] = useState('');
   const shippingFee = 20000;
@@ -230,7 +229,7 @@ const ConfirmOrder = () => {
       console.log(error);
     } finally {
       setLoading(false);
-      navigate('/payment/vietqr', {
+      navigate(`/payment/vietqr/${orderId}`, {
         replace: true,
         state: {
           totalCartPrice,
@@ -245,7 +244,6 @@ const ConfirmOrder = () => {
   useEffect(() => {
     setTotalCartPrice(subtotal + shippingFee);
   }, [subtotal]);
-  console.log(totalCartPrice);
 
   return (
     <div className="pt-12 h-full bg-primary dark:bg-darkBg transition-colors duration-500 ease-in-out">
@@ -376,7 +374,7 @@ const ConfirmOrder = () => {
                   onClick={handleQRPay}
                   className="relative w-[30%] border-red-400 border-2 text-primaryColor rounded-xl p-2 mt-4 flex items-center justify-center gap-4 overflow-hidden group"
                 >
-                  <span className="absolute inset-0 bg-red-400 scale-x-0 origin-center group-hover:scale-x-100 transition-transform duration-500 ease-in-out"></span>
+                  <span className="absolute inset-0 bg-red-400 scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500 ease-in-out"></span>
                   <img className="w-6 h-6 relative z-10" src={VietQR} alt="" />
                   <span className="relative z-10 text-primaryColor group-hover:text-white transition-colors duration-500 ease-in-out">
                     Pay with VietQR
@@ -387,7 +385,7 @@ const ConfirmOrder = () => {
                   onClick={handleZaloPay}
                   className="relative w-[30%] border-blue-500 border-2 text-blue-500 rounded-xl p-2 mt-4 flex items-center justify-center gap-4 overflow-hidden group"
                 >
-                  <span className="absolute inset-0 bg-blue-500 scale-x-0 origin-center group-hover:scale-x-100 transition-transform duration-500 ease-in-out"></span>
+                  <span className="absolute inset-0 bg-blue-500 scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500 ease-in-out"></span>
                   <img className="w-6 h-6 relative z-10" src={ZaloPay} alt="" />
                   <span className="relative z-10 text-blue-500 group-hover:text-white transition-colors duration-500 ease-in-out">
                     Pay with ZaloPay

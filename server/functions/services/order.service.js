@@ -77,12 +77,22 @@ class OrderService {
     return true;
   }
 
-  async getAllOrdersFromFirestore() {
+  async getAllOrdersFromFirestore(userId) {
+    if (!userId || typeof userId !== 'string' || userId.trim() === '') {
+      throw new Error('Invalid userId provided');
+    }
+
     const orders = [];
-    const querySnapshot = await db.collection('orders').get();
-    querySnapshot.docs.forEach((doc) => {
+    const querySnapshot = await db
+      .collection('orders')
+      .doc(userId)
+      .collection('userOrders')
+      .get();
+
+    querySnapshot.forEach((doc) => {
       orders.push(doc.data());
     });
+
     return orders;
   }
 

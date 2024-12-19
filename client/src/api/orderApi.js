@@ -11,7 +11,6 @@ export const createOrder = async (
   selectedProducts
 ) => {
   try {
-    console.log(selectedProducts);
     const res = await axios.post(`${baseURL}/api/order/`, {
       orderId,
       userId,
@@ -36,10 +35,17 @@ export const updateOrder = async (userId, orderId) => {
 };
 
 export const getOrder = async (userId, orderId) => {
-  console.log('userId:', userId);
-  console.log('orderId:', orderId);
   try {
     const res = await axios.get(`${baseURL}/api/order/${userId}/${orderId}`);
+    return res.data.data;
+  } catch (err) {
+    return err;
+  }
+};
+
+export const getAllOrders = async (userId) => {
+  try {
+    const res = await axios.get(`${baseURL}/api/order/${userId}`);
     return res.data.data;
   } catch (err) {
     return err;

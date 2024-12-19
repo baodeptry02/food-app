@@ -1,5 +1,5 @@
 import React from 'react';
-import { DBHeader, DBNewItem } from '.';
+import { DBHeader, DBItems, DBNewItem, ProductDetails } from '.';
 import { Route, Routes } from 'react-router-dom';
 
 const DBRightSection = () => {
@@ -9,9 +9,10 @@ const DBRightSection = () => {
       <div className="flex flex-col flex-1 overflow-y-scroll ">
         <Routes>
           {/* <Route path="/home" element={<DBHome />} />
-          <Route path="/orders" element={<DBOrders />} />
-          <Route path="/items" element={<DBItems />} /> */}
+          <Route path="/orders" element={<DBOrders />} /> */}
+          <Route path="/items" element={<DBItems />} />
           <Route path="/newItem" element={<DBNewItem />} />
+          <Route path="/items/products/:id" element={<ProductDetails />} />
           {/* <Route path="/users" element={<DBUsers />} /> */}
         </Routes>
       </div>

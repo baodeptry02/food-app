@@ -28,7 +28,24 @@ const Cart = () => {
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const buttonBack = useRef(null);
+  const workerRef = useRef(null);
+  useEffect(() => {
+    workerRef.current = new Worker(new URL('./cartWorker.js', import.meta.url));
 
+    workerRef.current.onmessage = (event) => {
+      const { type, data, message } = event.data;
+      if (type === 'success') {
+        return;
+      } else if (type === 'error') {
+        console.error('Worker Error:', message);
+      } else if (type === 'apiResponse') {
+        console.log('API response:', data);
+      }
+    };
+    return () => {
+      workerRef.current.terminate();
+    };
+  }, [dispatch]);
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -126,34 +143,26 @@ const Cart = () => {
     );
   };
 
-  const updateQuantity = useMemo(
-    () => async (id, action) => {
-      try {
-        setLoading(true);
-        const userId = user.uid;
-        const cartItem = cart.find((item) => item.id === id);
+  const updateQuantity = async (id, action) => {
+    const cartItem = cart.find((item) => item.id === id);
+    if (!cartItem) {
+      console.error('Item not found in cart');
+      return;
+    }
 
-        if (!cartItem) {
-          console.error('Item not found in cart');
-          return;
-        }
+    const newQuantity = action === 'increment' ? 1 : -1;
 
-        const newQuantity = action === 'increment' ? 1 : -1;
-
-        const updatedItem = {
-          ...cartItem,
-          quantity: newQuantity,
-        };
-        dispatch(addProductToCart(updatedItem));
-        await addToCart(updatedItem, action, userId, id);
-      } catch (error) {
-        console.error('Error updating item quantity:', error);
-      } finally {
-        setLoading(false);
-      }
-    },
-    [cart]
-  );
+    dispatch(
+      addProductToCart({
+        ...cartItem,
+        quantity: newQuantity,
+      })
+    );
+    workerRef.current.postMessage({
+      type: 'updateQuantity',
+      payload: { id, action, cart, userId: user.uid },
+    });
+  };
   const decreaseQuantity = async (id, action) => {
     const cartItem = cart.find((item) => item.id === id);
     if (!cartItem) {
@@ -302,7 +311,6 @@ const Cart = () => {
                     onClick={() => {
                       decreaseQuantity(item.id, 'decrement');
                     }}
-                    disabled={loading} // Vô hiệu hóa khi số lượng <= 1 hoặc đang loading
                   >
                     -
                   </button>

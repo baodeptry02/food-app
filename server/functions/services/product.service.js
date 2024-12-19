@@ -46,6 +46,16 @@ class ProductService {
       throw new Error(error);
     }
   }
+
+  async getProductByIdFromFirestore(id) {
+    try {
+      const productRef = db.collection('products').doc(id);
+      const product = await productRef.get();
+      return product.data();
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 }
 
 module.exports = new ProductService();

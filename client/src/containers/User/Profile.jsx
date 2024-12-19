@@ -86,6 +86,7 @@ const Profile = () => {
     setIsEditing(false);
     setFormData({
       ...formData,
+      name: user?.name || '',
       country: user?.country || '',
       phoneNumber: user?.phoneNumber || 'N/A',
       gender: user?.gender || 'male',

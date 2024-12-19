@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { matchPath, useLocation, useNavigate } from 'react-router-dom';
 import { Steps } from 'antd';
 
 const { Step } = Steps;
@@ -12,12 +12,12 @@ const StepProgressBar = () => {
     { label: 'Menu', path: '/menu' },
     { label: 'Your Cart', path: '/me/cart' },
     { label: 'Confirm Order', path: '/me/confirm-order' },
-    { label: 'Payment Progress', path: '/payment/vietqr' },
+    { label: 'Payment Progress', path: '/payment/vietqr/:orderId' },
   ];
 
   // Xác định bước hiện tại dựa trên URL
-  const currentStep = steps.findIndex(
-    (step) => step.path === location.pathname
+  const currentStep = steps.findIndex((step) =>
+    matchPath(step.path, location.pathname)
   );
 
   return (

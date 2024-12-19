@@ -4,6 +4,7 @@ import Profile from './Profile';
 import { Cart } from '../../components';
 import ConfirmOrder from './ConfirmOrder';
 import OrderSuccess from './OrderSuccess';
+import Order from './Order';
 
 const Me = () => {
   return (
@@ -12,6 +13,7 @@ const Me = () => {
         <Routes>
           <Route path="/profile" element={<Profile />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/orders" element={<Order />} />
           <Route path="/confirm-order" element={<ConfirmOrder />} />
           <Route path="/order-success/:orderId" element={<OrderSuccess />} />
         </Routes>

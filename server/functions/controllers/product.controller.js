@@ -36,6 +36,16 @@ class ProductController {
       throw new APIError(500, 'Error retrieving address data', error.stack);
     }
   });
+
+  getProductById = catchAsync(async (req, res) => {
+    const { id } = req.params;
+    try {
+      const product = await productService.getProductByIdFromFirestore(id);
+      return OK(res, 'Product retrieved successfully', product);
+    } catch (error) {
+      throw new APIError(500, 'Error retrieving product', error.stack);
+    }
+  });
 }
 
 module.exports = new ProductController();

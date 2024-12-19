@@ -650,7 +650,9 @@ export default function Main() {
                                 </button>
                                 <p className="text-base px-6 py-3 font-bold flex items-center gap-2 backdrop-blur-md rounded-full border-2 text-primaryColor">
                                   <IoPricetags className="text-primaryColor" />{' '}
-                                  <span>${product.price}</span>
+                                  <span>
+                                    {product.price.toLocaleString()} ₫
+                                  </span>
                                 </p>
                               </div>
                               <span className="gsap__item-img">

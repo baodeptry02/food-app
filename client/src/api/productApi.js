@@ -32,3 +32,12 @@ export const getAddressData = async (province, district, ward_street) => {
     return err;
   }
 };
+
+export const getProductById = async (id) => {
+  try {
+    const res = await axios.get(`${baseURL}/api/product/${id}`);
+    return res.data.data;
+  } catch (err) {
+    return err;
+  }
+};

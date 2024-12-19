@@ -3,6 +3,8 @@ export { default as DBLeftSection } from './DBLeftSection';
 export { default as DBRightSection } from './DBRightSection';
 export { default as DBHeader } from './DBHeader';
 export { default as DBNewItem } from './DBNewItem';
+export { default as DBItems } from './DBItems';
+export { default as ProductDetails } from './ProductDetails';
 export { default as Spinner } from './Spinner';
 export { default as Chatbot } from './ChatWidget';
 export { default as Slider } from './Slider';
